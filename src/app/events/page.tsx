@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useRef, useState, useEffect, useCallback } from "react"
-import { EventCard } from "@/components/layout/EventCard"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import DenCommunityPage from "@/components/layout/EventVido"
+import { useRef, useState, useEffect, useCallback } from "react";
+import { EventCard } from "@/components/layout/EventCard";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import DenCommunityPage from "@/components/layout/EventVido";
 
 const events = [
   {
@@ -96,48 +96,52 @@ const events = [
     topic: "Cybersecurity",
     speakers: "Samuel Mekonnen",
   },
-{
-  title: "AI & Innovation Forum",
+  {
+    title: "AI & Innovation Forum",
     image: "/meetup.jpeg?height=192&width=320",
     date: "April 10, 2025",
     location: "TBA",
     time: "TBA",
     topic: "AI & Innovation",
     speakers: "TBA",
-}
-]
+  },
+];
 
 export default function EventsPage() {
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const [showLeftArrow, setShowLeftArrow] = useState(false)
-  const [showRightArrow, setShowRightArrow] = useState(true)
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(true);
 
   const handleScroll = useCallback(() => {
     if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
-      setShowLeftArrow(scrollLeft > 0)
-      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1)
+      const { scrollLeft, scrollWidth, clientWidth } =
+        scrollContainerRef.current;
+      setShowLeftArrow(scrollLeft > 0);
+      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current
+    const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll)
-      handleScroll()
+      scrollContainer.addEventListener("scroll", handleScroll);
+      handleScroll();
       return () => {
-        scrollContainer.removeEventListener("scroll", handleScroll)
-      }
+        scrollContainer.removeEventListener("scroll", handleScroll);
+      };
     }
-  }, [handleScroll])
+  }, [handleScroll]);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
-      const { clientWidth } = scrollContainerRef.current
-      const scrollAmount = direction === "left" ? -clientWidth : clientWidth
-      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" })
+      const { clientWidth } = scrollContainerRef.current;
+      const scrollAmount = direction === "left" ? -clientWidth : clientWidth;
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen">
@@ -145,7 +149,9 @@ export default function EventsPage() {
       <div className="max-w-[1400px] mx-auto px-6 lg:px-8">
         {/* Header section */}
         <div className="py-8">
-          <h1 className="text-3xl font-bold text-center text-[#00144b] dark:text-white">Upcoming Events</h1>
+          <h1 className="text-3xl font-bold text-center text-[#00144b] dark:text-white">
+            Upcoming Events
+          </h1>
         </div>
 
         {/* Video section with consistent margins */}
@@ -153,7 +159,6 @@ export default function EventsPage() {
           <DenCommunityPage />
         </div>
         <h1>Events</h1>
-
 
         {/* Events carousel section */}
         <div className="relative px-4">
@@ -169,7 +174,10 @@ export default function EventsPage() {
               }}
             >
               {events.map((event, index) => (
-                <div key={index} className="flex-shrink-0 w-[calc((100%-72px)/4)]">
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-[calc((100%-72px)/4)]"
+                >
                   <EventCard {...event} />
                 </div>
               ))}
@@ -198,6 +206,5 @@ export default function EventsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
