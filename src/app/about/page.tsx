@@ -1,60 +1,100 @@
-import Link from 'next/link'
-import React from 'react'
+import Image from "next/image"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { MissionCard } from "@/components/aboutUs-ui/mission-card"
 
-export default function Page() {
+export default function AboutPage() {
+  const missions = [
+    { title: "Disrupt", description: "Challenge the status quo and redefine industry norms." },
+    { title: "Innovate", description: "Pioneer groundbreaking solutions that shape the future." },
+    { title: "Collaborate", description: "Foster a community of visionaries and change-makers." },
+    { title: "Empower", description: "Equip entrepreneurs with the tools and knowledge to succeed." },
+    { title: "Impact", description: "Create lasting positive change in the business ecosystem." },
+    { title: "Scale", description: "Accelerate growth and amplify success for startups." },
+  ]
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center p-5">
-      {/* Link to About Us page */}
-      <h1>About Us</h1>
+    <div className="container mx-auto px-4 py-8 bg-gradient-to-b from-background to-secondary">
+      {/* Hero Section */}
+      <section className="text-center mb-16">
+        <h1 className="text-5xl font-bold mb-4 text-primary">Welcome to Disruptors Den</h1>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Where innovation meets opportunity, and visionaries transform industries.
+        </p>
+      </section>
 
+      {/* Mission and Values */}
+      <section className="mb-16">
+        <h2 className="text-3xl font-semibold mb-6 text-center">Our Missions</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          {missions.map((mission, index) => (
+            <MissionCard key={index} title={mission.title} description={mission.description} index={index} />
+          ))}
+        </div>
+      </section>
 
-      <p className="text-lg max-w-4xl">
-        The Disruptors Den is a dynamic community of entrepreneurs in Ethiopia, dedicated to fostering innovation and collaboration among aspiring and established business leaders. Founded in early 2023 by Yohannes Taye, Abenazzer Taddese, and Tamrat Sultan, the Den began as informal coffee shop meetups and has since evolved into a vibrant hub for entrepreneurial exchange.
+      {/* Team Section */}
+      <section className="mb-16">
+        <h2 className="text-3xl font-semibold mb-6 text-center">Disruptive Minds</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { name: "Alex Innovator", role: "Visionary Lead", image: "/placeholder.svg?height=200&width=200" },
+            { name: "Sam Disruptor", role: "Innovation Catalyst", image: "/placeholder.svg?height=200&width=200" },
+            { name: "Jordan Futurist", role: "Strategy Architect", image: "/placeholder.svg?height=200&width=200" },
+          ].map((member) => (
+            <Card key={member.name} className="bg-primary/10 backdrop-blur-sm">
+              <CardHeader>
+                <Image
+                  src={member.image || "/placeholder.svg"}
+                  alt={member.name}
+                  width={200}
+                  height={200}
+                  className="rounded-full mx-auto"
+                />
+              </CardHeader>
+              <CardContent className="text-center">
+                <CardTitle className="text-primary">{member.name}</CardTitle>
+                <CardDescription>{member.role}</CardDescription>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-        The Den's mission is to create a free space where entrepreneurs can connect, share experiences, and discuss challenges and opportunities within Ethiopia's startup ecosystem. Weekly sessions feature discussions on various topics, including startup sacrifices, work-life balance, business planning, and negotiation skills. These gatherings attract a diverse audience, from high school students to seasoned entrepreneurs, and have expanded beyond Addis Ababa to include events in regional cities like Adama.
+      {/* Company Timeline */}
+      <section className="mb-16">
+        <h2 className="text-3xl font-semibold mb-6 text-center">Our Disruptive Journey</h2>
+        <div className="space-y-8">
+          {[
+            { year: 2018, event: "Disruptors Den founded" },
+            { year: 2019, event: "Launched first cohort of disruptive startups" },
+            { year: 2020, event: "Expanded to virtual incubation programs" },
+            { year: 2022, event: "Established global network of innovation hubs" },
+            { year: 2023, event: "Pioneered AI-driven startup mentorship platform" },
+          ].map((item, index) => (
+            <div key={item.year} className="flex items-center">
+              <div className="flex-shrink-0 w-24 text-right">
+                <span className="font-bold text-primary">{item.year}</span>
+              </div>
+              <div className="flex-shrink-0 w-4 h-4 rounded-full bg-primary mx-4"></div>
+              <div>{item.event}</div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        In addition to weekly meetups, the Disruptors Den has launched several initiatives to support the entrepreneurial community. They have partnered with ALX Founders Academy to offer entrepreneurship training programs, resulting in over 1,000 graduates in the first cohort. The Den has also facilitated the creation of startups such as Qesem and Hulucare, the latter securing $10,000 as one of the winners in the Bimalab Ethiopia Insurtech Accelerator.
-
-        Looking ahead, the Disruptors Den plans to introduce programs like Business Enawga, which will feature curated conversations between established and aspiring entrepreneurs, and Startup Digis, an annual showcase recognizing high-performing members. They are also developing a 'legacy points' system to measure and reward members' commitment, ensuring that opportunities are distributed based on active participation.
-
-        Through these efforts, the Disruptors Den aims to inspire a pan-African mindset that fosters innovation to address continental challenges, positioning itself as a cornerstone of Ethiopia's entrepreneurial landscape.
-
-        For more information, you can visit their Instagram page.
-
-        Additionally, here's an episode from their podcast featuring Simran Khara of Koparo:
-
-        Episode 1 ft. Simran Khara, Koparo: The Disruptor's Den Podcast
-        The Disruptors Den is a dynamic community of entrepreneurs in Ethiopia, dedicated to fostering innovation and collaboration among aspiring and established business leaders. Founded in early 2023 by Yohannes Taye, Abenazzer Taddese, and Tamrat Sultan, the Den began as informal coffee shop meetups and has since evolved into a vibrant hub for entrepreneurial exchange.
-
-        The Den's mission is to create a free space where entrepreneurs can connect, share experiences, and discuss challenges and opportunities within Ethiopia's startup ecosystem. Weekly sessions feature discussions on various topics, including startup sacrifices, work-life balance, business planning, and negotiation skills. These gatherings attract a diverse audience, from high school students to seasoned entrepreneurs, and have expanded beyond Addis Ababa to include events in regional cities like Adama.
-
-        In addition to weekly meetups, the Disruptors Den has launched several initiatives to support the entrepreneurial community. They have partnered with ALX Founders Academy to offer entrepreneurship training programs, resulting in over 1,000 graduates in the first cohort. The Den has also facilitated the creation of startups such as Qesem and Hulucare, the latter securing $10,000 as one of the winners in the Bimalab Ethiopia Insurtech Accelerator.
-
-        Looking ahead, the Disruptors Den plans to introduce programs like Business Enawga, which will feature curated conversations between established and aspiring entrepreneurs, and Startup Digis, an annual showcase recognizing high-performing members. They are also developing a 'legacy points' system to measure and reward members' commitment, ensuring that opportunities are distributed based on active participation.
-
-        Through these efforts, the Disruptors Den aims to inspire a pan-African mindset that fosters innovation to address continental challenges, positioning itself as a cornerstone of Ethiopia's entrepreneurial landscape.
-
-        For more information, you can visit their Instagram page.
-
-        Additionally, here's an episode from their podcast featuring Simran Khara of Koparo:
-
-        Episode 1 ft. Simran Khara, Koparo: The Disruptor's Den Podcast
-        The Disruptors Den is a dynamic community of entrepreneurs in Ethiopia, dedicated to fostering innovation and collaboration among aspiring and established business leaders. Founded in early 2023 by Yohannes Taye, Abenazzer Taddese, and Tamrat Sultan, the Den began as informal coffee shop meetups and has since evolved into a vibrant hub for entrepreneurial exchange.
-
-        The Den's mission is to create a free space where entrepreneurs can connect, share experiences, and discuss challenges and opportunities within Ethiopia's startup ecosystem. Weekly sessions feature discussions on various topics, including startup sacrifices, work-life balance, business planning, and negotiation skills. These gatherings attract a diverse audience, from high school students to seasoned entrepreneurs, and have expanded beyond Addis Ababa to include events in regional cities like Adama.
-
-        In addition to weekly meetups, the Disruptors Den has launched several initiatives to support the entrepreneurial community. They have partnered with ALX Founders Academy to offer entrepreneurship training programs, resulting in over 1,000 graduates in the first cohort. The Den has also facilitated the creation of startups such as Qesem and Hulucare, the latter securing $10,000 as one of the winners in the Bimalab Ethiopia Insurtech Accelerator.
-
-        Looking ahead, the Disruptors Den plans to introduce programs like Business Enawga, which will feature curated conversations between established and aspiring entrepreneurs, and Startup Digis, an annual showcase recognizing high-performing members. They are also developing a 'legacy points' system to measure and reward members' commitment, ensuring that opportunities are distributed based on active participation.
-
-        Through these efforts, the Disruptors Den aims to inspire a pan-African mindset that fosters innovation to address continental challenges, positioning itself as a cornerstone of Ethiopia's entrepreneurial landscape.
-
-        For more information, you can visit their Instagram page.
-
-        Additionally, here's an episode from their podcast featuring Simran Khara of Koparo:
-
-        Episode 1 ft. Simran Khara, Koparo: The Disruptor's Den Podcast
-      </p>
+      {/* Call to Action */}
+      <section className="text-center">
+        <h2 className="text-3xl font-semibold mb-4">Join the Disruption</h2>
+        <p className="mb-6 text-muted-foreground">
+          Are you ready to challenge the norm and redefine your industry? Join Disruptors Den today.
+        </p>
+        <Button asChild className="bg-primary hover:bg-primary/90">
+          <Link href="/apply">Apply Now</Link>
+        </Button>
+      </section>
     </div>
   )
 }
+

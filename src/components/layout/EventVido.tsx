@@ -14,7 +14,7 @@ const EventVideoPage = () => {
       
 
       {/* YouTube Video Section */}
-      <div className="w-full max-w-5xl mx-auto mb-8">
+      <div className="w-full max-w-7xl mx-auto mb-8">
         <iframe
           className="w-full h-[500px] rounded-lg shadow-xl"
           src="https://www.youtube.com/embed/your-video-id"  // Replace with actual YouTube video ID
@@ -28,7 +28,7 @@ const EventVideoPage = () => {
       {/* DEN Community Images Section (1 row, 2 columns) */}
       <div className="py-12">
         <h2 className="text-3xl font-semibold text-center mb-8">Our Community in Action</h2>
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="max-w-8xl mx-auto px-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
           {communityImages.slice(0, 2).map((image, index) => (
             <div key={index} className="w-full h-56 bg-gray-200 rounded-lg overflow-hidden shadow-lg">
               <img
