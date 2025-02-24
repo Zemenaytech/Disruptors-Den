@@ -1,22 +1,23 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type React from "react";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
 
-const inter = Inter({ subsets: ['latin'] })
-
-export const metadata = {
-  title: 'Michael Engida - Software Engineer',
-  description: 'Portfolio of Michael Engida, a full-stack software engineer specializing in React, Next.js, and more.',
-}
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black min-h-screen`}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
+        <Navbar />
+        <main className="pt-20 flex-grow">{children}</main>
+        <Footer />
+      </body>
     </html>
-  )
+  );
 }
-
