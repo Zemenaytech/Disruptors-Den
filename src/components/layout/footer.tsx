@@ -1,8 +1,9 @@
-import Image from "next/image"
-import Link from "next/link"
-import { Phone, Mail, Linkedin, Send } from "lucide-react"
+import Image from "next/image";
+import Link from "next/link";
+import { Phone, Mail, Linkedin, Send } from "lucide-react";
 
 export default function Footer() {
+  const year = new Date().getFullYear();
   return (
     <footer className="bg-[#00144b] text-white/90 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
@@ -20,12 +21,15 @@ export default function Footer() {
               />
             </Link>
             <p className="text-sm text-white/70 max-w-xs">
-              A community providing a vibrant platform for entrepreneurs, fostering collaboration, innovation, and
-              growth through networking, shared resources, and mentorship opportunities.
+              A community providing a vibrant platform for entrepreneurs,
+              fostering collaboration, innovation, and growth through
+              networking, shared resources, and mentorship opportunities.
             </p>
             <div className="space-y-2">
               <h3 className="font-semibold text-[#f5aa14]">Vision</h3>
-              <p className="text-sm text-white/70">Seeing a thriving Africa where innovation knows no bound.</p>
+              <p className="text-sm text-white/70">
+                Seeing a thriving Africa where innovation knows no bound.
+              </p>
             </div>
           </div>
 
@@ -34,22 +38,34 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4">Main Pages</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/event" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/event"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   Event
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/blog"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/about"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   About Us
                 </Link>
               </li>
@@ -61,32 +77,50 @@ export default function Footer() {
             <h3 className="font-semibold text-lg mb-4">Our Programs</h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/programs/media" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/programs/media"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   Disruptors Media
                 </Link>
               </li>
               <li>
-                <Link href="/programs/business" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/programs/business"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   Business እናውጋ
                 </Link>
               </li>
               <li>
-                <Link href="/programs/academy" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/programs/academy"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   Disruptors Academy
                 </Link>
               </li>
               <li>
-                <Link href="/programs/meetup" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/programs/meetup"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   Weekly Coffee Meetup
                 </Link>
               </li>
               <li>
-                <Link href="/programs/adventure" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/programs/adventure"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   Disruptors Adventure
                 </Link>
               </li>
               <li>
-                <Link href="/programs/kasma" className="text-sm hover:text-[#f5aa14] transition-colors">
+                <Link
+                  href="/programs/kasma"
+                  className="text-sm hover:text-[#f5aa14] transition-colors"
+                >
                   ካስማ
                 </Link>
               </li>
@@ -142,13 +176,14 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-sm text-white/70">
-              © {new Date().getFullYear()} The Disruptors Den. All rights reserved.
+              © {year} The Disruptors Den. All rights reserved.
             </p>
-            <p className="text-sm text-white/70">Fostering Entrepreneurs, Fueling Progress</p>
+            <p className="text-sm text-white/70">
+              Fostering Entrepreneurs, Fueling Progress
+            </p>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }
-
