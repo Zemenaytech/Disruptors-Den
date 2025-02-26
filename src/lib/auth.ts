@@ -3,7 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { db } from "./db";
 import { compare } from "bcryptjs";
-import { userAgent } from "next/server";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -11,9 +10,9 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  // pages: {
-  //   signIn: "/sign-in",
-  // },
+  pages: {
+    signIn: "/admin/signIn",
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -23,7 +22,7 @@ export const authOptions: NextAuthOptions = {
           type: "text",
           placeholder: "disruptors_den@gmail.com",
         },
-        password: { label: "Password", type: "your password" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
