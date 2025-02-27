@@ -72,7 +72,7 @@ export function AdminSidebar() {
             <SidebarMenuSub>
               <SidebarMenuSubItem>
                 <SidebarMenuSubButton asChild>
-                  <Link href="/event/create">
+                  <Link href="/admin/createEvent">
                     <Plus className="h-4 w-4" />
                     <span>Create Event</span>
                   </Link>

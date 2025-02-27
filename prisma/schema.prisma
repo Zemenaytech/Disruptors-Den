@@ -20,5 +20,30 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  content     String
+  image       String
+  category    String
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  date        DateTime
+  time        String
+  location    String
+  category    String
+  capacity    String
+  image       String
+  speakers    Json     // Stores the speakers array
+  status      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
 
