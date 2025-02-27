@@ -1,12 +1,9 @@
-import { getServerSession } from "next-auth/next"; // Explicit import
-import { authOptions } from "@/lib/auth";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
 export default async function AdminDashboard() {
-  const session = await getServerSession(authOptions);
+  const user = await getCurrentUser();
 
-  console.log("Session:", session); // Debugging
-
-  if (session?.user) {
+  if (user) {
     return <div>Admin Dashboard</div>;
   } else {
     return <div>Please login</div>;

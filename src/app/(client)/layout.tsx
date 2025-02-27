@@ -7,7 +7,7 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
 
-      <main>{children}</main>
+      <main className="pt-20 flex-grow">{children}</main>
       <Footer />
     </div>
   );
