@@ -7,9 +7,9 @@ export default function Footer() {
   return (
     <footer className="bg-[#00144b] text-white/90 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-60 md:grid-cols-2 md:gap-x-96 lg:grid-cols-4 lg:gap-12 justify-items-center">
           {/* Brand Column */}
-          <div className="space-y-6">
+          <div className="space-y-6 text-center">
             <Link href="/" className="block">
               <Image
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TDD%20White-Y1zLvYCjgZArslwudo5YS0bQlvmQhV.png"
@@ -20,7 +20,7 @@ export default function Footer() {
                 priority
               />
             </Link>
-            <p className="text-sm text-white/70 max-w-xs">
+            <p className="text-sm text-white/70 max-w-xs mx-auto">
               A community providing a vibrant platform for entrepreneurs,
               fostering collaboration, innovation, and growth through
               networking, shared resources, and mentorship opportunities.
@@ -34,8 +34,8 @@ export default function Footer() {
           </div>
 
           {/* Main Pages */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Main Pages</h3>
+          <div className="text-center">
+            <h3 className="font-semibold text-lg mb-4 mt-6">Main Pages</h3>
             <ul className="space-y-3">
               <li>
                 <Link
@@ -73,8 +73,8 @@ export default function Footer() {
           </div>
 
           {/* Our Programs */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Our Programs</h3>
+          <div className="text-center">
+            <h3 className="font-semibold text-lg mt-6 mb-4">Our Programs</h3>
             <ul className="space-y-3">
               <li>
                 <Link
@@ -128,18 +128,18 @@ export default function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
+          <div className="text-center">
+            <h3 className="font-semibold text-lg mt-6 mb-4">Contact Us</h3>
             <ul className="space-y-3">
-              <li className="flex items-center space-x-3">
+              <li className="flex justify-center items-center space-x-3">
                 <Phone className="h-5 w-5 text-[#f5aa14]" />
                 <span className="text-sm">+251913398561</span>
               </li>
-              <li className="flex items-center space-x-3">
+              <li className="flex justify-center items-center space-x-3">
                 <Phone className="h-5 w-5 text-[#f5aa14]" />
                 <span className="text-sm">+251944131837</span>
               </li>
-              <li className="flex items-center space-x-3">
+              <li className="flex justify-center items-center space-x-3">
                 <Mail className="h-5 w-5 text-[#f5aa14]" />
                 <a
                   href="mailto:contact@thedisruptorsden.org"
@@ -153,7 +153,7 @@ export default function Footer() {
                   href="https://www.linkedin.com/company/disruptorsden/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-3 hover:text-[#f5aa14] transition-colors group"
+                  className="flex justify-center items-center space-x-3 hover:text-[#f5aa14] transition-colors group"
                 >
                   <Linkedin className="h-5 w-5 text-[#f5aa14] group-hover:scale-110 transition-transform" />
                   <span className="text-sm">LinkedIn</span>
@@ -162,7 +162,7 @@ export default function Footer() {
                   href="https://t.me/disruptorsden"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-3 hover:text-[#f5aa14] transition-colors group"
+                  className="flex justify-center items-center space-x-3 hover:text-[#f5aa14] transition-colors group"
                 >
                   <Send className="h-5 w-5 text-[#f5aa14] group-hover:scale-110 transition-transform" />
                   <span className="text-sm">Telegram</span>
