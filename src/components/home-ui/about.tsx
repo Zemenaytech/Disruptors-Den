@@ -34,9 +34,9 @@ export function About() {
             <div className="absolute inset-0 bg-black rounded-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-transparent" />
               <img
-                src="/placeholder.svg?height=600&width=600"
+                src="/placeholder.png?height=600&width=600"
                 alt="Entrepreneurs collaborating"
-                className="w-full h-full object-cover mix-blend-overlay"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
