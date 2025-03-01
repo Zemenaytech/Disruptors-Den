@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import Image from "next/image"
-import Link from "next/link"
-import { useState } from "react"
-import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
@@ -30,10 +30,10 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center space-x-8">
             <NavLink href="/">Home</NavLink>
-            <NavLink href="/events">Event</NavLink>
-            <NavLink href="/programs">Programs</NavLink>
-            <NavLink href="/blog">Blog</NavLink>
             <NavLink href="/about">About Us</NavLink>
+            <NavLink href="/programs">Programs</NavLink>
+            <NavLink href="/events">Event</NavLink>
+            <NavLink href="/blog">Blog</NavLink>
           </div>
 
           <div className="hidden md:flex items-center">
@@ -43,8 +43,15 @@ export default function Navbar() {
           </div>
 
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-800 focus:outline-none">
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-800 focus:outline-none"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
@@ -67,22 +74,39 @@ export default function Navbar() {
         </div>
       )}
     </nav>
-  )
+  );
 }
 
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function NavLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
-    <Link href={href} className="text-gray-800 hover:text-[#f5aa14] transition-colors px-3 py-2 text-sm font-medium">
+    <Link
+      href={href}
+      className="text-gray-800 hover:text-[#f5aa14] transition-colors px-3 py-2 text-sm font-medium"
+    >
       {children}
     </Link>
-  )
+  );
 }
 
-function MobileNavLink({ href, children }: { href: string; children: React.ReactNode }) {
+function MobileNavLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
-    <Link href={href} className="text-gray-800 hover:text-[#f5aa14] block px-3 py-2 rounded-md text-base font-medium">
+    <Link
+      href={href}
+      className="text-gray-800 hover:text-[#f5aa14] block px-3 py-2 rounded-md text-base font-medium"
+    >
       {children}
     </Link>
-  )
+  );
 }
-
