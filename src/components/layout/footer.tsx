@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#00144b] text-white/90 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-60 md:grid-cols-2 md:gap-x-96 lg:grid-cols-4 lg:gap-12 justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-3 sm:gap-x-8 md:grid-cols-3 md:gap-x-10 lg:grid-cols-3 lg:gap-12 justify-items-center">
           {/* Brand Column */}
           <div className="space-y-6 text-center">
             <Link href="/" className="block">
@@ -67,61 +67,6 @@ export default function Footer() {
                   className="text-sm hover:text-[#f5aa14] transition-colors"
                 >
                   About Us
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Our Programs */}
-          <div className="text-center">
-            <h3 className="font-semibold text-lg mt-6 mb-4">Our Programs</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/programs/media"
-                  className="text-sm hover:text-[#f5aa14] transition-colors"
-                >
-                  Disruptors Media
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/business"
-                  className="text-sm hover:text-[#f5aa14] transition-colors"
-                >
-                  Business እናውጋ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/academy"
-                  className="text-sm hover:text-[#f5aa14] transition-colors"
-                >
-                  Disruptors Academy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/meetup"
-                  className="text-sm hover:text-[#f5aa14] transition-colors"
-                >
-                  Weekly Coffee Meetup
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/adventure"
-                  className="text-sm hover:text-[#f5aa14] transition-colors"
-                >
-                  Disruptors Adventure
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/kasma"
-                  className="text-sm hover:text-[#f5aa14] transition-colors"
-                >
-                  ካስማ
                 </Link>
               </li>
             </ul>
