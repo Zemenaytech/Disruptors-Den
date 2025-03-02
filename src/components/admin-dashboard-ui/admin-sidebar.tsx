@@ -21,7 +21,7 @@ export function AdminSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
-        <Link href="/" className="flex items-center gap-2 font-semibold">
+        <Link href="/admin" className="flex items-center gap-2 font-semibold">
           <FileEdit className="h-6 w-6" />
           <span>Content Manager</span>
         </Link>
@@ -29,8 +29,8 @@ export function AdminSidebar() {
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/"} tooltip="Dashboard">
-              <Link href="/">
+            <SidebarMenuButton asChild isActive={pathname === "/admin"} tooltip="Dashboard">
+              <Link href="/admin">
                 <LayoutDashboard className="h-4 w-4" />
                 <span>Dashboard</span>
               </Link>
@@ -39,13 +39,13 @@ export function AdminSidebar() {
 
           {/* Blog Management */}
           <SidebarMenuItem>
-            <SidebarMenuButton isActive={pathname.includes("/blog")} tooltip="Blog Management">
+            <SidebarMenuButton isActive={pathname.includes("/admin/blog")} tooltip="Blog Management">
               <PenSquare className="h-4 w-4" />
               <span>Blog Management</span>
             </SidebarMenuButton>
             <SidebarMenuSub>
               <SidebarMenuSubItem>
-                <SidebarMenuSubButton asChild>
+                <SidebarMenuSubButton asChild isActive={pathname === "/admin/blog/create"}>
                   <Link href="/admin/createBlog">
                     <Plus className="h-4 w-4" />
                     <span>Create Blog</span>
@@ -53,7 +53,7 @@ export function AdminSidebar() {
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>
               <SidebarMenuSubItem>
-                <SidebarMenuSubButton asChild>
+                <SidebarMenuSubButton asChild isActive={pathname === "/admin/blog"}>
                   <Link href="/blog">
                     <FileEdit className="h-4 w-4" />
                     <span>Edit Blogs</span>
@@ -65,13 +65,13 @@ export function AdminSidebar() {
 
           {/* Event Management */}
           <SidebarMenuItem>
-            <SidebarMenuButton isActive={pathname.includes("/event")} tooltip="Event Management">
+            <SidebarMenuButton isActive={pathname.includes("/admin/event")} tooltip="Event Management">
               <Calendar className="h-4 w-4" />
               <span>Event Management</span>
             </SidebarMenuButton>
             <SidebarMenuSub>
               <SidebarMenuSubItem>
-                <SidebarMenuSubButton asChild>
+                <SidebarMenuSubButton asChild isActive={pathname === "/admin/event/create"}>
                   <Link href="/admin/createEvent">
                     <Plus className="h-4 w-4" />
                     <span>Create Event</span>
@@ -79,8 +79,8 @@ export function AdminSidebar() {
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>
               <SidebarMenuSubItem>
-                <SidebarMenuSubButton asChild>
-                  <Link href="/event">
+                <SidebarMenuSubButton asChild isActive={pathname === "/admin/event"}>
+                  <Link href="/admin/event">
                     <FileEdit className="h-4 w-4" />
                     <span>Edit Events</span>
                   </Link>

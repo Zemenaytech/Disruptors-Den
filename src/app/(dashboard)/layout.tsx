@@ -1,27 +1,32 @@
-import type React from "react"
-import "@/app/globals.css"
-import { Inter } from "next/font/google"
-import { SidebarProvider } from "@/components/admin-dashboard-ui/sidebar"
-import { AdminSidebar } from "@/components/admin-dashboard-ui/admin-sidebar"
+import type React from "react";
+import "@/app/globals.css";
+import { Inter } from "next/font/google";
+import { SidebarProvider } from "@/components/admin-dashboard-ui/sidebar";
+import { AdminSidebar } from "@/components/admin-dashboard-ui/admin-sidebar";
+import { SidebarInset } from "@/components/admin-dashboard-ui/sidebar-inset";
+import type { ReactNode } from "react";
 
 const inter = Inter({ subsets: ["latin"] })
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
-}) { 
+  children: ReactNode
+}) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <SidebarProvider defaultOpen={true}>
-          <div className="flex min-h-screen">
-            <AdminSidebar />
-            <main className="flex-1 p-6">{children}</main>
-          </div>
+          <AdminSidebar />
+          <SidebarInset className="min-h-screen bg-gray-50">
+            <div className="flex justify-center px-4 py-6 sm:p-6 md:p-8">
+              <div className="w-full max-w-7xl bg-white rounded-lg shadow-sm p-6 sm:p-8">{children}</div>
+            </div>
+          </SidebarInset>
         </SidebarProvider>
       </body>
     </html>
   )
 }
+
 
