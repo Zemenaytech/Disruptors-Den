@@ -12,7 +12,7 @@ export default function SignUpPage() {
         </div>
         <SignUpForm />
         <p className="px-8 text-center text-sm text-muted-foreground">
-          <Link href="/signin" className="hover:text-brand underline underline-offset-4">
+          <Link href="/admin/signIn" className="hover:text-brand underline underline-offset-4">
             Already have an account? Sign In
           </Link>
         </p>
