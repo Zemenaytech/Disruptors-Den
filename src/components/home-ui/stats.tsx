@@ -9,7 +9,7 @@ export function Stats() {
   ];
 
   return (
-    <section className="py-24 bg-blue-400 text-white">
+    <section className="py-24 bg-[#032A2A] text-white">
       <div className="container">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">

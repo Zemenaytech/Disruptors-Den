@@ -1,6 +1,5 @@
 "use client";
 import { FaLinkedin } from "react-icons/fa";
-
 import Image from "next/image";
 
 const testimonials = [
@@ -92,17 +91,12 @@ export function Testimonials() {
         </div>
       </div>
 
-      <div className="relative">
-        {testimonials.map((group, idx) => (
-          <div
-            key={idx}
-            className="flex gap-6 py-8 animate-scroll hover:pause"
-            style={{
-              animationDirection: idx % 2 === 0 ? "normal" : "reverse",
-              animationDuration: "45s",
-            }}
-          >
-            {[...group, ...group].map((testimonial, index) => (
+      <div className="relative overflow-hidden">
+        {/* Testimonials Wrapper */}
+        <div className="flex gap-6 py-8 animate-marquee testimonial-marquee">
+          {/* Rendering 4 testimonials initially and then looping */}
+          {[...testimonials[0], ...testimonials[1]].map(
+            (testimonial, index) => (
               <div
                 key={index}
                 className="relative flex-none w-[400px] bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-300"
@@ -131,9 +125,9 @@ export function Testimonials() {
                   {testimonial.content}
                 </p>
               </div>
-            ))}
-          </div>
-        ))}
+            )
+          )}
+        </div>
 
         {/* Gradient Overlays */}
         <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-pink-50 to-transparent pointer-events-none" />

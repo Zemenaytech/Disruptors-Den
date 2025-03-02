@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { EventCard } from "@/components/layout/EventCard";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import DenCommunityPage from "@/components/layout/EventVido";
+import { EventCarousel } from "@/components/event-ui/event-carousel";
 
 const events = [
   {
@@ -159,50 +158,8 @@ export default function EventsPage() {
           <DenCommunityPage />
         </div>
         <h1>Events</h1>
-
-        {/* Events carousel section */}
-        <div className="relative px-4">
-          <div className="max-w-full overflow-hidden">
-            <div
-              ref={scrollContainerRef}
-              className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4 -mx-4 px-4"
-              style={{
-                scrollbarWidth: "none",
-                msOverflowStyle: "none",
-                gridAutoFlow: "column",
-                gridAutoColumns: "calc((100% - 18rem) / 4)",
-              }}
-            >
-              {events.map((event, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-[calc((100%-72px)/4)]"
-                >
-                  <EventCard {...event} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Navigation buttons */}
-          {showLeftArrow && (
-            <button
-              onClick={() => scroll("left")}
-              className="absolute -left-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-800 rounded-full p-2 shadow-md z-10"
-              aria-label="Scroll left"
-            >
-              <ChevronLeft className="w-6 h-6 text-[#00144b] dark:text-white" />
-            </button>
-          )}
-          {showRightArrow && (
-            <button
-              onClick={() => scroll("right")}
-              className="absolute -right-4 top-1/2 transform -translate-y-1/2 bg-white dark:bg-gray-800 rounded-full p-2 shadow-md z-10"
-              aria-label="Scroll right"
-            >
-              <ChevronRight className="w-6 h-6 text-[#00144b] dark:text-white" />
-            </button>
-          )}
+        <div className="container mx-auto py-12">
+          <EventCarousel events={events} />
         </div>
       </div>
     </div>
