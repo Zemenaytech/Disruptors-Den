@@ -4,17 +4,15 @@ import { hash } from "bcryptjs";
 import * as z from "zod";
 
 const userSchema = z.object({
-  name: z.string().min(2, "Name is required"),
+  username: z.string().min(3, "username is required"),
   email: z.string().email("Invalid email"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, password } = userSchema.parse(body);
+    const { username, email, password } = userSchema.parse(body);
 
     const existingEmail = await db.user.findUnique({
       where: { email: email },
@@ -31,7 +29,7 @@ export async function POST(req: Request) {
 
     await db.user.create({
       data: {
-        
+        username,
         email,
         password: hashedPassword,
       },
