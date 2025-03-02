@@ -36,7 +36,6 @@ export function SignUpForm() {
   const router = useRouter()
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
-  // Initialize the form with react-hook-form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,23 +50,34 @@ export function SignUpForm() {
     setIsLoading(true)
 
     try {
-      // Here you would typically call your authentication API
-      // For example: await signUp({ name: data.name, email: data.email, password: data.password })
+      const res = await fetch("/api/admin/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        }),
+      })
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      const result = await res.json()
+
+      if (!res.ok) {
+        throw new Error(result.message || "Something went wrong")
+      }
 
       toast({
         title: "Account created!",
-        description: "Your account has been created successfully.",
+        description: result.message || "Your account has been created successfully.",
       })
 
-      // Redirect to dashboard or verification page after successful signup
       router.push("/dashboard")
-    } catch (error) {
+    } catch (error: any) {
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -170,4 +180,3 @@ export function SignUpForm() {
     </div>
   )
 }
-
