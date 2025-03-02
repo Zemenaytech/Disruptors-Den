@@ -74,79 +74,6 @@ export default function AboutPage() {
     },
   ];
 
-  const programs = [
-    {
-      title: "Disruptors Media",
-      description:
-        "Educational and inspirational resource through Radio, Podcast, Documentary, Case Study Videos and TV Segments.",
-      icon: <Lightbulb className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/media",
-    },
-    {
-      title: "Business እናውጋ",
-      description:
-        "Weekly open discussions on diverse topics, fostering community and collaboration among entrepreneurs.",
-      icon: <Users className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/business",
-    },
-    {
-      title: "Disruptors Academy",
-      description:
-        "Workshops, mentorship programs, and interactive learning methods to equip aspiring entrepreneurs.",
-      icon: <GraduationCap className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/academy",
-    },
-    {
-      title: "Weekly Coffee Meetup",
-      description:
-        "An engaging show featuring accomplished individuals sharing success stories, with interactive audience participation.",
-      icon: <Calendar className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/meetup",
-    },
-    {
-      title: "Disruptors Adventure",
-      description:
-        "Events for community members to bond, recharge, and connect outside of the typical entrepreneurial setting.",
-      icon: <Award className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/adventure",
-    },
-    {
-      title: "ካስማ",
-      description:
-        "A dedicated hub providing guidance and support for personal and professional growth for people outside Addis Ababa.",
-      icon: <Building className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/kasma",
-    },
-    {
-      title: "Startup ድግስ",
-      description:
-        "An annual Startup Showcase, where local entrepreneurs spotlight their innovative ventures.",
-      icon: <Award className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/startup-showcase",
-    },
-    {
-      title: "Startup-Investor Match",
-      description:
-        "Exclusive event bringing startups and investors together to showcase ideas and connect with potential investors.",
-      icon: <Building className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/investor-match",
-    },
-    {
-      title: "Founders Internship",
-      description:
-        "Hands-on experience and mentorship from seasoned founders, accelerating the journey towards building successful ventures.",
-      icon: <GraduationCap className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/internship",
-    },
-    {
-      title: "Disruptors Mentor",
-      description:
-        "Connects aspiring entrepreneurs with experienced mentors, fostering growth and providing guidance.",
-      icon: <Users className="h-10 w-10 text-[#f5aa14]" />,
-      link: "/programs/mentor",
-    },
-  ];
-
   const impactMetrics = [
     { metric: "90+", description: "Weekly meetups hosted" },
     { metric: "50+", description: "Masterclasses conducted" },
@@ -301,33 +228,6 @@ export default function AboutPage() {
                 />
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Programs Section */}
-      <section ref={programsRef} className="py-16 bg-primary/5 scroll-mt-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary">
-              Our Programs
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Connecting, educating, and empowering entrepreneurs to redefine
-              success together.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {programs.map((program, index) => (
-              <ProgramCard
-                key={program.title}
-                title={program.title}
-                description={program.description}
-                icon={program.icon}
-                link={program.link}
-                index={index}
-              />
-            ))}
           </div>
         </div>
       </section>
