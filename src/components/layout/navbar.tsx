@@ -47,7 +47,14 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center">
             <Button className="bg-[#f5aa14] hover:bg-[#f5aa14]/90 text-[#00144b] font-medium px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105">
-              Join
+              <a
+                href="https://www.linkedin.com/company/disruptorsden/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex justify-center items-center space-x-3 hover:text-[#f5aa14] transition-colors group"
+              >
+                <span className="text-sm">Join</span>
+              </a>
             </Button>
           </div>
 

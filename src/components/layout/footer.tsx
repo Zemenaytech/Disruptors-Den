@@ -47,7 +47,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/event"
+                  href="/events"
                   className="text-sm hover:text-[#f5aa14] transition-colors"
                 >
                   Event

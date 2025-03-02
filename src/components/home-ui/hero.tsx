@@ -1,20 +1,36 @@
-"use client"
-
-import { useState } from "react"
-import Image from "next/image"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
+"use client";
+import Link from "next/link";
+import { useState } from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Hero() {
-  const [hoveredBox, setHoveredBox] = useState<number | null>(null)
+  const [hoveredBox, setHoveredBox] = useState<number | null>(null);
 
   const bentoImages = [
-    { src: "/tdd3.avif?height=400&width=400", alt: "Entrepreneur 1", className: "col-span-2 row-span-2" },
-    { src: "/tdd4.jpg?height=200&width=200", alt: "Entrepreneur 2", className: "col-span-1 row-span-1" },
-    { src: "/tdd5.jpg?height=200&width=200", alt: "Entrepreneur 3", className: "col-span-1 row-span-1" },
-    { src: "/placeholder.svg?height=200&width=400", alt: "Entrepreneur 4", className: "col-span-2 row-span-1" },
-  ]
+    {
+      src: "/tdd3.avif?height=400&width=400",
+      alt: "Entrepreneur 1",
+      className: "col-span-2 row-span-2",
+    },
+    {
+      src: "/tdd4.jpg?height=200&width=200",
+      alt: "Entrepreneur 2",
+      className: "col-span-1 row-span-1",
+    },
+    {
+      src: "/tdd5.jpg?height=200&width=200",
+      alt: "Entrepreneur 3",
+      className: "col-span-1 row-span-1",
+    },
+    {
+      src: "/placeholder.svg?height=200&width=400",
+      alt: "Entrepreneur 4",
+      className: "col-span-2 row-span-1",
+    },
+  ];
 
   return (
     <section className="w-full min-h-screen bg-gray-50 flex items-center">
@@ -36,18 +52,24 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              We provide the support, resources, and community you need to overcome challenges and thrive in your
-              entrepreneurial journey.
+              We provide the support, resources, and community you need to
+              overcome challenges and thrive in your entrepreneurial journey.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <Button className="bg-[#00144b] hover:bg-[#00144b]/90 text-white font-medium px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:scale-105">
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link
+                href="https://t.me/disruptorsden"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button className="bg-[#00144b] hover:bg-[#00144b]/90 text-white font-medium px-6 py-2 rounded-full text-sm transition-all duration-300 transform hover:scale-105">
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </motion.div>
           </div>
 
@@ -88,6 +110,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

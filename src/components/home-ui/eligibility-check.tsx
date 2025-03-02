@@ -2,6 +2,7 @@
 
 import React from "react";
 
+import Link from "next/link";
 import { CheckCircle, XCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -157,7 +158,13 @@ export function EligibilityCheck() {
             whileTap={{ scale: 0.95 }}
             className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-black rounded-full hover:bg-gray-800 transition-colors"
           >
-            Apply to Join
+            <Link
+              href="https://t.me/disruptorsden"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Apply to Join
+            </Link>
           </motion.button>
         </div>
       </div>
