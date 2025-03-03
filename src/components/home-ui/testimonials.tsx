@@ -7,28 +7,28 @@ const testimonials = [
     {
       name: "Samuel Tefera",
       handle: "@samtefera",
-      image: "/placeholder.svg?height=48&width=48",
+      image: "/mindOne.jpg",
       content:
         "The Disruptors Academy transformed my startup journey! The mentorship and networking opportunities helped me secure my first round of funding. Forever grateful to @disruptorsden 🚀",
     },
     {
       name: "Bethlehem Kassahun",
       handle: "@bethkass",
-      image: "/placeholder.svg?height=48&width=48",
+      image: "/mindOne.jpg",
       content:
         "Weekly Coffee Meetups at @disruptorsden are pure gold! Connected with amazing founders and found my co-founder here. The community support is unmatched! 💫",
     },
     {
       name: "Michael Alemu",
       handle: "@michaelalemu",
-      image: "/placeholder.svg?height=48&width=48",
+      image: "/mindTwo.jpg",
       content:
         "From idea to launch in 3 months! The Disruptors Den's mentorship program gave me the confidence and tools I needed. Now running a successful tech startup! 🙌",
     },
     {
       name: "Sara Mohammed",
       handle: "@saramohammed",
-      image: "/placeholder.svg?height=48&width=48",
+      image: "/mindTwo.jpg",
       content:
         "Being part of ካስማ program opened doors I never knew existed. @disruptorsden is truly fostering innovation across Ethiopia! 🌟",
     },
@@ -37,28 +37,28 @@ const testimonials = [
     {
       name: "Dawit Bekele",
       handle: "@dawitbek",
-      image: "/placeholder.svg?height=48&width=48",
+      image: "/mindOne.jpg",
       content:
         "The Business እናውጋ sessions are incredible! Real talk, real solutions, real growth. Thank you @disruptorsden for creating this platform! 💡",
     },
     {
       name: "Helen Tadesse",
       handle: "@helentad",
-      image: "/placeholder.svg?height=48&width=48",
+      image: "/mindTwo.jpg",
       content:
         "Participated in Startup ድግስ and wow! The exposure and investor connections were exactly what my startup needed. @disruptorsden delivers! 🎯",
     },
     {
       name: "Abel Kebede",
       handle: "@abelkeb",
-      image: "/placeholder.svg?height=48&width=48",
+      image: "/mindTwo.jpg",
       content:
         "The Founders Internship program is a game-changer! Learned more in 3 months than I did in years of traditional education. @disruptorsden knows what entrepreneurs need! 📚",
     },
     {
       name: "Lily Girma",
       handle: "@lilygirma",
-      image: "/placeholder.svg?height=48&width=48",
+      image: "/mindTwo.jpg",
       content:
         "From attending my first coffee meetup to launching my startup - what a journey! The @disruptorsden community has been there every step of the way ❤️",
     },

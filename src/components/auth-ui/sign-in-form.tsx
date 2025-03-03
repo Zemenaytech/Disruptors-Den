@@ -86,109 +86,119 @@ export default function SignInForm() {
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader className="space-y-1">
-        <div className="flex justify-center mb-4">
+    <Card className="w-full max-w-4xl overflow-hidden">
+      <div className="flex flex-col md:flex-row">
+        <div className="md:w-1/2 bg-[#032a2a] p-8 flex flex-col justify-center items-center text-white">
           <Image
-            src="/TDDBlack.png" // Public folder image
-            alt="Description of image"
-            width={80}
-            height={80}
+            src="/TDDBlack.png"
+            alt="campany logo"
+            width={200}
+            height={200}
+            className="mb-5 mx-auto"
           />
+          <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
+          <p className="text-center text-sm mb-4">
+            Sign in to access your account and continue your journey.
+          </p>
         </div>
-        <CardTitle className="text-2xl font-bold text-center">
-          Sign in
-        </CardTitle>
-        <CardDescription className="text-center">
-          Enter your email and password to sign in to your account
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="name@example.com"
-                      autoComplete="email"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="••••••••"
-                      autoComplete="current-password"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <div className="md:w-1/2 p-8">
+          <CardHeader className="space-y-1 p-0 mb-4">
+            <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
+            <CardDescription>
+              Enter your email and password to sign in
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 p-0">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="name@example.com"
+                          autoComplete="email"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="••••••••"
+                          autoComplete="current-password"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="submit"
+                  className="w-full bg-[#eab308] hover:bg-[#eab308]/90"
+                  disabled={isLoading}
+                >
+                  {isLoading && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Sign In
+                </Button>
+              </form>
+            </Form>
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-slate-300" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-2 text-slate-600">
+                  Or continue with
+                </span>
+              </div>
+            </div>
             <Button
-              type="submit"
-              className="w-full bg-[#eab308] hover:bg-[#eab308]/90"
+              variant="outline"
+              type="button"
+              className="w-full"
+              onClick={handleGoogleSignIn}
               disabled={isLoading}
             >
-              {isLoading && (
+              {isLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.google className="mr-2 h-4 w-4 text-[#4285F4]" />
               )}
-              Sign In
+              Google
             </Button>
-          </form>
-        </Form>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-slate-300" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-slate-600">
-              Or continue with
-            </span>
-          </div>
+          </CardContent>
+          <CardFooter className="flex justify-center p-0 mt-4">
+            <div className="text-sm text-muted-foreground">
+              Don&apos;t have an account?{" "}
+              <Link href="/signUp" className="text-[#60a5fa] hover:underline">
+                Sign up
+              </Link>
+            </div>
+          </CardFooter>
         </div>
-        <Button
-          variant="outline"
-          type="button"
-          className="w-full"
-          onClick={handleGoogleSignIn}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Icons.google className="mr-2 h-4 w-4 text-[#4285F4]" />
-          )}
-          Google
-        </Button>
-      </CardContent>
-      <CardFooter className="flex flex-col items-center justify-center space-y-2">
-        <div className="text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link href="/signUp" className="text-[#60a5fa] hover:underline">
-            Sign up
-          </Link>
-        </div>
-      </CardFooter>
+      </div>
     </Card>
   );
 }

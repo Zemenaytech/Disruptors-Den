@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { z } from "zod";
@@ -85,7 +85,7 @@ export default function SignUpForm() {
       }
 
       toast.success("Account created successfully!");
-      router.push("/");
+      router.push("/admin");
     } catch (error) {
       console.error("Sign up error:", error);
       toast.error(
@@ -110,149 +110,155 @@ export default function SignUpForm() {
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader className="space-y-1 pt-4">
-        <div className="flex justify-center mb-2">
+    <Card className="w-full max-w-4xl overflow-hidden">
+      <div className="flex flex-col md:flex-row">
+        <div className="md:w-1/2 bg-[#032a2a] p-8 flex flex-col justify-center items-center text-white">
           <Image
-            src="/TDDBlack.png" // Public folder image
-            alt="Description of image"
-            width={80}
-            height={80}
+            src="/TDDBlack.png"
+            alt="campany logo"
+            width={200}
+            height={200}
+            className="mb-5 mx-auto"
           />
+          <h2 className="text-3xl font-bold mb-2">Join Us Today</h2>
+          <p className="text-center text-sm mb-4">
+            Create an account and start your journey with us.
+          </p>
         </div>
-        <CardTitle className="text-xl font-bold text-center">
-          Create an account
-        </CardTitle>
-        <CardDescription className="text-center text-sm">
-          Enter your information to create an account
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Username</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="johndoe"
-                      disabled={isLoading}
-                      {...field}
-                      className="h-9"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="name@example.com"
-                      type="email"
-                      autoComplete="email"
-                      disabled={isLoading}
-                      {...field}
-                      className="h-9"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="••••••••"
-                      type="password"
-                      autoComplete="new-password"
-                      disabled={isLoading}
-                      {...field}
-                      className="h-9"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="••••••••"
-                      type="password"
-                      autoComplete="new-password"
-                      disabled={isLoading}
-                      {...field}
-                      className="h-9"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
+        <div className="md:w-1/2 p-8">
+          <CardHeader className="space-y-1 p-0 mb-4">
+            <CardTitle className="text-2xl font-bold">
+              Create an account
+            </CardTitle>
+            <CardDescription>Enter your information to sign up</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 p-0">
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Username</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="johndoe"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="name@example.com"
+                          type="email"
+                          autoComplete="email"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="••••••••"
+                          type="password"
+                          autoComplete="new-password"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="••••••••"
+                          type="password"
+                          autoComplete="new-password"
+                          disabled={isLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="submit"
+                  className="w-full bg-[#eab308] hover:bg-[#eab308]/90"
+                  disabled={isLoading}
+                >
+                  {isLoading && (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Sign Up
+                </Button>
+              </form>
+            </Form>
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-slate-300" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-white px-2 text-slate-600">
+                  Or continue with
+                </span>
+              </div>
+            </div>
             <Button
-              type="submit"
-              className="w-full bg-[#eab308] hover:bg-[#eab308]/90 h-9"
+              variant="outline"
+              type="button"
+              className="w-full"
+              onClick={handleGoogleSignUp}
               disabled={isLoading}
             >
-              {isLoading && (
+              {isLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.google className="mr-2 h-4 w-4 text-[#4285F4]" />
               )}
-              Sign Up
+              Google
             </Button>
-          </form>
-        </Form>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-slate-300" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-slate-600">
-              Or continue with
-            </span>
-          </div>
+          </CardContent>
+          <CardFooter className="flex justify-center p-0 mt-4">
+            <div className="text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link href="/signIn" className="text-[#60a5fa] hover:underline">
+                Sign in
+              </Link>
+            </div>
+          </CardFooter>
         </div>
-        <Button
-          variant="outline"
-          type="button"
-          className="w-full h-9"
-          onClick={handleGoogleSignUp}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Icons.google className="mr-2 h-4 w-4 text-[#4285F4]" />
-          )}
-          Google
-        </Button>
-      </CardContent>
-      <CardFooter className="flex flex-col items-center justify-center pt-0 pb-4">
-        <div className="text-xs text-muted-foreground">
-          Already have an account?{" "}
-          <Link href="/signIn" className="text-[#60a5fa] hover:underline">
-            Sign in
-          </Link>
-        </div>
-      </CardFooter>
+      </div>
     </Card>
   );
 }
