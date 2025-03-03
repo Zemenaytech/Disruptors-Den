@@ -6,8 +6,9 @@ export interface BlogPostProps {
   title: string;
   content: string;
   author: string;
-  date: string;
   imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
   showFullContent?: boolean;
   onReadMore?: () => void;
 }
@@ -17,13 +18,14 @@ export function BlogPost({
   title,
   content,
   author,
-  date,
   imageUrl,
+  createdAt,
+  updatedAt,
   showFullContent = false,
   onReadMore,
 }: BlogPostProps) {
   // Format date
-  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+  const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -47,7 +49,7 @@ export function BlogPost({
         <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
           <span>By {author}</span>
           <span className="mx-2">•</span>
-          <time dateTime={date}>{formattedDate}</time>
+          <time dateTime={createdAt}>{formattedDate}</time>
         </div>
 
         {showFullContent ? (
