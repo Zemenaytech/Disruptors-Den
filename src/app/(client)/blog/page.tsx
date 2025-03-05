@@ -10,6 +10,20 @@ import { BlogPostSkeleton } from "@/components/blog-ui/BlogPostSkeleton";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+const createExcerpt = (htmlContent: string, maxLength = 150) => {
+  // Remove HTML tags and get plain text
+  const plainText = htmlContent.replace(/<[^>]+>/g, "");
+
+  // Create excerpt
+  if (plainText.length <= maxLength) return plainText;
+
+  // Find a good breaking point
+  const breakPoint = plainText.lastIndexOf(" ", maxLength);
+  return (
+    plainText.substring(0, breakPoint > 0 ? breakPoint : maxLength) + "..."
+  );
+};
+
 export default function BlogPage() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -25,11 +39,15 @@ export default function BlogPage() {
     }
   }, [status, dispatch]);
 
+  // Sort blog posts by date, most recent first
+  const sortedBlogPosts = [...blogs].sort(
+    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+  );
   // Calculate current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = blogs.slice(indexOfFirstPost, indexOfLastPost);
-  const totalPages = Math.ceil(blogs.length / postsPerPage);
+  const currentPosts = sortedBlogPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(sortedBlogPosts.length / postsPerPage);
 
   // Handle page navigation
   const goToNextPage = () => {
@@ -81,7 +99,7 @@ export default function BlogPage() {
           <div key={post.id} className="border-b pb-12 last:border-b-0">
             <BlogPost
               {...post}
-              content={post.content.substring(0, 150) + "..."}
+              content={createExcerpt(post.content)}
               showFullContent={false}
               onReadMore={() => navigateToBlogDetail(post.id)}
             />
@@ -95,7 +113,7 @@ export default function BlogPage() {
           <Button
             onClick={goToPrevPage}
             disabled={currentPage === 1}
-            className="flex items-center justify-center h-10 px-4 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
+            className="flex items-center justify-center h-10 px-4 rounded-md text-primary border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
             aria-label="Previous page"
           >
             <ChevronLeft className="h-4 w-4 mr-2" />
@@ -109,7 +127,7 @@ export default function BlogPage() {
           <Button
             onClick={goToNextPage}
             disabled={currentPage === totalPages}
-            className="flex items-center justify-center h-10 px-4 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
+            className="flex items-center justify-center h-10 px-4 rounded-md text-primary border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
             aria-label="Next page"
           >
             Next
