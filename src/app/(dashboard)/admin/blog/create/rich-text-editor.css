@@ -1,0 +1,55 @@
+/* Remove all outlines and borders from the editor content */
+.ProseMirror {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ProseMirror:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove any default browser focus styles */
+.ProseMirror *:focus {
+  outline: none !important;
+}
+
+/* Ensure the content area has no visible boundaries */
+.tiptap {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Remove any potential outline when the editor is active */
+.is-active .ProseMirror {
+  outline: none !important;
+  border: none !important;
+}
+
+/* Link styling */
+.ProseMirror a {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  transition: color 0.2s ease !important;
+}
+
+.ProseMirror a:hover {
+  color: #1d4ed8 !important;
+  text-decoration: underline !important;
+}
+
+/* Add a visual indicator for external links */
+.ProseMirror a::after {
+  content: "↗" !important;
+  display: inline-block !important;
+  margin-left: 2px !important;
+  font-size: 0.8em !important;
+  vertical-align: super !important;
+}
+/* Underline styling */
+.ProseMirror u {
+  text-decoration: underline !important;
+}

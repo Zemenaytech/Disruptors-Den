@@ -13,7 +13,7 @@ export async function GET() {
       );
     }
 
-    return NextResponse.json(blogs, { status: 200 });
+    return NextResponse.json(blogs, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       {
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, content, author, imageUrl } = body;
+    const { title, summary, content, author, imageUrl } = body;
 
     // Ensure all required fields are provided
     if (!title || !content || !author || !imageUrl) {
@@ -53,6 +53,7 @@ export async function POST(request: Request) {
       data: {
         title,
         content,
+        summary,
         author,
         imageUrl,
       },

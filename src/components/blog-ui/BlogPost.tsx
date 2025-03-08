@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 export interface BlogPostProps {
   id: string;
   title: string;
-  content: string;
+  summary: string;
   author: string;
   imageUrl: string;
   createdAt: string;
@@ -16,7 +16,7 @@ export interface BlogPostProps {
 export function BlogPost({
   id,
   title,
-  content,
+  summary,
   author,
   imageUrl,
   createdAt,
@@ -59,7 +59,7 @@ export function BlogPost({
           />
         ) : (
           <div>
-            <p className="text-gray-700 dark:text-gray-300">{content}</p>
+            <p className="text-gray-700 dark:text-gray-300">{summary}</p>
             <Button
               onClick={onReadMore}
               className="mt-4 bg-[#00144b] hover:bg-[#002580] text-white"

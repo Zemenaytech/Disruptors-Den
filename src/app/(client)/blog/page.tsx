@@ -10,20 +10,6 @@ import { BlogPostSkeleton } from "@/components/blog-ui/BlogPostSkeleton";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const createExcerpt = (htmlContent: string, maxLength = 150) => {
-  // Remove HTML tags and get plain text
-  const plainText = htmlContent.replace(/<[^>]+>/g, "");
-
-  // Create excerpt
-  if (plainText.length <= maxLength) return plainText;
-
-  // Find a good breaking point
-  const breakPoint = plainText.lastIndexOf(" ", maxLength);
-  return (
-    plainText.substring(0, breakPoint > 0 ? breakPoint : maxLength) + "..."
-  );
-};
-
 export default function BlogPage() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -99,7 +85,6 @@ export default function BlogPage() {
           <div key={post.id} className="border-b pb-12 last:border-b-0">
             <BlogPost
               {...post}
-              content={createExcerpt(post.content)}
               showFullContent={false}
               onReadMore={() => navigateToBlogDetail(post.id)}
             />

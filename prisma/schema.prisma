@@ -43,6 +43,7 @@ model Faq {
 model Blog {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
+  summary   String
   content   String
   author    String
   imageUrl  String
