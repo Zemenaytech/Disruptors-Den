@@ -71,6 +71,8 @@ const blogPosts = [
     imageUrl: "/DALLE_3.webp",
   },
 ];
+const isAdmin = true; // or your real auth check
+
 
 // Helper function to create excerpt from HTML content
 const createExcerpt = (htmlContent: string, maxLength = 150) => {
@@ -121,16 +123,21 @@ export default function BlogPage() {
   };
 
   // Handle navigation to blog detail
+  // Handle navigation to blog detail
   const navigateToBlogDetail = (id: string) => {
     router.push(`/blog/${id}`);
   };
 
-  return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl">
+  // Handle navigation to edit page
+  const navigateToEditPage = (id: string) => {
+    router.push(`/blog/edit/${id}`);
+  };
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
       <h1 className="text-3xl font-bold mb-8 text-center text-[#00144b] dark:text-white">
         The Disruptors Den Blog
       </h1>
-
+  
       <div className="space-y-16">
         {currentPosts.map((post) => (
           <div key={post.id} className="border-b pb-12 last:border-b-0">
@@ -140,10 +147,20 @@ export default function BlogPage() {
               showFullContent={false}
               onReadMore={() => navigateToBlogDetail(post.id)}
             />
+            {isAdmin && (
+              <div className="mt-4 text-right">
+                <button
+                  onClick={() => navigateToEditPage(post.id)}
+                  className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                >
+                  Edit
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
-
+  
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center mt-12 space-x-4">
@@ -156,11 +173,11 @@ export default function BlogPage() {
             <ChevronLeft className="h-4 w-4 mr-2" />
             Previous
           </button>
-
+  
           <span className="text-sm font-medium">
             {currentPage} / {totalPages}
           </span>
-
+  
           <button
             onClick={goToNextPage}
             disabled={currentPage === totalPages}
@@ -172,6 +189,7 @@ export default function BlogPage() {
           </button>
         </div>
       )}
-    </div>
-  );
-}
+      </div>
+    );
+  }
+  
