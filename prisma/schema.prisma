@@ -26,6 +26,7 @@ model Event {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
   date      DateTime
+  imageUrl  String
   time      String
   location  String
   createdAt DateTime @default(now())
@@ -43,6 +44,7 @@ model Faq {
 model Blog {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   title     String
+  summary   String
   content   String
   author    String
   imageUrl  String
