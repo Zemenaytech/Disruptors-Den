@@ -8,6 +8,7 @@ import Highlight from "@tiptap/extension-highlight";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
+import Image from "@tiptap/extension-image";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 import {
@@ -31,6 +32,8 @@ import {
   UnderlineIcon,
   LinkIcon,
   Link2OffIcon as LinkOff,
+  ImageIcon,
+  X,
 } from "lucide-react";
 
 import "./rich-text-editor.css";
@@ -50,6 +53,11 @@ export default function RichTextEditor({
   const [showLinkMenu, setShowLinkMenu] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
   const linkInputRef = useRef<HTMLInputElement>(null);
+
+  const [showImageMenu, setShowImageMenu] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageCaption, setImageCaption] = useState("");
+  const imageUrlInputRef = useRef<HTMLInputElement>(null);
 
   const editor = useEditor({
     extensions: [
@@ -84,7 +92,7 @@ export default function RichTextEditor({
         },
       }),
       TextAlign.configure({
-        types: ["heading", "paragraph"],
+        types: ["heading", "paragraph", "image"],
         alignments: ["left", "center", "right", "justify"],
       }),
       Underline.configure(),
@@ -96,6 +104,13 @@ export default function RichTextEditor({
           rel: "noopener noreferrer",
         },
         validate: (url) => /^https?:\/\//.test(url),
+      }),
+      Image.configure({
+        HTMLAttributes: {
+          class: "editor-image",
+        },
+        allowBase64: true,
+        inline: false,
       }),
     ],
     content: value,
@@ -166,6 +181,43 @@ export default function RichTextEditor({
     }
   };
 
+  const addImage = useCallback(() => {
+    if (!editor) return;
+
+    if (!imageUrl) {
+      setShowImageMenu(false);
+      return;
+    }
+
+    // Create a figure element with the image and caption
+    const figureHtml = `
+    <figure class="editor-figure">
+      <img src="${imageUrl}" alt="${imageCaption || "Image"}" class="editor-image" />
+      ${imageCaption ? `<figcaption class="image-caption">${imageCaption}</figcaption>` : ""}
+    </figure>
+  `;
+
+    // Insert the figure with image and caption
+    editor.chain().focus().insertContent(figureHtml).run();
+
+    setShowImageMenu(false);
+    setImageUrl("");
+    setImageCaption("");
+  }, [editor, imageUrl, imageCaption]);
+
+  const handleImageKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      addImage();
+    }
+    if (e.key === "Escape") {
+      e.preventDefault();
+      setShowImageMenu(false);
+      setImageUrl("");
+      setImageCaption("");
+    }
+  };
+
   // Focus the input when the link menu is shown
   useEffect(() => {
     if (showLinkMenu && linkInputRef.current) {
@@ -180,6 +232,15 @@ export default function RichTextEditor({
       }, 50);
     }
   }, [showLinkMenu, editor]);
+
+  // Focus the input when the image menu is shown
+  useEffect(() => {
+    if (showImageMenu && imageUrlInputRef.current) {
+      setTimeout(() => {
+        imageUrlInputRef.current?.focus();
+      }, 50);
+    }
+  }, [showImageMenu]);
 
   // Add a custom handler for link clicks
   useEffect(() => {
@@ -275,8 +336,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().setParagraph().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("paragraph") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("paragraph") && "bg-gray-200"
           )}
         >
           <Pilcrow className="w-4 h-4" />
@@ -288,8 +348,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("bold") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("bold") && "bg-gray-200"
           )}
         >
           <Bold className="w-4 h-4" />
@@ -300,8 +359,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("italic") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("italic") && "bg-gray-200"
           )}
         >
           <Italic className="w-4 h-4" />
@@ -312,8 +370,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleUnderline().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("underline") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("underline") && "bg-gray-200"
           )}
         >
           <UnderlineIcon className="w-4 h-4" />
@@ -324,8 +381,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleStrike().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("strike") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("strike") && "bg-gray-200"
           )}
         >
           <Strikethrough className="w-4 h-4" />
@@ -336,8 +392,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleHighlight().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("highlight") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("highlight") && "bg-gray-200"
           )}
         >
           <Highlighter className="w-4 h-4" />
@@ -355,8 +410,7 @@ export default function RichTextEditor({
           }}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("link") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("link") && "bg-gray-200"
           )}
         >
           {editor.isActive("link") ? (
@@ -368,14 +422,23 @@ export default function RichTextEditor({
             {editor.isActive("link") ? "Remove Link" : "Add Link"}
           </span>
         </button>
+        <button
+          type="button"
+          onClick={() => {
+            setShowImageMenu(true);
+          }}
+          className={cn("px-2 py-1 rounded hover:bg-gray-200")}
+        >
+          <ImageIcon className="w-4 h-4" />
+          <span className="sr-only">Add Image</span>
+        </button>
         <div className="w-px h-6 bg-gray-300 mx-1 self-center" />
         <button
           type="button"
           onClick={() => editor.chain().focus().setTextAlign("left").run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive({ textAlign: "left" }) &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive({ textAlign: "left" }) && "bg-gray-200"
           )}
         >
           <AlignLeft className="w-4 h-4" />
@@ -409,8 +472,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().setTextAlign("justify").run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive({ textAlign: "justify" }) &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive({ textAlign: "justify" }) && "bg-gray-200"
           )}
         >
           <AlignJustify className="w-4 h-4" />
@@ -422,8 +484,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("blockquote") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("blockquote") && "bg-gray-200"
           )}
         >
           <Quote className="w-4 h-4" />
@@ -434,8 +495,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("bulletList") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("bulletList") && "bg-gray-200"
           )}
         >
           <List className="w-4 h-4" />
@@ -446,8 +506,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("orderedList") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("orderedList") && "bg-gray-200"
           )}
         >
           <ListOrdered className="w-4 h-4" />
@@ -456,11 +515,7 @@ export default function RichTextEditor({
         <button
           type="button"
           onClick={() => editor.chain().focus().setHorizontalRule().run()}
-          className={cn(
-            "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("horizontalRule") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
-          )}
+          className="px-2 py-1 rounded hover:bg-gray-200"
         >
           <Minus className="w-4 h-4" />
           <span className="sr-only">Horizontal rule</span>
@@ -470,8 +525,7 @@ export default function RichTextEditor({
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
           className={cn(
             "px-2 py-1 rounded hover:bg-gray-200",
-            editor.isActive("codeBlock") &&
-              "bg-primary text-primary-foreground hover:bg-primary/90"
+            editor.isActive("codeBlock") && "bg-gray-200"
           )}
         >
           <Code className="w-4 h-4" />
@@ -511,6 +565,79 @@ export default function RichTextEditor({
         </div>
       )}
 
+      {/* Image Menu */}
+      {showImageMenu && (
+        <div className="flex flex-col gap-2 p-2 bg-gray-50 border-x border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-medium">Add Image</h3>
+            <button
+              type="button"
+              onClick={() => {
+                setShowImageMenu(false);
+                setImageUrl("");
+                setImageCaption("");
+              }}
+              className="rounded-full p-1 hover:bg-gray-200"
+            >
+              <X className="w-4 h-4" />
+              <span className="sr-only">Close</span>
+            </button>
+          </div>
+          <div className="space-y-2">
+            <div className="space-y-1">
+              <label htmlFor="image-url" className="text-xs font-medium">
+                Image URL
+              </label>
+              <input
+                ref={imageUrlInputRef}
+                id="image-url"
+                type="text"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                onKeyDown={handleImageKeyDown}
+                placeholder="https://example.com/image.jpg"
+                className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              />
+            </div>
+            <div className="space-y-1">
+              <label htmlFor="image-caption" className="text-xs font-medium">
+                Caption (optional)
+              </label>
+              <input
+                id="image-caption"
+                type="text"
+                value={imageCaption}
+                onChange={(e) => setImageCaption(e.target.value)}
+                onKeyDown={handleImageKeyDown}
+                placeholder="Image caption"
+                className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              type="button"
+              onClick={() => {
+                setShowImageMenu(false);
+                setImageUrl("");
+                setImageCaption("");
+              }}
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={addImage}
+              disabled={!imageUrl}
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+            >
+              Add Image
+            </button>
+          </div>
+        </div>
+      )}
+
       <EditorContent
         editor={editor}
         className="p-4 min-h-[200px] max-w-none focus-within:outline-none"
@@ -529,8 +656,7 @@ export default function RichTextEditor({
               }
               className={cn(
                 "p-2 hover:bg-gray-100",
-                editor.isActive("bold") &&
-                  "bg-primary text-primary-foreground hover:bg-primary/90"
+                editor.isActive("bold") && "bg-gray-200"
               )}
             >
               <Bold className="w-4 h-4" />
@@ -544,8 +670,7 @@ export default function RichTextEditor({
               }
               className={cn(
                 "p-2 hover:bg-gray-100",
-                editor.isActive("italic") &&
-                  "bg-primary text-primary-foreground hover:bg-primary/90"
+                editor.isActive("italic") && "bg-gray-200"
               )}
             >
               <Italic className="w-4 h-4" />
@@ -573,8 +698,7 @@ export default function RichTextEditor({
               }
               className={cn(
                 "p-2 hover:bg-gray-100",
-                editor.isActive("strike") &&
-                  "bg-primary text-primary-foreground hover:bg-primary/90"
+                editor.isActive("strike") && "bg-gray-200"
               )}
             >
               <Strikethrough className="w-4 h-4" />
@@ -588,8 +712,7 @@ export default function RichTextEditor({
               }
               className={cn(
                 "p-2 hover:bg-gray-100",
-                editor.isActive("highlight") &&
-                  "bg-primary text-primary-foreground hover:bg-primary/90"
+                editor.isActive("highlight") && "bg-gray-200"
               )}
             >
               <Highlighter className="w-4 h-4" />
@@ -615,6 +738,17 @@ export default function RichTextEditor({
               ) : (
                 <LinkIcon className="w-4 h-4" />
               )}
+            </button>
+            <button
+              type="button"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowImageMenu(true);
+              }}
+              className="p-2 hover:bg-gray-100"
+            >
+              <ImageIcon className="w-4 h-4" />
             </button>
           </div>
         </BubbleMenu>

@@ -8,6 +8,7 @@ import { SidebarInset } from "@/components/admin-dashboard-ui/sidebar-inset";
 import type { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { store } from "@/lib/store";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Toaster />
         <SidebarProvider defaultOpen={true}>
           <AdminSidebar />
           <SidebarInset className="min-h-screen bg-gray-50">

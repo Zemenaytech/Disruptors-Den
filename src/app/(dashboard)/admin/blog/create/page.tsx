@@ -166,7 +166,7 @@ export default function CreatePost() {
 
             <div className="flex justify-end gap-4">
               <Button type="button" variant="outline" asChild>
-                <Link href="/admin">Cancel</Link>
+                <Link href="/admin/blog">Cancel</Link>
               </Button>
               <Button type="submit">Publish Post</Button>
             </div>

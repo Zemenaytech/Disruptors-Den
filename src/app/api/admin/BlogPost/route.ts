@@ -1,19 +1,34 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-// GET all blog posts
-export async function GET() {
+// GET all blog posts with pagination
+export async function GET(request: Request) {
   try {
-    const blogs = await db.blog.findMany();
+    const { searchParams } = new URL(request.url);
+    const page = Number.parseInt(searchParams.get("page") || "1");
+    const limit = Number.parseInt(searchParams.get("limit") || "10");
+    const skip = (page - 1) * limit;
 
-    if (blogs.length === 0) {
+    // Get total count for pagination
+    const totalCount = await db.blog.count();
+
+    // Get paginated blogs
+    const blogs = await db.blog.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    if (blogs.length === 0 && page === 1) {
       return NextResponse.json(
-        { message: "No blog posts found" },
+        { message: "No blog posts found", blogs: [], totalCount: 0 },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(blogs, { status: 201 });
+    return NextResponse.json({ blogs, totalCount }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       {
@@ -40,10 +55,11 @@ export async function POST(request: Request) {
     const { title, summary, content, author, imageUrl } = body;
 
     // Ensure all required fields are provided
-    if (!title || !content || !author || !imageUrl) {
+    if (!title || !content || !author || !imageUrl || !summary) {
       return NextResponse.json(
         {
-          message: "Missing required fields: title, content, author, imageUrl",
+          message:
+            "Missing required fields: title, content, summary, author, imageUrl",
         },
         { status: 400 }
       );
