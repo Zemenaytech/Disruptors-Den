@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { BlogPost } from "@/components/blog-ui/BlogPost";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/lib/store";
+import { fetchBlogs } from "@/lib/blogSlice";
+import { BlogPost } from "@/components/blog-ui/BlogPost";
+import { BlogPostSkeleton } from "@/components/blog-ui/BlogPostSkeleton";
+import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+<<<<<<< HEAD
 // This would typically come from a database
 const blogPosts = [
   {
@@ -89,23 +95,32 @@ const createExcerpt = (htmlContent: string, maxLength = 150) => {
   );
 };
 
+=======
+>>>>>>> a51f7c72c190026c4723c68e49e64869a3708204
 export default function BlogPage() {
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const { blogs, status, error } = useSelector(
+    (state: RootState) => state.blog
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchBlogs());
+    }
+  }, [status, dispatch]);
+
   // Sort blog posts by date, most recent first
-  const sortedBlogPosts = [...blogPosts].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  const sortedBlogPosts = [...blogs].sort(
+    (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   );
-
-  // Calculate total pages
-  const totalPages = Math.ceil(sortedBlogPosts.length / postsPerPage);
-
-  // Get current posts
+  // Calculate current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = sortedBlogPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(sortedBlogPosts.length / postsPerPage);
 
   // Handle page navigation
   const goToNextPage = () => {
@@ -128,12 +143,36 @@ export default function BlogPage() {
     router.push(`/blog/${id}`);
   };
 
+<<<<<<< HEAD
   // Handle navigation to edit page
   const navigateToEditPage = (id: string) => {
     router.push(`/blog/edit/${id}`);
   };
     return (
       <div className="container mx-auto px-4 py-8 max-w-3xl">
+=======
+  if (status === "loading") {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
+        <h1 className="text-3xl font-bold mb-8 text-center text-[#00144b] dark:text-white">
+          The Disruptors Den Blog
+        </h1>
+        <div className="space-y-16">
+          {[...Array(6)].map((_, index) => (
+            <BlogPostSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (status === "failed") {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8 max-w-3xl">
+>>>>>>> a51f7c72c190026c4723c68e49e64869a3708204
       <h1 className="text-3xl font-bold mb-8 text-center text-[#00144b] dark:text-white">
         The Disruptors Den Blog
       </h1>
@@ -143,7 +182,6 @@ export default function BlogPage() {
           <div key={post.id} className="border-b pb-12 last:border-b-0">
             <BlogPost
               {...post}
-              content={createExcerpt(post.content)}
               showFullContent={false}
               onReadMore={() => navigateToBlogDetail(post.id)}
             />
@@ -164,14 +202,15 @@ export default function BlogPage() {
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center mt-12 space-x-4">
-          <button
+          <Button
             onClick={goToPrevPage}
             disabled={currentPage === 1}
-            className="flex items-center justify-center h-10 px-4 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
+            className="flex items-center justify-center h-10 px-4 rounded-md text-primary border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
             aria-label="Previous page"
           >
             <ChevronLeft className="h-4 w-4 mr-2" />
             Previous
+<<<<<<< HEAD
           </button>
   
           <span className="text-sm font-medium">
@@ -179,14 +218,23 @@ export default function BlogPage() {
           </span>
   
           <button
+=======
+          </Button>
+
+          <span className="text-sm font-medium">
+            {currentPage} / {totalPages}
+          </span>
+
+          <Button
+>>>>>>> a51f7c72c190026c4723c68e49e64869a3708204
             onClick={goToNextPage}
             disabled={currentPage === totalPages}
-            className="flex items-center justify-center h-10 px-4 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
+            className="flex items-center justify-center h-10 px-4 rounded-md text-primary border border-input bg-background hover:bg-accent hover:text-accent-foreground disabled:opacity-50 disabled:pointer-events-none"
             aria-label="Next page"
           >
             Next
             <ChevronRight className="h-4 w-4 ml-2" />
-          </button>
+          </Button>
         </div>
       )}
       </div>

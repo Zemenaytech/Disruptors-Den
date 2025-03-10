@@ -1,8 +1,18 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { LayoutDashboard, FileEdit, Calendar, PenSquare, Plus } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  LayoutDashboard,
+  FileEdit,
+  Calendar,
+  PenSquare,
+  Plus,
+  ChevronRight,
+  ChevronDown,
+  Menu,
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -13,84 +23,147 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/admin-dashboard-ui/sidebar"
+} from "@/components/admin-dashboard-ui/sidebar";
 
 export function AdminSidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [openSections, setOpenSections] = useState({
+    blog: pathname.includes("/admin/blog"),
+    event: pathname.includes("/admin/event"),
+  });
+
+  const toggleSection = (section) => {
+    setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }));
+  };
 
   return (
-    <Sidebar>
-      <SidebarHeader className="border-b px-6 py-4">
+    <Sidebar className={`transition-all ${isCollapsed ? "w-16" : "w-64"}`}>
+      <SidebarHeader className="border-b px-6 py-4 flex items-center justify-between">
         <Link href="/admin" className="flex items-center gap-2 font-semibold">
           <FileEdit className="h-6 w-6" />
-          <span>Content Manager</span>
+          {!isCollapsed && <span>Content Manager</span>}
         </Link>
+        <button onClick={() => setIsCollapsed(!isCollapsed)}>
+          <Menu className="h-6 w-6" />
+        </button>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
+        <SidebarMenu className="space-y-2">
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === "/admin"} tooltip="Dashboard">
+            <SidebarMenuButton
+              asChild
+              isActive={pathname === "/admin"}
+              className={
+                pathname === "/admin"
+                  ? "bg-gray-200 dark:bg-gray-700 rounded-md"
+                  : ""
+              }
+            >
               <Link href="/admin">
                 <LayoutDashboard className="h-4 w-4" />
-                <span>Dashboard</span>
+                {!isCollapsed && <span>Dashboard</span>}
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
 
           {/* Blog Management */}
           <SidebarMenuItem>
-            <SidebarMenuButton isActive={pathname.includes("/admin/blog")} tooltip="Blog Management">
+            <SidebarMenuButton
+              onClick={() => toggleSection("blog")}
+              isActive={pathname.includes("/admin/blog")}
+              className={
+                pathname.includes("/admin/blog")
+                  ? "bg-gray-200 dark:bg-gray-700 rounded-md"
+                  : ""
+              }
+            >
               <PenSquare className="h-4 w-4" />
-              <span>Blog Management</span>
+              {!isCollapsed && <span>Blog Management</span>}
+              {!isCollapsed &&
+                (openSections.blog ? <ChevronDown /> : <ChevronRight />)}
             </SidebarMenuButton>
-            <SidebarMenuSub>
-              <SidebarMenuSubItem>
-                <SidebarMenuSubButton asChild isActive={pathname === "/admin/blog/create"}>
-                  <Link href="/admin/createBlog">
-                    <Plus className="h-4 w-4" />
-                    <span>Create Blog</span>
-                  </Link>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
-              <SidebarMenuSubItem>
-                <SidebarMenuSubButton asChild isActive={pathname === "/admin/blog"}>
-                  <Link href="/blog">
-                    <FileEdit className="h-4 w-4" />
-                    <span>Edit Blogs</span>
-                  </Link>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
-            </SidebarMenuSub>
+            {openSections.blog && (
+              <SidebarMenuSub className="space-y-2 pl-4">
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton
+                    asChild
+                    isActive={pathname === "/admin/blog"}
+                    className={
+                      pathname === "/admin/blog"
+                        ? "bg-gray-100 dark:bg-gray-700 rounded-md"
+                        : ""
+                    }
+                  >
+                    <Link href="/admin/blog">Blogs</Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton
+                    asChild
+                    isActive={pathname === "/admin/blog/create"}
+                    className={
+                      pathname === "/admin/blog/create"
+                        ? "bg-gray-100 dark:bg-gray-700 rounded-md"
+                        : ""
+                    }
+                  >
+                    <Link href="/admin/blog/create">Create Blog</Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              </SidebarMenuSub>
+            )}
           </SidebarMenuItem>
 
           {/* Event Management */}
           <SidebarMenuItem>
-            <SidebarMenuButton isActive={pathname.includes("/admin/event")} tooltip="Event Management">
+            <SidebarMenuButton
+              onClick={() => toggleSection("event")}
+              isActive={pathname.includes("/admin/event")}
+              className={
+                pathname.includes("/admin/event")
+                  ? "bg-gray-200 dark:bg-gray-700 rounded-md"
+                  : ""
+              }
+            >
               <Calendar className="h-4 w-4" />
-              <span>Event Management</span>
+              {!isCollapsed && <span>Event Management</span>}
+              {!isCollapsed &&
+                (openSections.event ? <ChevronDown /> : <ChevronRight />)}
             </SidebarMenuButton>
-            <SidebarMenuSub>
-              <SidebarMenuSubItem>
-                <SidebarMenuSubButton asChild isActive={pathname === "/admin/event/create"}>
-                  <Link href="/admin/createEvent">
-                    <Plus className="h-4 w-4" />
-                    <span>Create Event</span>
-                  </Link>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
-              <SidebarMenuSubItem>
-                <SidebarMenuSubButton asChild isActive={pathname === "/admin/event"}>
-                  <Link href="/admin/event">
-                    <FileEdit className="h-4 w-4" />
-                    <span>Edit Events</span>
-                  </Link>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
-            </SidebarMenuSub>
+            {openSections.event && (
+              <SidebarMenuSub className="space-y-2 pl-4">
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton
+                    asChild
+                    isActive={pathname === "/admin/event"}
+                    className={
+                      pathname === "/admin/event"
+                        ? "bg-gray-100 dark:bg-gray-700 rounded-md"
+                        : ""
+                    }
+                  >
+                    <Link href="/admin/event">Events</Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+                <SidebarMenuSubItem>
+                  <SidebarMenuSubButton
+                    asChild
+                    isActive={pathname === "/admin/event/create"}
+                    className={
+                      pathname === "/admin/event/create"
+                        ? "bg-gray-100 dark:bg-gray-700 rounded-md"
+                        : ""
+                    }
+                  >
+                    <Link href="/admin/event/create">Create Event</Link>
+                  </SidebarMenuSubButton>
+                </SidebarMenuSubItem>
+              </SidebarMenuSub>
+            )}
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
-

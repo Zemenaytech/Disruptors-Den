@@ -1,55 +1,122 @@
+import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
-export async function GET({ params }: { params: { id: string } }) {
+// GET a single event by ID
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
+    const id = params.id;
+
     const event = await db.event.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!event) {
-      return new Response("Event not found", { status: 404 });
+      return NextResponse.json({ message: "Event not found" }, { status: 404 });
     }
 
-    return new Response(JSON.stringify(event), { status: 200 });
+    return NextResponse.json(event, { status: 200 });
   } catch (error) {
-    return new Response("Error fetching event", { status: 500 });
+    return NextResponse.json(
+      {
+        message: "Failed to fetch event",
+        error: (error as Error).message,
+      },
+      { status: 500 }
+    );
   }
 }
 
-export async function PUT({
-  params,
-  request,
-}: {
-  params: { id: string };
-  request: Request;
-}) {
+// PUT/UPDATE an event
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { title, date, time, location } = await request.json();
+    const id = params.id;
+    const body = await request.json().catch(() => null);
 
+    if (!body) {
+      return NextResponse.json(
+        { message: "Invalid JSON body" },
+        { status: 400 }
+      );
+    }
+
+    const { title, date, time, location, imageUrl } = body;
+
+    // Check if event exists
+    const existingEvent = await db.event.findUnique({
+      where: { id },
+    });
+
+    if (!existingEvent) {
+      return NextResponse.json({ message: "Event not found" }, { status: 404 });
+    }
+
+    // Update event
     const updatedEvent = await db.event.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         title,
         date: new Date(date),
         time,
         location,
+        imageUrl,
+        updatedAt: new Date(),
       },
     });
 
-    return new Response(JSON.stringify(updatedEvent), { status: 200 });
+    return NextResponse.json(
+      { message: "Event updated successfully", event: updatedEvent },
+      { status: 200 }
+    );
   } catch (error) {
-    return new Response("Error updating event", { status: 500 });
+    return NextResponse.json(
+      {
+        message: "Failed to update event",
+        error: (error as Error).message,
+      },
+      { status: 500 }
+    );
   }
 }
 
-export async function DELETE({ params }: { params: { id: string } }) {
+// DELETE an event
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const deletedEvent = await db.event.delete({
-      where: { id: params.id },
+    const id = params.id;
+
+    // Check if event exists
+    const existingEvent = await db.event.findUnique({
+      where: { id },
     });
 
-    return new Response(JSON.stringify(deletedEvent), { status: 200 });
+    if (!existingEvent) {
+      return NextResponse.json({ message: "Event not found" }, { status: 404 });
+    }
+
+    // Delete event
+    await db.event.delete({
+      where: { id },
+    });
+
+    return NextResponse.json(
+      { message: "Event deleted successfully" },
+      { status: 200 }
+    );
   } catch (error) {
-    return new Response("Error deleting event", { status: 500 });
+    return NextResponse.json(
+      {
+        message: "Failed to delete event",
+        error: (error as Error).message,
+      },
+      { status: 500 }
+    );
   }
 }
