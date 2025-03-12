@@ -16,7 +16,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Toaster />
         <SidebarProvider defaultOpen={true}>
           <AdminSidebar />
           <SidebarInset className="min-h-screen bg-gray-50">
@@ -25,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <Provider store={store}>{children}</Provider>
               </div>
             </div>
+            <Toaster />
           </SidebarInset>
         </SidebarProvider>
       </body>

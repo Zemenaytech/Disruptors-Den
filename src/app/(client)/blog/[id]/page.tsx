@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import type { AppDispatch, RootState } from "@/lib/store";
@@ -11,32 +12,30 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSelector } from "react-redux";
 
-interface BlogDetailPageProps {
-  params: {
-    id: string;
-  };
-}
-
 interface BlogNavigation {
   id: string;
   title: string;
 }
 
-export default function BlogDetailPage({ params }: BlogDetailPageProps) {
+export default function BlogDetailPage() {
   const router = useRouter();
+  const params = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const [nextBlog, setNextBlog] = useState<BlogNavigation | null>(null);
   const [prevBlog, setPrevBlog] = useState<BlogNavigation | null>(null);
   const { blog, status, error } = useSelector((state: RootState) => state.blog);
 
   useEffect(() => {
-    const fetchBlogDetail = async () => {
-      const result = await dispatch(fetchBlogById(params.id)).unwrap();
-      setNextBlog(result.nextBlog);
-      setPrevBlog(result.prevBlog);
-    };
-
-    fetchBlogDetail();
+    if (typeof params.id == "string") {
+      const fetchBlogDetail = async () => {
+        const result = await dispatch(
+          fetchBlogById(params.id as string)
+        ).unwrap();
+        setNextBlog(result.nextBlog);
+        setPrevBlog(result.prevBlog);
+      };
+      fetchBlogDetail();
+    }
   }, [params.id, dispatch]);
 
   const navigateToBlog = (blogId: string) => {

@@ -1,72 +1,129 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import type { AppDispatch, RootState } from "@/lib/store";
+import { fetchBlogById, updateBlog } from "@/lib/blogSlice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import RichTextEditor from "@/app/(dashboard)/admin/blog/create/rich-text-editor";
+import { toast } from "@/components/ui/use-toast";
+import { useSelector } from "react-redux";
 
-export default function EditPost({ params }: { params: { id: string } }) {
+export default function EditPost() {
+  const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  const params = useParams();
+  const { blog, status, error } = useSelector((state: RootState) => state.blog);
+
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [imageUrl, setImageUrl] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [blogId, setBlogId] = useState("");
+  const [createdAt, setCreatedAt] = useState("");
+  const [updatedAt, setUpdatedAt] = useState("");
 
   useEffect(() => {
-    // In a real application, you would fetch the post data based on the ID
-    const postId = Number.parseInt(params.id);
-    const post = blogPosts.find((p) => p.id === postId);
+    if (typeof params.id == "string") {
+      const fetchBlogData = async () => {
+        try {
+          await dispatch(fetchBlogById(params.id as string)).unwrap();
 
-    if (post) {
-      setTitle(post.title);
-      setSummary(post.summary);
-      setAuthor(post.author);
-      setContent(
-        "<h2>Introduction</h2><p>This is the full content of the blog post that would be loaded from the database.</p><ul><li>Point one</li><li>Point two</li><li>Point three</li></ul><blockquote><p>This is a quote from someone important.</p></blockquote>"
-      );
-      setImagePreview(post.image);
-    }
-
-    setLoading(false);
-  }, [params.id]);
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+          if (blog) {
+            setBlogId(blog.id);
+            setTitle(blog.title);
+            setSummary(blog.summary || "");
+            setAuthor(blog.author);
+            setContent(blog.content);
+            setImageUrl(blog.imageUrl);
+            setCreatedAt(blog.createdAt || "");
+            setUpdatedAt(blog.updatedAt || "");
+          } else {
+            toast({
+              title: "Error",
+              description: "Blog post not found",
+              variant: "destructive",
+            });
+            // router.push("/blogs");
+          }
+        } catch (error) {
+          console.error("Failed to fetch blog:", error);
+          toast({
+            title: "Error",
+            description: "Failed to load blog post",
+            variant: "destructive",
+          });
+        }
       };
-      reader.readAsDataURL(file);
+
+      if (params.id) {
+        fetchBlogData();
+      }
+    }
+  }, [params.id, dispatch, router]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
+
+    try {
+      await dispatch(
+        updateBlog({
+          id: blogId,
+          title,
+          summary,
+          content,
+          author,
+          imageUrl,
+          createdAt,
+          updatedAt,
+        })
+      ).unwrap();
+
+      toast({
+        title: "Success",
+        description: "Blog post updated successfully",
+      });
+
+      router.push("/blog");
+    } catch (error) {
+      console.error("Failed to update blog:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update blog post",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real application, you would update the post data
-    console.log({ title, summary, author, content });
-    // The 'content' variable now contains the full HTML string
-    // You can use this directly when updating and rendering the blog post
-    alert("Post updated successfully!");
-  };
-
-  if (loading) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>;
+  if (status == "loading") {
+    return (
+      <div className="container mx-auto px-4 py-8 flex justify-center items-center min-h-[50vh]">
+        <div className="flex flex-col items-center gap-2">
+          <Loader2 className="h-8 w-8 animate-spin" />
+          <p>Loading blog post...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <Button variant="ghost" asChild className="mb-8">
-        <Link href="/admin" className="flex items-center gap-2">
+        <Link href="/blogs" className="flex items-center gap-2">
           <ChevronLeft className="h-4 w-4" />
-          Back to dashboard
+          Back to blogs
         </Link>
       </Button>
 
@@ -108,19 +165,24 @@ export default function EditPost({ params }: { params: { id: string } }) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="image">Featured Image</Label>
+            <Label htmlFor="imageUrl">Image URL</Label>
             <Input
-              id="image"
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
+              id="imageUrl"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="Enter image URL"
+              required
             />
-            {imagePreview && (
+            {imageUrl && (
               <div className="mt-2">
                 <img
-                  src={imagePreview || "/placeholder.svg"}
+                  src={imageUrl || "/placeholder.svg?height=200&width=400"}
                   alt="Preview"
-                  className="max-h-[200px] rounded-md border"
+                  className="max-h-[200px] rounded-md border object-cover"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      "/placeholder.svg?height=200&width=400";
+                  }}
                 />
               </div>
             )}
@@ -132,44 +194,26 @@ export default function EditPost({ params }: { params: { id: string } }) {
           </div>
 
           <div className="flex justify-end gap-4">
-            <Button type="button" variant="outline" asChild>
-              <Link href="/admin">Cancel</Link>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.push("/admin/blog")}
+            >
+              Cancel
             </Button>
-            <Button type="submit">Update Post</Button>
+            <Button type="submit" disabled={submitting}>
+              {submitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Updating...
+                </>
+              ) : (
+                "Update Post"
+              )}
+            </Button>
           </div>
         </form>
       </div>
     </div>
   );
 }
-
-const blogPosts = [
-  {
-    id: 1,
-    title: "Getting Started with Next.js",
-    slug: "getting-started-with-nextjs",
-    summary: "Learn how to build modern web applications with Next.js",
-    image: "/placeholder.svg?height=400&width=600",
-    author: "Jane Doe",
-    date: "2023-05-15",
-  },
-  {
-    id: 2,
-    title: "The Power of Tailwind CSS",
-    slug: "power-of-tailwind-css",
-    summary:
-      "Discover why Tailwind CSS is changing the way we style web applications",
-    image: "/placeholder.svg?height=400&width=600",
-    author: "John Smith",
-    date: "2023-06-22",
-  },
-  {
-    id: 3,
-    title: "Building a Blog with Next.js and Tailwind",
-    slug: "building-blog-nextjs-tailwind",
-    summary: "A step-by-step guide to creating your own blog platform",
-    image: "/placeholder.svg?height=400&width=600",
-    author: "Alex Johnson",
-    date: "2023-07-10",
-  },
-];

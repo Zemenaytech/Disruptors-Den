@@ -30,7 +30,9 @@ export async function GET(request: Request) {
         author: true,
         updatedAt: true,
       },
-
+      orderBy: {
+        updatedAt: "desc",
+      },
       skip,
       take: limit,
     });
