@@ -1,34 +1,73 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { db } from "@/lib/db";
 
 // GET a specific blog post by ID
 export async function GET(
-  req: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    if (!params.id) {
-      return NextResponse.json(
-        { message: "Blog ID is required" },
-        { status: 400 }
-      );
-    }
+    const id = params.id;
 
+    // Fetch the current blog
     const blog = await db.blog.findUnique({
-      where: { id: params.id },
+      where: { id },
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        content: true,
+        imageUrl: true,
+        author: true,
+        updatedAt: true,
+      },
     });
 
     if (!blog) {
-      return NextResponse.json(
-        { message: "Blog post not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    return NextResponse.json(blog, { status: 200 });
+    // Find the next blog (newer by date)
+    const nextBlog = await db.blog.findFirst({
+      where: {
+        updatedAt: {
+          lt: blog.updatedAt,
+        },
+      },
+      orderBy: {
+        updatedAt: "desc",
+      },
+      select: {
+        id: true,
+        title: true,
+      },
+    });
+
+    // Find the previous blog (older by date)
+    const prevBlog = await db.blog.findFirst({
+      where: {
+        updatedAt: {
+          gt: blog.updatedAt,
+        },
+      },
+      orderBy: {
+        updatedAt: "asc",
+      },
+      select: {
+        id: true,
+        title: true,
+      },
+    });
+
+    return NextResponse.json({
+      blog,
+      nextBlog,
+      prevBlog,
+    });
   } catch (error) {
+    console.error("Error fetching blog:", error);
     return NextResponse.json(
-      { message: "Failed to fetch blog post", error: (error as Error).message },
+      { error: "Failed to fetch blog" },
       { status: 500 }
     );
   }

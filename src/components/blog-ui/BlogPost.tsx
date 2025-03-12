@@ -2,30 +2,28 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 export interface BlogPostProps {
-  id: string;
   title: string;
-  summary: string;
+  summary?: string;
   author: string;
+  content: string;
   imageUrl: string;
-  createdAt: string;
   updatedAt: string;
   showFullContent?: boolean;
   onReadMore?: () => void;
 }
 
 export function BlogPost({
-  id,
   title,
   summary,
+  content,
   author,
   imageUrl,
-  createdAt,
   updatedAt,
   showFullContent = false,
   onReadMore,
 }: BlogPostProps) {
   // Format date
-  const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
+  const formattedDate = new Date(updatedAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -49,7 +47,7 @@ export function BlogPost({
         <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
           <span>By {author}</span>
           <span className="mx-2">•</span>
-          <time dateTime={createdAt}>{formattedDate}</time>
+          <time dateTime={updatedAt}>{formattedDate}</time>
         </div>
 
         {showFullContent ? (

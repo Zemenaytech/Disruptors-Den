@@ -3,38 +3,57 @@ import { db } from "@/lib/db";
 
 // GET all blog posts with pagination
 export async function GET(request: Request) {
+  console.log("Incoming GET request:", request.url);
+
   try {
     const { searchParams } = new URL(request.url);
     const page = Number.parseInt(searchParams.get("page") || "1");
-    const limit = Number.parseInt(searchParams.get("limit") || "10");
-    const skip = (page - 1) * limit;
+    let limit = Number.parseInt(searchParams.get("limit") || "2");
 
-    // Get total count for pagination
-    const totalCount = await db.blog.count();
-
-    // Get paginated blogs
-    const blogs = await db.blog.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    if (blogs.length === 0 && page === 1) {
+    if (isNaN(page)) {
       return NextResponse.json(
-        { message: "No blog posts found", blogs: [], totalCount: 0 },
-        { status: 404 }
+        { error: "Invalid page or limit parameter" },
+        { status: 400 }
       );
     }
 
-    return NextResponse.json({ blogs, totalCount }, { status: 200 });
+    console.log(
+      `Fetching blogs with skip=${(page - 1) * limit}, limit=${limit}`
+    );
+    const skip = (page - 1) * limit;
+    const blogs = await db.blog.findMany({
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        imageUrl: true,
+        author: true,
+        updatedAt: true,
+      },
+
+      skip,
+      take: limit,
+    });
+
+    console.log("✅ Successfully fetched blogs:", blogs.length);
+    if (!Array.isArray(blogs)) {
+      return NextResponse.json(
+        { error: "Database error: Unexpected response" },
+        { status: 500 }
+      );
+    }
+
+    const totalBlogs = await db.blog.count();
+    const totalPages = Math.ceil(totalBlogs / limit);
+
+    return NextResponse.json({
+      blogs,
+      totalPages,
+      currentPage: page,
+    });
   } catch (error) {
     return NextResponse.json(
-      {
-        message: "Failed to fetch blog posts",
-        error: (error as Error).message,
-      },
+      { error: "Failed to fetch blogs", details: (error as Error).message },
       { status: 500 }
     );
   }
