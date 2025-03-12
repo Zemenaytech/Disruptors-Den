@@ -12,27 +12,67 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"; // Ensure this path is correct or the module exists
 
-// Assuming EventCard is your existing component
+// Updated interface with speakers as an array of objects
+interface Speaker {
+  name: string;
+}
+
 interface EventCardProps {
-  // Add your event properties here
   title: string;
   image: string;
   date: string;
   location: string;
   time: string;
   topic: string;
-  speakers: string;
-  // Add other properties as needed
+  speakers: Speaker[];
 }
 
 const EventCard = (props: EventCardProps) => {
-  // Your existing EventCard component
+  // Format speakers display based on count
+  const formatSpeakers = () => {
+    if (!props.speakers || props.speakers.length === 0) {
+      return "No speakers";
+    }
+
+    if (props.speakers.length === 1) {
+      return props.speakers[0].name;
+    }
+
+    // If there are 2 or more speakers, show the first one with "..."
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="cursor-help">
+              {props.speakers[0].name}{" "}
+              <span className="text-muted-foreground">...</span>
+            </span>
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">
+            <span className="text-sm">
+              {props.speakers
+                .slice(1)
+                .map((speaker) => speaker.name)
+                .join(", ")}
+            </span>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  };
+
   return (
     <Card className="h-full overflow-hidden">
       <div className="relative h-60 w-full overflow-hidden">
         <img
-          src={props.image || "/placeholder.svg"}
+          src={props.image || "/placeholder.svg?height=240&width=400"}
           alt={props.title}
           className="h-full w-full object-cover"
         />
@@ -44,15 +84,21 @@ const EventCard = (props: EventCardProps) => {
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
               <Calendar className="text-[#eab308] w-4 h-4 text-muted-foreground shrink-0" />
-              <p className="text-sm text-muted-foreground">{props.date}</p>
+              <span className="text-sm text-muted-foreground">
+                {props.date}
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <MapPin className="text-[#eab308] w-4 h-4 text-muted-foreground shrink-0" />
-              <p className="text-sm text-muted-foreground">{props.location}</p>
+              <span className="text-sm text-muted-foreground">
+                {props.location}
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Clock className="text-[#eab308] w-4 h-4 text-muted-foreground shrink-0" />
-              <p className="text-sm text-muted-foreground">{props.time}</p>
+              <span className="text-sm text-muted-foreground">
+                {props.time}
+              </span>
             </div>
           </div>
 
@@ -60,11 +106,15 @@ const EventCard = (props: EventCardProps) => {
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
               <BookOpen className="text-[#eab308] w-4 h-4 text-muted-foreground shrink-0" />
-              <p className="text-sm text-muted-foreground">{props.topic}</p>
+              <span className="text-sm text-muted-foreground">
+                {props.topic}
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Users className="text-[#eab308] w-4 h-4 text-muted-foreground shrink-0" />
-              <p className="text-sm text-muted-foreground">{props.speakers}</p>
+              <span className="text-sm text-muted-foreground">
+                {formatSpeakers()}
+              </span>
             </div>
           </div>
         </div>
@@ -72,7 +122,6 @@ const EventCard = (props: EventCardProps) => {
     </Card>
   );
 };
-
 interface EventCarouselProps {
   events: EventCardProps[];
 }
