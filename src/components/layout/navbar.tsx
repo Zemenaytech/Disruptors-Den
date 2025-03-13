@@ -16,60 +16,60 @@ export default function Navbar() {
   const toggleMenu = useCallback((open: boolean) => {
     return new Promise<void>((resolve) => {
       setIsMenuOpen(open);
-      setTimeout(resolve, 500); // Match this with your animation duration
+      setTimeout(resolve, 500);
     });
   }, []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TDD%20Black-l7CxZ58JjjcLsdShVzzWBmRlmlfiY1.png"
-                alt="The Disruptors Den"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
-                priority
-              />
-            </Link>
-          </div>
+      <div className="max-w-[95%] mx-auto flex justify-between items-center h-[87px] px-8">
+        
+        {/* Logo pushed to the left */}
+        <div className="flex-shrink-0 pl-0">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TDD%20Black-l7CxZ58JjjcLsdShVzzWBmRlmlfiY1.png"
+              alt="The Disruptors Den"
+              width={120}
+              height={40}
+              className="h-10 w-auto"
+              priority
+            />
+          </Link>
+        </div>
 
-          <div className="hidden md:flex items-center space-x-8">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/about">About Us</NavLink>
-            <NavLink href="/programs">Programs</NavLink>
-            <NavLink href="/events">Event</NavLink>
-            <NavLink href="/blog">Blog</NavLink>
-          </div>
+        {/* Navbar links & button pushed to the right */}
+        <div className="hidden md:flex items-center space-x-8 justify-end pr-0">
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/about">About Us</NavLink>
+          <NavLink href="/programs">Programs</NavLink>
+          <NavLink href="/events">Events</NavLink>
+          <NavLink href="/blog">Blog</NavLink>
 
-          <div className="hidden md:flex items-center">
-            <Button className="bg-[#f5aa14] hover:bg-[#f5aa14]/90 text-[#00144b] font-medium px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105">
-              <a
-                href="https://www.linkedin.com/company/disruptorsden/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex justify-center items-center space-x-3 hover:text-[#f5aa14] transition-colors group"
-              >
-                <span className="text-sm">Join</span>
-              </a>
-            </Button>
-          </div>
-
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => toggleMenu(!isMenuOpen)}
-              className="text-gray-800 focus:outline-none"
+          <Button className="bg-[#f5aa14] hover:bg-[#f5aa14]/90 text-[#00144b] font-medium px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105">
+            <a
+              href="https://www.linkedin.com/company/disruptorsden/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex justify-center items-center space-x-3 hover:text-[#f5aa14] transition-colors group"
             >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </button>
-          </div>
+              <span className="text-sm">Join</span>
+            </a>
+          </Button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => toggleMenu(!isMenuOpen)}
+            className="text-gray-800 focus:outline-none"
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
         </div>
       </div>
 
@@ -97,7 +97,7 @@ export default function Navbar() {
                   Home
                 </MobileNavLink>
                 <MobileNavLink href="/events" toggleMenu={toggleMenu}>
-                  Event
+                  Events
                 </MobileNavLink>
                 <MobileNavLink href="/programs" toggleMenu={toggleMenu}>
                   Programs
@@ -136,8 +136,8 @@ function NavLink({
       href={href}
       className={
         pathname === href
-          ? "text-[#f5aa14] transition-colors"
-          : "text-gray-800 hover:text-[#f5aa14] transition-colors px-3 py-2 text-sm font-medium"
+          ? "text-[#f5aa14] font-sans font-semibold transition-colors"
+          : "text-gray-800 hover:text-[#f5aa14] font-sans font-semibold transition-colors px-3 py-2 text-sm"
       }
     >
       {children}
@@ -165,7 +165,7 @@ function MobileNavLink({
   return (
     <a
       href={href}
-      className="text-white hover:text-[#f5aa14] block px-3 py-4 text-2xl font-medium transition-colors"
+      className="text-white hover:text-[#f5aa14] font-sans font-semibold block px-3 py-4 text-2xl transition-colors"
       onClick={handleClick}
     >
       {children}
