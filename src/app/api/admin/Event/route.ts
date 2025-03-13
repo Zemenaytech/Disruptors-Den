@@ -21,19 +21,10 @@ export async function GET(request: Request) {
         date: "desc",
       },
       include: {
-        speakers: {
-          include: {
-            speaker: true,
-          },
-        },
+        speakers: true,
       },
     });
-
     // Transform the response to include speakers directly
-    const formattedEvents = events.map((event) => ({
-      ...event,
-      speakers: event.speakers.map((s) => s.speaker),
-    }));
 
     if (events.length === 0 && page === 1) {
       return NextResponse.json(
@@ -50,7 +41,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(
       {
-        events: formattedEvents,
+        events,
         totalCount,
         totalPages,
         currentPage: page,
@@ -100,58 +91,20 @@ export async function POST(request: Request) {
         time,
         location,
         imageUrl,
-      },
-    });
-
-    // Process speakers - find existing ones or create new ones
-    const speakerConnections = [];
-    for (const speakerData of speakers) {
-      // Check if speaker already exists by name
-      let speaker = await db.speaker.findFirst({
-        where: { name: speakerData.name },
-      });
-
-      // If speaker doesn't exist, create it
-      if (!speaker) {
-        speaker = await db.speaker.create({
-          data: { name: speakerData.name },
-        });
-      }
-
-      // Create the connection in the join table
-      const connection = await db.speakerOnEvent.create({
-        data: {
-          eventId: newEvent.id,
-          speakerId: speaker.id,
-        },
-        include: {
-          speaker: true,
-        },
-      });
-
-      speakerConnections.push(connection);
-    }
-
-    // Get the complete event with speakers
-    const eventWithSpeakers = await db.event.findUnique({
-      where: { id: newEvent.id },
-      include: {
         speakers: {
-          include: {
-            speaker: true,
-          },
+          connectOrCreate: speakers.map((speaker: any) => ({
+            where: { name: speaker.name },
+            create: { name: speaker.name },
+          })),
         },
       },
+      include: {
+        speakers: true,
+      },
     });
-
-    // Format the response
-    const formattedEvent = {
-      ...eventWithSpeakers,
-      speakers: eventWithSpeakers?.speakers.map((s) => s.speaker) || [],
-    };
 
     return NextResponse.json(
-      { message: "Event created successfully", event: formattedEvent },
+      { message: "Event created successfully", event: newEvent },
       { status: 201 }
     );
   } catch (error) {

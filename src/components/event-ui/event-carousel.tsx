@@ -17,10 +17,11 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"; // Ensure this path is correct or the module exists
+} from "@/components/ui/tooltip";
 
 // Updated interface with speakers as an array of objects
 interface Speaker {
+  id?: string;
   name: string;
 }
 
@@ -38,7 +39,7 @@ const EventCard = (props: EventCardProps) => {
   // Format speakers display based on count
   const formatSpeakers = () => {
     if (!props.speakers || props.speakers.length === 0) {
-      return "No speakers";
+      return "TBA";
     }
 
     if (props.speakers.length === 1) {
@@ -122,6 +123,7 @@ const EventCard = (props: EventCardProps) => {
     </Card>
   );
 };
+
 interface EventCarouselProps {
   events: EventCardProps[];
 }
@@ -146,6 +148,11 @@ export function EventCarousel({ events }: EventCarouselProps) {
       api.off("select", onSelect);
     };
   }, [api]);
+
+  // If there are no events, don't render the carousel
+  if (events.length === 0) {
+    return null;
+  }
 
   return (
     <div className="relative px-4 py-6">
@@ -190,7 +197,7 @@ export function EventCarousel({ events }: EventCarouselProps) {
         </CarouselNext>
       </Carousel>
 
-      {/* Optional: Pagination indicators */}
+      {/* Pagination indicators */}
       <div className="flex justify-center gap-1 mt-4">
         {Array.from({ length: count }).map((_, index) => (
           <button

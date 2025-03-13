@@ -44,6 +44,7 @@ export const fetchEvents = createAsyncThunk(
       const response = await fetch(`/api/admin/Event?page=${page}`);
       if (!response.ok) {
         throw new Error("Failed to fetch events");
+        console.log(response);
       }
       const data = await response.json();
       return data;

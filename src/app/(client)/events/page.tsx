@@ -1,146 +1,37 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/lib/store";
+import { fetchEvents } from "@/lib/eventSlice";
 import DenCommunityPage from "@/components/layout/EventVido";
 import { EventCarousel } from "@/components/event-ui/event-carousel";
-
-const events = [
-  {
-    title: "AI & Innovation Forum",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "April 10, 2025",
-    location: "TBA",
-    time: "TBA",
-    topic: "AI & Innovation",
-    speakers: "TBA",
-  },
-  {
-    title: "Startup Funding Masterclass",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "April 15, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "3:00 PM",
-    topic: "Fundraising & Investment",
-    speakers: "Abel Kebede Fekadu",
-  },
-  {
-    title: "Tech Entrepreneurship Workshop",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "April 20, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "2:30 PM",
-    topic: "Entrepreneurship",
-    speakers: "Betelhem Dessie",
-  },
-  {
-    title: "Digital Marketing Strategy",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "April 25, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "4:00 PM",
-    topic: "Digital Marketing",
-    speakers: "Abenazzer B. Tadesse",
-  },
-  {
-    title: "Blockchain & Web3 Development",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "May 1, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "2:00 PM",
-    topic: "Blockchain Technology",
-    speakers: "Bereket Semagn",
-  },
-  {
-    title: "Product Management Essentials",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "May 5, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "3:30 PM",
-    topic: "Product Management",
-    speakers: "Eyoel Teshome",
-  },
-  {
-    title: "UX/UI Design Principles",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "May 10, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "2:00 PM",
-    topic: "Design",
-    speakers: "Yishak Tofik",
-  },
-  {
-    title: "Data Science & Analytics",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "May 15, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "4:00 PM",
-    topic: "Data Science",
-    speakers: "Hanna Teklu",
-  },
-  {
-    title: "Cloud Computing Workshop",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "May 20, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "2:30 PM",
-    topic: "Cloud Technology",
-    speakers: "Michael Tamiru",
-  },
-  {
-    title: "Cybersecurity Fundamentals",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "May 25, 2025",
-    location: "ALX ETHIOPIA, CityPoint Tech Hub",
-    time: "3:00 PM",
-    topic: "Cybersecurity",
-    speakers: "Samuel Mekonnen",
-  },
-  {
-    title: "AI & Innovation Forum",
-    image: "/meetup.jpeg?height=192&width=320",
-    date: "April 10, 2025",
-    location: "TBA",
-    time: "TBA",
-    topic: "AI & Innovation",
-    speakers: "TBA",
-  },
-];
+import EventSkeleton from "@/components/event-ui/eventSkeleton";
 
 export default function EventsPage() {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [showLeftArrow, setShowLeftArrow] = useState(false);
-  const [showRightArrow, setShowRightArrow] = useState(true);
-
-  const handleScroll = useCallback(() => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } =
-        scrollContainerRef.current;
-      setShowLeftArrow(scrollLeft > 0);
-      setShowRightArrow(scrollLeft < scrollWidth - clientWidth - 1);
-    }
-  }, []);
+  const dispatch = useDispatch<AppDispatch>();
+  const { events, status, error, currentPage } = useSelector(
+    (state: RootState) => state.event
+  );
 
   useEffect(() => {
-    const scrollContainer = scrollContainerRef.current;
-    if (scrollContainer) {
-      scrollContainer.addEventListener("scroll", handleScroll);
-      handleScroll();
-      return () => {
-        scrollContainer.removeEventListener("scroll", handleScroll);
-      };
-    }
-  }, [handleScroll]);
+    dispatch(fetchEvents(currentPage));
+  }, [dispatch]);
 
-  const scroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      const { clientWidth } = scrollContainerRef.current;
-      const scrollAmount = direction === "left" ? -clientWidth : clientWidth;
-      scrollContainerRef.current.scrollBy({
-        left: scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+  // Format events data to match the EventCard props
+  const formattedEvents = events.map((event) => ({
+    title: event.title,
+    image: event.imageUrl || "/meetup.jpeg?height=192&width=320",
+    date: new Date(event.date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }),
+    location: event.location,
+    time: event.time,
+    topic: "Event", // You might want to add a topic field to your Event model
+    speakers: event.speakers || [],
+  }));
 
   return (
     <div className="min-h-screen">
@@ -157,9 +48,35 @@ export default function EventsPage() {
         <div className="mb-12">
           <DenCommunityPage />
         </div>
-        <h1>Events</h1>
-        <div className="container mx-auto py-12">
-          <EventCarousel events={events} />
+
+        <h2 className="text-2xl font-semibold mb-4 text-[#00144b] dark:text-white">
+          Events
+        </h2>
+
+        <div className="container mx-auto py-6">
+          {status === "loading" ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((_, index) => (
+                <EventSkeleton key={index} />
+              ))}
+            </div>
+          ) : status === "failed" ? (
+            <div className="text-center py-10">
+              <p className="text-red-500">Error loading events: {error}</p>
+              <button
+                onClick={() => dispatch(fetchEvents(currentPage))}
+                className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
+              >
+                Try Again
+              </button>
+            </div>
+          ) : events.length === 0 ? (
+            <div className="text-center py-10">
+              <p className="text-muted-foreground">No upcoming events found.</p>
+            </div>
+          ) : (
+            <EventCarousel events={formattedEvents} />
+          )}
         </div>
       </div>
     </div>

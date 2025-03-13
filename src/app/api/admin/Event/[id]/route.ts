@@ -12,11 +12,7 @@ export async function GET(
     const event = await db.event.findUnique({
       where: { id },
       include: {
-        speakers: {
-          include: {
-            speaker: true,
-          },
-        },
+        speakers: true,
       },
     });
 
@@ -24,13 +20,7 @@ export async function GET(
       return NextResponse.json({ message: "Event not found" }, { status: 404 });
     }
 
-    // Format the response to include speakers directly
-    const formattedEvent = {
-      ...event,
-      speakers: event.speakers.map((s) => s.speaker),
-    };
-
-    return NextResponse.json(formattedEvent, { status: 200 });
+    return NextResponse.json(event, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       {
@@ -60,22 +50,6 @@ export async function PUT(
 
     const { title, date, time, location, imageUrl, speakers = [] } = body;
 
-    // Check if event exists
-    const existingEvent = await db.event.findUnique({
-      where: { id },
-      include: {
-        speakers: {
-          include: {
-            speaker: true,
-          },
-        },
-      },
-    });
-
-    if (!existingEvent) {
-      return NextResponse.json({ message: "Event not found" }, { status: 404 });
-    }
-
     // Update the event basic info
     const updatedEvent = await db.event.update({
       where: { id },
@@ -86,96 +60,14 @@ export async function PUT(
         location,
         imageUrl,
         updatedAt: new Date(),
-      },
-    });
-
-    // Get current speaker connections
-    const currentSpeakerConnections = await db.speakerOnEvent.findMany({
-      where: { eventId: id },
-    });
-
-    // Get current speaker IDs
-    const currentSpeakerIds = currentSpeakerConnections.map(
-      (conn) => conn.speakerId
-    );
-
-    // Process speakers for the update
-    const updatedSpeakerIds: any = [];
-
-    for (const speakerData of speakers) {
-      let speaker;
-
-      // If speaker has an ID, check if it exists
-      if (speakerData.id) {
-        speaker = await db.speaker.findUnique({
-          where: { id: speakerData.id },
-        });
-      }
-
-      // If no ID or speaker not found, check by name
-      if (!speaker) {
-        speaker = await db.speaker.findFirst({
-          where: { name: speakerData.name },
-        });
-      }
-
-      // If speaker still not found, create a new one
-      if (!speaker) {
-        speaker = await db.speaker.create({
-          data: { name: speakerData.name },
-        });
-      }
-
-      updatedSpeakerIds.push(speaker.id);
-
-      // Check if connection already exists
-      const connectionExists = currentSpeakerIds.includes(speaker.id);
-
-      // If connection doesn't exist, create it
-      if (!connectionExists) {
-        await db.speakerOnEvent.create({
-          data: {
-            eventId: id,
-            speakerId: speaker.id,
-          },
-        });
-      }
-    }
-
-    // Remove connections that are no longer needed
-    const speakerIdsToRemove = currentSpeakerIds.filter(
-      (id) => !updatedSpeakerIds.includes(id)
-    );
-
-    for (const speakerId of speakerIdsToRemove) {
-      await db.speakerOnEvent.deleteMany({
-        where: {
-          eventId: id,
-          speakerId,
-        },
-      });
-    }
-
-    // Get the updated event with speakers
-    const eventWithSpeakers = await db.event.findUnique({
-      where: { id },
-      include: {
         speakers: {
-          include: {
-            speaker: true,
-          },
+          c,
         },
       },
     });
-
-    // Format the response
-    const formattedEvent = {
-      ...eventWithSpeakers,
-      speakers: eventWithSpeakers?.speakers.map((s) => s.speaker) || [],
-    };
 
     return NextResponse.json(
-      { message: "Event updated successfully", event: formattedEvent },
+      { message: "Event updated successfully", event: updatedEvent },
       { status: 200 }
     );
   } catch (error) {
