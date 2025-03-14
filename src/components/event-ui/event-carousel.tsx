@@ -106,12 +106,6 @@ const EventCard = (props: EventCardProps) => {
           {/* Right Section */}
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <BookOpen className="text-[#eab308] w-4 h-4 text-muted-foreground shrink-0" />
-              <span className="text-sm text-muted-foreground">
-                {props.topic}
-              </span>
-            </div>
-            <div className="flex items-center space-x-2">
               <Users className="text-[#eab308] w-4 h-4 text-muted-foreground shrink-0" />
               <span className="text-sm text-muted-foreground">
                 {formatSpeakers()}

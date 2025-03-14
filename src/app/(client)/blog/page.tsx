@@ -27,7 +27,7 @@ export default function BlogPage() {
       window.scrollTo(0, 0);
     }
   };
-
+  console.log("blogs", blogs);
   const goToPrevPage = () => {
     if (currentPage > 1) {
       dispatch(setCurrentPage(currentPage - 1));

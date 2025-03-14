@@ -1,5 +1,6 @@
 "use client";
 
+import { format } from "date-fns";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/lib/store";
@@ -22,14 +23,9 @@ export default function EventsPage() {
   const formattedEvents = events.map((event) => ({
     title: event.title,
     image: event.imageUrl || "/meetup.jpeg?height=192&width=320",
-    date: new Date(event.date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
+    date: format(new Date(event.date), "MMM dd, yyyy"),
     location: event.location,
     time: event.time,
-    topic: "Event", // You might want to add a topic field to your Event model
     speakers: event.speakers || [],
   }));
 

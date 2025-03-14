@@ -51,7 +51,7 @@ export async function PUT(
     const { title, date, time, location, imageUrl, speakers = [] } = body;
 
     // Update the event basic info
-    const updatedEvent = await db.event.update({
+    await db.event.update({
       where: { id },
       data: {
         title,
@@ -61,13 +61,28 @@ export async function PUT(
         imageUrl,
         updatedAt: new Date(),
         speakers: {
-          c,
+          set: [], // This disconnects all existing speakers
         },
       },
     });
 
+    const eventWithSpeakers = await db.event.update({
+      where: { id },
+      data: {
+        speakers: {
+          connectOrCreate: speakers.map((speaker: any) => ({
+            where: { name: speaker.name },
+            create: { name: speaker.name },
+          })),
+        },
+      },
+      include: {
+        speakers: true,
+      },
+    });
+
     return NextResponse.json(
-      { message: "Event updated successfully", event: updatedEvent },
+      { message: "Event updated successfully", event: eventWithSpeakers },
       { status: 200 }
     );
   } catch (error) {

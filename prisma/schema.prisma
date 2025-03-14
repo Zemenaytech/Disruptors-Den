@@ -37,7 +37,7 @@ model Event {
 
 model Speaker {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
+  name     String   @unique
   eventIds String[] @db.ObjectId
   events   Event[]  @relation("EventToSpeaker", fields: [eventIds], references: [id])
 }
