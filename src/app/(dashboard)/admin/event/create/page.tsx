@@ -1,4 +1,4 @@
-import { CreateEventForm } from "@/components/admin-dashboard-ui/create_event-ui/create-event-form";
+import EventForm from "@/components/admin-dashboard-ui/create_event-ui/create-event-form";
 
 export default function CreateEventPage() {
   return (
@@ -9,7 +9,7 @@ export default function CreateEventPage() {
           Create a new event for your platform
         </p>
       </div>
-      <CreateEventForm />
+      <EventForm />
     </div>
   );
 }

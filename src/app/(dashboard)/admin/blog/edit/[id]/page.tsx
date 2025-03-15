@@ -121,7 +121,7 @@ export default function EditPost() {
   return (
     <div className="container mx-auto px-4 py-8">
       <Button variant="ghost" asChild className="mb-8">
-        <Link href="/blogs" className="flex items-center gap-2">
+        <Link href="/admin/blog" className="flex items-center gap-2">
           <ChevronLeft className="h-4 w-4" />
           Back to blogs
         </Link>

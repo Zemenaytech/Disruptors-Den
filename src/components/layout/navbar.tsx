@@ -27,7 +27,7 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TDD%20Black-l7CxZ58JjjcLsdShVzzWBmRlmlfiY1.png"
+                src="/TDDWhite.png"
                 alt="The Disruptors Den"
                 width={120}
                 height={40}

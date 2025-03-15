@@ -49,6 +49,12 @@ export default function EventsPage() {
     }
   };
 
+  const formatedSpeakers = (speakers: any) => {
+    return speakers.map((speaker: any) => {
+      return speaker.name;
+    });
+  };
+
   // Handle next page
   const goToNextPage = () => {
     if (currentPage < totalPages) {
@@ -91,8 +97,9 @@ export default function EventsPage() {
           <TableHeader>
             <TableRow>
               <TableHead>Title</TableHead>
-              <TableHead>Author</TableHead>
-              <TableHead>Updated</TableHead>
+              <TableHead>Location</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Speakers</TableHead>
               <TableHead className="w-[100px]">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -106,7 +113,7 @@ export default function EventsPage() {
                   </div>
                 </TableCell>
               </TableRow>
-            ) : events.length === 0 ? (
+            ) : status !== "idle" && events.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={4} className="text-center">
                   No event found
@@ -115,14 +122,13 @@ export default function EventsPage() {
             ) : (
               events.map((event) => (
                 <TableRow key={event.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex flex-col">
-                      <span>{event.title}</span>
-                    </div>
-                  </TableCell>
+                  <TableCell className="font-medium">{event.title}</TableCell>
                   <TableCell>{event.location}</TableCell>
                   <TableCell>
                     {format(new Date(event.date), "MMM dd, yyyy")}
+                  </TableCell>
+                  <TableCell>
+                    {formatedSpeakers(event.speakers).join(", ")}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">

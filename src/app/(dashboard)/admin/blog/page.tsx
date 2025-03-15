@@ -106,7 +106,7 @@ export default function BlogsPage() {
                   </div>
                 </TableCell>
               </TableRow>
-            ) : blogs.length === 0 ? (
+            ) : status !== "idle" && blogs.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={4} className="text-center">
                   No blogs found
