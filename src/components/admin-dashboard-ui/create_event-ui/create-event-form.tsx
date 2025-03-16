@@ -37,6 +37,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import Image from "next/image";
+import { AppDispatch } from "@/lib/store";
 
 // Form schema with validation
 const formSchema = z.object({
@@ -53,7 +54,7 @@ const formSchema = z.object({
 
 export default function EventForm({ eventId }: { eventId?: string }) {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState("");
   const [imageLoading, setImageLoading] = useState(false);
@@ -135,7 +136,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
       if (url) {
         setImageLoading(true);
         // Create a new image object to test loading
-        const img = new Image();
+        const img = new window.Image();
         img.onload = () => {
           setImagePreview(url);
           setImageLoading(false);
@@ -207,12 +208,12 @@ export default function EventForm({ eventId }: { eventId?: string }) {
           updateEvent({
             id: eventId,
             ...eventData,
-          }) as any
+          })
         ).unwrap();
         toast.success("Event updated successfully");
       } else {
         // Create new event
-        await dispatch(addEvent(eventData) as any).unwrap();
+        await dispatch(addEvent(eventData)).unwrap();
         toast.success("Event created successfully");
       }
 

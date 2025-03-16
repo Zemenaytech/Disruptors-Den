@@ -1,7 +1,6 @@
 "use client";
 import type React from "react";
 import "@/app/globals.css";
-import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { store } from "@/lib/store";

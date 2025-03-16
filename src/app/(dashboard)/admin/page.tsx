@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { fetchBlogs } from "@/lib/blogSlice";
 import { fetchEvents } from "@/lib/eventSlice";
 import { Blog, Event } from "@prisma/client";
+import { AppDispatch } from "@/lib/store";
 
 // Define RootState Type
 interface RootState {
@@ -20,7 +21,7 @@ interface RootState {
 }
 
 export default function AdminDashboard() {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -35,11 +36,10 @@ export default function AdminDashboard() {
       setIsLoading(true);
       try {
         await Promise.all([
-          dispatch(fetchBlogs(currentPage)).unwrap() as Promise<any>,
-          dispatch(fetchEvents(currentPage)).unwrap() as Promise<any>,
+          dispatch(fetchBlogs(currentPage as number)).unwrap(),
+          dispatch(fetchEvents(currentPage as number)).unwrap(),
         ]);
-      } catch (error) {
-        console.log(error);
+      } catch {
         toast.error("Failed to load dashboard data");
       } finally {
         setIsLoading(false);
