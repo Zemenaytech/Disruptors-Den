@@ -88,7 +88,9 @@ const EventCard = (props: EventCardProps) => {
     <Card className="h-full overflow-hidden">
       <div className="relative h-60 w-full overflow-hidden">
         <Image
-          src={props.image || "/placeholder.svg?height=240&width=400"}
+          src={props.image || "/placeholder.svg"}
+          width={400}
+          height={240}
           alt={props.title}
           className="h-full w-full object-cover"
         />

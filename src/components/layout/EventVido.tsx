@@ -40,6 +40,8 @@ const EventVideoPage = () => {
               <Image
                 src={image}
                 alt={`Community Image ${index + 1}`}
+                width={600}
+                height={600}
                 className="object-cover w-full h-full rounded-lg"
               />
             </div>

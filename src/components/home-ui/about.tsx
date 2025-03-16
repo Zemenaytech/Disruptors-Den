@@ -36,7 +36,9 @@ export function About() {
             <div className="absolute inset-0 bg-black rounded-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-transparent" />
               <Image
-                src="/placeholder.png?height=600&width=600"
+                src="/placeholder.png"
+                width={600}
+                height={600}
                 alt="Entrepreneurs collaborating"
                 className="w-full h-full object-cover"
               />

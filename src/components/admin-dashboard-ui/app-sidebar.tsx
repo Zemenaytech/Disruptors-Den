@@ -32,7 +32,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [openBlog, setOpenBlog] = React.useState(false);
   const [openEvent, setOpenEvent] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState("dashboard");
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
 
   const isEdit = (type: string) => {
     // Split the pathname into segments
@@ -76,6 +76,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     if (state === "expanded") {
       setOpenBlog(false);
       setOpenEvent(false);
+    } else {
+      if (activeItem == "blog") setOpenBlog(true);
+      if (activeItem == "event") setOpenBlog(true);
     }
     toggleSidebar();
   };
@@ -106,7 +109,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               onClick={() => setActiveItem("dashboard")}
             >
-              <a href="/admin">
+              <Link href="/admin">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <BookOpen className="size-4" />
                 </div>
@@ -116,7 +119,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     Admin Panel
                   </span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -244,10 +247,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       className={`h-7 text-sm ${activeItem === "event-edit" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
                       onClick={() => setActiveItem("event-edit")}
                     >
-                      <link href="/admin/event/edit">
+                      <Link href="/admin/event/edit">
                         <FilePen className="mr-2 h-3 w-3" />
                         Edit
-                      </link>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )}
@@ -262,12 +265,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <button
-                onClick={() =>
-                  signOut({
-                    redirect: true,
-                    callbackUrl: `${window.location.origin}/signIn`,
-                  })
-                }
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    signOut({
+                      redirect: true,
+                      callbackUrl: `${window.location.origin}/signIn`,
+                    });
+                  }
+                }}
                 className="w-full"
               >
                 {" "}

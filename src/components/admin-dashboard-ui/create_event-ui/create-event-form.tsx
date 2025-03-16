@@ -168,10 +168,16 @@ export default function EventForm({ eventId }: { eventId?: string }) {
   };
 
   // Update speaker name
-  const updateSpeakerName = (index: number, name: string) => {
-    const newSpeakers = [...speakers];
-    newSpeakers[index].name = name;
-    setSpeakers(newSpeakers);
+  const updateSpeakerName = (index: number, newName: string) => {
+    setSpeakers((prevSpeakers) => {
+      // Create a new array (spread operator)
+      const updatedSpeakers = [...prevSpeakers];
+
+      // Update the specific speaker (shallow copy)
+      updatedSpeakers[index] = { ...updatedSpeakers[index], name: newName };
+
+      return updatedSpeakers;
+    });
   };
 
   // Form submission handler
@@ -482,6 +488,8 @@ export default function EventForm({ eventId }: { eventId?: string }) {
                         <Image
                           src={imagePreview || "/placeholder.svg"}
                           alt="Event preview"
+                          height={200}
+                          width={300}
                           className="max-h-[200px] rounded-md border object-cover"
                           onError={() => {
                             setImagePreview("");

@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="space-y-6 text-left">
             <Link href="/" className="block">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TDD%20White-Y1zLvYCjgZArslwudo5YS0bQlvmQhV.png"
+                src="/TDDBlack.png"
                 alt="The Disruptors Den"
                 width={360}
                 height={80}

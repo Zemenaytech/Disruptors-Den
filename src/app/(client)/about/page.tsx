@@ -78,7 +78,7 @@ export default function AboutPage() {
 
   const carouselItems = [
     {
-      image: "/kasma.png",
+      image: "/kasma.jpeg",
       title: "Fostering Entrepreneurs",
       description: "Building a community of innovators and change-makers",
     },
@@ -132,7 +132,7 @@ export default function AboutPage() {
               >
                 Introduction
               </TabsTrigger>
-             
+
               <TabsTrigger
                 value="impact"
                 onClick={() => scrollToSection(impactRef)}
@@ -280,6 +280,7 @@ export default function AboutPage() {
                 <div className="relative overflow-hidden">
                   <Image
                     src={
+                      member.image ||
                       "https://raw.githubusercontent.com/abimtad/upload_file/refs/heads/main/public/TDD%20Black.png"
                     }
                     alt={member.name}
