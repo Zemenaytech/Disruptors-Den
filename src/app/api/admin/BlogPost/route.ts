@@ -18,7 +18,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const page = Number.parseInt(searchParams.get("page") || "1");
-    let limit = Number.parseInt(searchParams.get("limit") || "10");
+    const limit = Number.parseInt(searchParams.get("limit") || "10");
 
     if (isNaN(page)) {
       return NextResponse.json(
@@ -87,7 +87,7 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    const validatedData: any = formSchema.parse(body);
+    const validatedData = formSchema.parse(body);
 
     const { title, summary, content, author, imageUrl } = validatedData;
 

@@ -14,8 +14,6 @@ import {
 import { AppSidebar } from "@/components/admin-dashboard-ui/app-sidebar";
 import { PanelLeft } from "lucide-react";
 
-const inter = Inter({ subsets: ["latin"] });
-
 // Mobile sidebar button component
 function MobileSidebarButton() {
   const { setOpenMobile } = useSidebar();

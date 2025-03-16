@@ -39,10 +39,8 @@ export async function POST(req: Request) {
       { message: "User created successfully" },
       { status: 201 }
     );
-  } catch (error: any) {
-    return NextResponse.json(
-      { message: error.message || "Something went wrong!" },
-      { status: 500 }
-    );
+  } catch (error) {
+    const errorMessage = (error as Error).message || "Something went wrong!";
+    return NextResponse.json({ message: errorMessage }, { status: 500 });
   }
 }

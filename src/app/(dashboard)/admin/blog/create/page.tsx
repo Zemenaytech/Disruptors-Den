@@ -25,8 +25,9 @@ import { ChevronLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { addBlog } from "@/lib/blogSlice";
 import RichTextEditor from "@/app/(dashboard)/admin/blog/create/rich-text-editor";
+import Image from "next/image";
 
-const CreateBlogPage: React.FC = () => {
+export default function CreateBlogPage() {
   const formSchema = z.object({
     title: z.string().min(1, "Title is required"),
     summary: z.string().min(1, "Summary is required"),
@@ -57,7 +58,7 @@ const CreateBlogPage: React.FC = () => {
       await dispatch(addBlog(values)).unwrap();
       toast.success("Blog post created successfully!");
       router.push("/admin/blog");
-    } catch (error) {
+    } catch {
       toast.error("Failed to create blog post. Please try again.");
     }
   };
@@ -71,7 +72,7 @@ const CreateBlogPage: React.FC = () => {
       if (url) {
         setImageLoading(true);
         // Create a new image object to test loading
-        const img = new Image();
+        const img = new window.Image();
         img.onload = () => {
           setImagePreview(url);
           setImageLoading(false);
@@ -181,7 +182,7 @@ const CreateBlogPage: React.FC = () => {
                         </div>
                       )}
                       {imagePreview ? (
-                        <img
+                        <Image
                           src={imagePreview || "/placeholder.svg"}
                           alt="Event preview"
                           className="max-h-[200px] rounded-md border object-cover"
@@ -230,4 +231,4 @@ const CreateBlogPage: React.FC = () => {
       </div>
     </div>
   );
-};
+}

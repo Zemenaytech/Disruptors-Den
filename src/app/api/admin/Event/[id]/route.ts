@@ -63,7 +63,7 @@ export async function PUT(
       );
     }
 
-    const validateData: any = formSchema.parse(body);
+    const validateData = formSchema.parse(body);
 
     const {
       title,
@@ -94,7 +94,7 @@ export async function PUT(
       where: { id },
       data: {
         speakers: {
-          connectOrCreate: speakers.map((speaker: any) => ({
+          connectOrCreate: speakers.map((speaker: { name: string }) => ({
             where: { name: speaker.name },
             create: { name: speaker.name },
           })),

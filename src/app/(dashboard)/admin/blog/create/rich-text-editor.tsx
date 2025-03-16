@@ -31,7 +31,6 @@ import {
   UnderlineIcon,
   LinkIcon,
   Link2OffIcon as LinkOff,
-  X,
 } from "lucide-react";
 
 import "./rich-text-editor.css";

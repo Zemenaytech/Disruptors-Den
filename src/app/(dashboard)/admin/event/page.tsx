@@ -49,8 +49,8 @@ export default function EventsPage() {
     }
   };
 
-  const formatedSpeakers = (speakers: any) => {
-    return speakers.map((speaker: any) => {
+  const formatedSpeakers = (speakers: { name: string }[]) => {
+    return speakers.map((speaker) => {
       return speaker.name;
     });
   };

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export function About() {
   return (
     <section id="about" className="py-24">
@@ -33,7 +35,7 @@ export function About() {
           <div className="relative aspect-square">
             <div className="absolute inset-0 bg-black rounded-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-transparent" />
-              <img
+              <Image
                 src="/placeholder.png?height=600&width=600"
                 alt="Entrepreneurs collaborating"
                 className="w-full h-full object-cover"

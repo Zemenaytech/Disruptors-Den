@@ -62,8 +62,8 @@ export function EligibilityCheck() {
             Is The Disruptors Den Right For You?
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We're building a community of passionate entrepreneurs who are
-            committed to making a difference. See if you're a good fit.
+            We&apos;re building a community of passionate entrepreneurs who are
+            committed to making a difference. See if you&apos;re a good fit.
           </p>
         </div>
 

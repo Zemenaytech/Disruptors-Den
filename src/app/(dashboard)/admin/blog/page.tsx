@@ -44,7 +44,7 @@ export default function BlogsPage() {
       await dispatch(deleteBlog(id)).unwrap();
       // Refresh the current page after deletion
       dispatch(fetchBlogs(currentPage));
-    } catch (error) {}
+    } catch {}
   };
 
   // Handle next page

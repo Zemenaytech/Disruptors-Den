@@ -24,7 +24,8 @@ import { ChevronLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { fetchBlogById, updateBlog } from "@/lib/blogSlice";
 import RichTextEditor from "@/app/(dashboard)/admin/blog/create/rich-text-editor";
-import { Skeleton } from "@/components/ui/skeleton";
+import { AppDispatch } from "@/lib/store";
+import Image from "next/image";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -40,14 +41,17 @@ type FormValues = z.infer<typeof formSchema>;
 export default function EditPost() {
   const params = useParams();
   const postId = params.id as string;
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const [imageLoading, setImageLoading] = useState(false);
   const imageUrlRef = useRef("");
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Get blog state from Redux
-  const { blog, status, error } = useSelector((state: any) => state.blog);
+  const { blog, status, error } = useSelector(
+    (state: { blog: { blog: any; status: string; error: string } }) =>
+      state.blog
+  );
 
   // Initialize form
   const form = useForm<FormValues>({
@@ -65,7 +69,7 @@ export default function EditPost() {
   // Fetch blog data
   useEffect(() => {
     if (postId) {
-      dispatch(fetchBlogById(postId) as any);
+      dispatch(fetchBlogById(postId));
     }
   }, [dispatch, postId]);
 
@@ -95,7 +99,7 @@ export default function EditPost() {
           id: postId,
           createdAt: blog.createdAt,
           imageUrl: values.imageUrl || "",
-        }) as any
+        })
       ).unwrap();
       toast.success("Blog post updated successfully!");
       router.push("/admin/blog");
@@ -113,7 +117,7 @@ export default function EditPost() {
       if (url) {
         setImageLoading(true);
         // Create a new image object to test loading
-        const img = new Image();
+        const img = new HTMLImageElement();
         img.onload = () => {
           setImagePreview(url);
           setImageLoading(false);
@@ -249,7 +253,7 @@ export default function EditPost() {
                         </div>
                       )}
                       {imagePreview ? (
-                        <img
+                        <Image
                           src={imagePreview || "/placeholder.svg"}
                           alt="Event preview"
                           className="max-h-[200px] rounded-md border object-cover"

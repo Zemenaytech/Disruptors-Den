@@ -67,23 +67,12 @@ export default function SignInForm() {
         toast.success("Signed in successfully!");
         router.push("/admin");
       }
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
   }
-
-  const handleGoogleSignIn = async () => {
-    setIsLoading(true);
-    try {
-      await signIn("google", { callbackUrl: "/admin" });
-    } catch (error) {
-      toast.error("Failed to sign in with Google. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Card className="w-full max-w-4xl overflow-hidden">

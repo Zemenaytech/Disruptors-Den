@@ -11,7 +11,7 @@ export async function GET({ params }: { params: { id: string } }) {
     }
 
     return new Response(JSON.stringify(faq), { status: 200 });
-  } catch (error) {
+  } catch {
     return new Response("Error fetching FAQ", { status: 500 });
   }
 }
@@ -35,7 +35,7 @@ export async function PUT({
     });
 
     return new Response(JSON.stringify(updatedFAQ), { status: 200 });
-  } catch (error) {
+  } catch {
     return new Response("Error updating FAQ", { status: 500 });
   }
 }
@@ -47,7 +47,7 @@ export async function DELETE({ params }: { params: { id: string } }) {
     });
 
     return new Response(JSON.stringify(deletedFAQ), { status: 200 });
-  } catch (error) {
+  } catch {
     return new Response("Error deleting FAQ", { status: 500 });
   }
 }

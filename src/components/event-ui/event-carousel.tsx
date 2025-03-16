@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Calendar, MapPin, Clock, BookOpen, Users } from "lucide-react";
+import { Calendar, MapPin, Clock } from "lucide-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -18,6 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Image from "next/image";
 
 // Updated interface with speakers as an array of objects
 interface Speaker {
@@ -36,7 +37,7 @@ interface EventCardProps {
 function formatTime(time: string) {
   // Split time into hours and minutes
   const [hourStr, minute] = time.split(":");
-  let hour = parseInt(hourStr, 10); // Convert hour to a number
+  const hour = parseInt(hourStr, 10); // Convert hour to a number
 
   // Determine AM/PM
   const ampm = hour >= 12 ? "PM" : "AM";
@@ -86,7 +87,7 @@ const EventCard = (props: EventCardProps) => {
   return (
     <Card className="h-full overflow-hidden">
       <div className="relative h-60 w-full overflow-hidden">
-        <img
+        <Image
           src={props.image || "/placeholder.svg?height=240&width=400"}
           alt={props.title}
           className="h-full w-full object-cover"

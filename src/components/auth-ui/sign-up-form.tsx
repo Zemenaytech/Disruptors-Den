@@ -98,17 +98,6 @@ export default function SignUpForm() {
     }
   }
 
-  const handleGoogleSignUp = async () => {
-    setIsLoading(true);
-    try {
-      await signIn("google", { callbackUrl: "/admin" });
-    } catch (error) {
-      toast.error("Failed to sign up with Google. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <Card className="w-full max-w-4xl overflow-hidden">
       <div className="flex flex-col md:flex-row">

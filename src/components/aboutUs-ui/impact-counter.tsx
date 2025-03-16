@@ -37,7 +37,7 @@ export function ImpactCounter({
       const specialMatch = metric.match(/^([^0-9]*)([0-9,]+)([KMB]?\+?)$/);
 
       if (specialMatch) {
-        const [_, prefix, numericPart, suffix] = specialMatch;
+        const [prefix, numericPart, suffix] = specialMatch;
         const baseNumber = Number.parseInt(numericPart.replace(/,/g, ""));
 
         if (!isNaN(baseNumber) && inView) {
@@ -74,7 +74,7 @@ export function ImpactCounter({
     }
 
     // Handle standard numeric format
-    const [_, prefix, numericPart, suffix] = numericMatch;
+    const [prefix, numericPart, suffix] = numericMatch;
     const baseNumber = Number.parseInt(numericPart.replace(/,/g, ""));
 
     if (!isNaN(baseNumber) && inView) {

@@ -36,6 +36,7 @@ import {
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import Image from "next/image";
 
 // Form schema with validation
 const formSchema = z.object({
@@ -77,7 +78,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
   useEffect(() => {
     if (eventId) {
       setIsLoading(true);
-      dispatch(fetchEventById(eventId) as any)
+      dispatch(fetchEventById(eventId))
         .unwrap()
         .then((event: any) => {
           // Parse date and time
@@ -116,7 +117,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
           setImagePreview(event.imageUrl);
           setIsLoading(false);
         })
-        .catch((error: any) => {
+        .catch((error: Error) => {
           console.error("Failed to fetch event:", error);
           toast.error("Failed to load event data");
           setIsLoading(false);
@@ -477,7 +478,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
                         </div>
                       )}
                       {imagePreview ? (
-                        <img
+                        <Image
                           src={imagePreview || "/placeholder.svg"}
                           alt="Event preview"
                           className="max-h-[200px] rounded-md border object-cover"

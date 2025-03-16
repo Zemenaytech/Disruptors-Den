@@ -11,38 +11,35 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { fetchBlogs } from "@/lib/blogSlice";
 import { fetchEvents } from "@/lib/eventSlice";
+import { Blog, Event } from "@prisma/client";
 
 // Define RootState Type
 interface RootState {
-  blog: { blogs: any[]; status: string };
-  event: { events: any[]; status: string; currentPage: number };
+  blog: { blogs: Blog[]; status: string };
+  event: { events: Event[]; status: string; currentPage: number };
 }
 
 export default function AdminDashboard() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
 
   // Get data from Redux store with proper types
-  const { blogs, status: blogStatus } = useSelector(
-    (state: RootState) => state.blog
+  const { blogs } = useSelector((state: RootState) => state.blog);
+  const { events, currentPage } = useSelector(
+    (state: RootState) => state.event
   );
-  const {
-    events,
-    status: eventStatus,
-    currentPage,
-  } = useSelector((state: RootState) => state.event);
 
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
       try {
         await Promise.all([
-          dispatch(fetchBlogs(currentPage) as any).unwrap(),
-          dispatch(fetchEvents(currentPage) as any).unwrap(),
+          dispatch(fetchBlogs(currentPage)).unwrap() as Promise<any>,
+          dispatch(fetchEvents(currentPage)).unwrap() as Promise<any>,
         ]);
       } catch (error) {
-        console.error("Failed to load dashboard data:", error);
+        console.log(error);
         toast.error("Failed to load dashboard data");
       } finally {
         setIsLoading(false);

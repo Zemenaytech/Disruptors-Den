@@ -14,22 +14,9 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MissionCard } from "@/components/aboutUs-ui/mission-card";
-import { ProgramCard } from "@/components/aboutUs-ui/program-card";
 import { ImpactCounter } from "@/components/aboutUs-ui/impact-counter";
 import { Carousel } from "@/components/aboutUs-ui/carousel";
-import {
-  Phone,
-  Mail,
-  Linkedin,
-  Send,
-  ArrowRight,
-  Users,
-  Lightbulb,
-  GraduationCap,
-  Building,
-  Award,
-  Calendar,
-} from "lucide-react";
+import { ArrowRight, Users, GraduationCap, Award } from "lucide-react";
 
 export default function AboutPage() {
   // Refs for scroll navigation

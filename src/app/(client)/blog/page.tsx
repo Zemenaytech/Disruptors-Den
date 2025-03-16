@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/lib/store";
-import { fetchBlogs, setBlogs, setCurrentPage } from "@/lib/blogSlice";
+import { fetchBlogs, setCurrentPage } from "@/lib/blogSlice";
 import { BlogPost } from "@/components/blog-ui/BlogPost";
 import { BlogPostSkeleton } from "@/components/blog-ui/BlogPostSkeleton";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,6 @@ export default function BlogPage() {
       window.scrollTo(0, 0);
     }
   };
-  console.log("blogs", blogs);
   const goToPrevPage = () => {
     if (currentPage > 1) {
       dispatch(setCurrentPage(currentPage - 1));

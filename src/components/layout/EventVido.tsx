@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 const communityImages = [
@@ -36,7 +37,7 @@ const EventVideoPage = () => {
               key={index}
               className="w-full h-56 bg-gray-200 rounded-lg overflow-hidden shadow-lg"
             >
-              <img
+              <Image
                 src={image}
                 alt={`Community Image ${index + 1}`}
                 className="object-cover w-full h-full rounded-lg"

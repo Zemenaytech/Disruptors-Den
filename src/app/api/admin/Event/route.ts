@@ -87,7 +87,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const validatedData: any = formSchema.parse(body);
+    const validatedData = formSchema.parse(body);
 
     const {
       title,
@@ -117,7 +117,7 @@ export async function POST(request: Request) {
         location,
         imageUrl,
         speakers: {
-          connectOrCreate: speakers.map((speaker: any) => ({
+          connectOrCreate: speakers.map((speaker: { name: string }) => ({
             where: { name: speaker.name },
             create: { name: speaker.name },
           })),

@@ -25,10 +25,10 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { state, toggleSidebar, isMobile, setOpen, setOpenMobile } =
-    useSidebar();
+  const { state, toggleSidebar, isMobile } = useSidebar();
   const [openBlog, setOpenBlog] = React.useState(false);
   const [openEvent, setOpenEvent] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState("dashboard");
@@ -185,10 +185,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       className={`h-7 text-sm ${activeItem === "blog-edit" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
                       onClick={() => setActiveItem("blog-edit")}
                     >
-                      <a href="/admin/blog/edit">
+                      <Link href="/admin/blog/edit">
                         <FilePen className="mr-2 h-3 w-3" />
                         Edit
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )}
@@ -244,10 +244,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       className={`h-7 text-sm ${activeItem === "event-edit" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
                       onClick={() => setActiveItem("event-edit")}
                     >
-                      <a href="/admin/event/edit">
+                      <link href="/admin/event/edit">
                         <FilePen className="mr-2 h-3 w-3" />
                         Edit
-                      </a>
+                      </link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )}
