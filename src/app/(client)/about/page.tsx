@@ -123,21 +123,16 @@ export default function AboutPage() {
         <Carousel items={carouselItems} />
 
         {/* Navigation Tabs */}
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-5">
           <Tabs defaultValue="intro" className="w-full">
-            <TabsList className="grid w-full grid-cols-5 bg-primary/10">
+            <TabsList className="grid w-full grid-cols-4 bg-primary/10">
               <TabsTrigger
                 value="intro"
                 onClick={() => scrollToSection(introRef)}
               >
                 Introduction
               </TabsTrigger>
-              <TabsTrigger
-                value="programs"
-                onClick={() => scrollToSection(programsRef)}
-              >
-                Our Programs
-              </TabsTrigger>
+             
               <TabsTrigger
                 value="impact"
                 onClick={() => scrollToSection(impactRef)}
