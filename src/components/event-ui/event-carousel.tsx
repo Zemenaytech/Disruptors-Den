@@ -31,8 +31,22 @@ interface EventCardProps {
   date: string;
   location: string;
   time: string;
-  topic: string;
   speakers: Speaker[];
+}
+function formatTime(time: string) {
+  // Split time into hours and minutes
+  const [hourStr, minute] = time.split(":");
+  let hour = parseInt(hourStr, 10); // Convert hour to a number
+
+  // Determine AM/PM
+  const ampm = hour >= 12 ? "PM" : "AM";
+
+  // Convert hour to 12-hour format
+  const formattedHour =
+    hour > 12 ? (hour - 12).toString() : hour === 0 ? "12" : hour.toString();
+
+  // Return the formatted time
+  return `${formattedHour}:${minute} ${ampm}`;
 }
 
 const EventCard = (props: EventCardProps) => {
@@ -98,7 +112,7 @@ const EventCard = (props: EventCardProps) => {
             <div className="flex items-center space-x-2">
               <Clock className="text-[#eab308] w-4 h-4 text-muted-foreground shrink-0" />
               <span className="text-sm text-muted-foreground">
-                {props.time}
+                {formatTime(props.time)}
               </span>
             </div>
           </div>

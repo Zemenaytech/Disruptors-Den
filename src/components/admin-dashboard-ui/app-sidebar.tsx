@@ -32,10 +32,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [openBlog, setOpenBlog] = React.useState(false);
   const [openEvent, setOpenEvent] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState("dashboard");
+  const pathname = usePathname();
 
   const isEdit = (type: string) => {
-    const pathname = usePathname();
-
     // Split the pathname into segments
     const segments = pathname.split("/").filter(Boolean);
 

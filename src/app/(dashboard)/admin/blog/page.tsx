@@ -44,9 +44,7 @@ export default function BlogsPage() {
       await dispatch(deleteBlog(id)).unwrap();
       // Refresh the current page after deletion
       dispatch(fetchBlogs(currentPage));
-    } catch (error) {
-      console.error("Failed to delete blog:", error);
-    }
+    } catch (error) {}
   };
 
   // Handle next page

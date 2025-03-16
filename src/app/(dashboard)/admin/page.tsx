@@ -38,8 +38,8 @@ export default function AdminDashboard() {
       setIsLoading(true);
       try {
         await Promise.all([
-          dispatch(fetchBlogs(currentPage)).unwrap(),
-          dispatch(fetchEvents(currentPage)).unwrap(),
+          dispatch(fetchBlogs(currentPage) as any).unwrap(),
+          dispatch(fetchEvents(currentPage) as any).unwrap(),
         ]);
       } catch (error) {
         console.error("Failed to load dashboard data:", error);
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
         <div className="flex gap-2">
           <Button asChild size="sm" className="md:size-auto">
             <Link
-              href="/admin/blog/new"
+              href="/admin/blog/create"
               className="flex items-center gap-1 md:gap-2"
             >
               <Plus className="h-3 w-3 md:h-4 md:w-4" />
@@ -79,7 +79,7 @@ export default function AdminDashboard() {
           </Button>
           <Button asChild size="sm" className="md:size-auto">
             <Link
-              href="/admin/event/new"
+              href="/admin/event/create"
               className="flex items-center gap-1 md:gap-2"
             >
               <Plus className="h-3 w-3 md:h-4 md:w-4" />

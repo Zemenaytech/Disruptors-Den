@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { z } from "zod";
 
 // GET all events with pagination (including speakers)
 export async function GET(request: Request) {
@@ -59,8 +61,22 @@ export async function GET(request: Request) {
   }
 }
 
+const formSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  date: z.string().min(1, "Date is required"), // Accepts string, will convert to Date
+  imageUrl: z.string().url("Please enter a valid URL"),
+  time: z.string().min(1, "Hour is required"),
+  location: z.string().min(1, "Location is required"),
+  speakers: z.array(z.object({ name: z.string().min(1) })).optional(),
+});
+
 // POST a new event with speakers
 export async function POST(request: Request) {
+  const session = await getCurrentUser();
+  console.log(session);
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const body = await request.json().catch(() => null);
 
@@ -71,7 +87,16 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, date, time, location, imageUrl, speakers = [] } = body;
+    const validatedData: any = formSchema.parse(body);
+
+    const {
+      title,
+      date,
+      time,
+      location,
+      imageUrl,
+      speakers = [],
+    } = validatedData;
 
     // Ensure all required fields are provided
     if (!title || !date || !time || !location) {

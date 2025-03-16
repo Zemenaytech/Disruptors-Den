@@ -224,7 +224,7 @@ export default function SignUpForm() {
                 </Button>
               </form>
             </Form>
-            <div className="relative">
+            {/* <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-slate-300" />
               </div>
@@ -233,8 +233,8 @@ export default function SignUpForm() {
                   Or continue with
                 </span>
               </div>
-            </div>
-            <Button
+            </div> */}
+            {/* <Button
               variant="outline"
               type="button"
               className="w-full"
@@ -247,7 +247,7 @@ export default function SignUpForm() {
                 <Icons.google className="mr-2 h-4 w-4 text-[#4285F4]" />
               )}
               Google
-            </Button>
+            </Button> */}
           </CardContent>
           <CardFooter className="flex justify-center p-0 mt-4">
             <div className="text-sm text-muted-foreground">

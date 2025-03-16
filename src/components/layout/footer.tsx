@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, Linkedin, Send } from "lucide-react";

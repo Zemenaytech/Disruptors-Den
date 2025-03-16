@@ -297,7 +297,9 @@ export default function AboutPage() {
               >
                 <div className="relative overflow-hidden">
                   <Image
-                    src={member.image || "/placeholder.svg"}
+                    src={
+                      "https://raw.githubusercontent.com/abimtad/upload_file/refs/heads/main/public/TDD%20Black.png"
+                    }
                     alt={member.name}
                     width={300}
                     height={300}

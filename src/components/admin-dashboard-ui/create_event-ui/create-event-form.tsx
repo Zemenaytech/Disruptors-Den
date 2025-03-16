@@ -8,11 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useDispatch } from "react-redux";
 import { ChevronLeft, Loader2, Trash2 } from "lucide-react";
-import {
-  fetchEventById,
-  addEvent,
-  updateEvent,
-} from "@/lib/features/event/eventSlice";
+import { fetchEventById, addEvent, updateEvent } from "@/lib/eventSlice";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -81,9 +77,9 @@ export default function EventForm({ eventId }: { eventId?: string }) {
   useEffect(() => {
     if (eventId) {
       setIsLoading(true);
-      dispatch(fetchEventById(eventId))
+      dispatch(fetchEventById(eventId) as any)
         .unwrap()
-        .then((event) => {
+        .then((event: any) => {
           // Parse date and time
           const eventDate = new Date(event.date);
 
@@ -120,7 +116,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
           setImagePreview(event.imageUrl);
           setIsLoading(false);
         })
-        .catch((error) => {
+        .catch((error: any) => {
           console.error("Failed to fetch event:", error);
           toast.error("Failed to load event data");
           setIsLoading(false);
@@ -210,12 +206,12 @@ export default function EventForm({ eventId }: { eventId?: string }) {
           updateEvent({
             id: eventId,
             ...eventData,
-          })
+          }) as any
         ).unwrap();
         toast.success("Event updated successfully");
       } else {
         // Create new event
-        await dispatch(addEvent(eventData)).unwrap();
+        await dispatch(addEvent(eventData) as any).unwrap();
         toast.success("Event created successfully");
       }
 
@@ -535,11 +531,6 @@ export default function EventForm({ eventId }: { eventId?: string }) {
                         }
                         required={index === 0}
                       />
-                      {index === 0 && !speaker.name && (
-                        <p className="text-sm font-medium text-destructive mt-1">
-                          Speaker name is required
-                        </p>
-                      )}
                     </div>
 
                     {index > 0 && (

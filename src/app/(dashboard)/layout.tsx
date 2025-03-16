@@ -6,7 +6,6 @@ import type { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { store } from "@/lib/store";
 import { Toaster } from "sonner";
-import Separator from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
@@ -34,7 +33,7 @@ function MobileSidebarButton() {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body suppressHydrationWarning>
         <SidebarProvider defaultOpen={true}>
           {/* Mobile sidebar toggle button with its own column */}
           <div className="md:hidden w-[50px] flex-shrink-0 flex flex-col items-center pt-4 bg-white">

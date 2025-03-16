@@ -2,13 +2,14 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useDispatch } from "react-redux";
+import type { AppDispatch } from "@/lib/store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,22 +21,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { addBlog } from "@/lib/blogSlice";
 import RichTextEditor from "@/app/(dashboard)/admin/blog/create/rich-text-editor";
 
-const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  summary: z.string().min(1, "Summary is required"),
-  author: z.string().min(1, "Author is required"),
-  content: z.string().min(1, "Content is required"),
-  imageUrl: z.string().url("Invalid image URL").optional(),
-});
+const CreateBlogPage: React.FC = () => {
+  const formSchema = z.object({
+    title: z.string().min(1, "Title is required"),
+    summary: z.string().min(1, "Summary is required"),
+    author: z.string().min(1, "Author is required"),
+    content: z.string().min(1, "Content is required"),
+    imageUrl: z.string().url("Invalid image URL").default(""),
+  });
 
-export default function CreatePost() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+  const imageUrlRef = useRef("");
+  const [imageLoading, setImageLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,20 +56,35 @@ export default function CreatePost() {
     try {
       await dispatch(addBlog(values)).unwrap();
       toast.success("Blog post created successfully!");
-      router.push("/admin");
+      router.push("/admin/blog");
     } catch (error) {
       toast.error("Failed to create blog post. Please try again.");
     }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+  const handleImageUrlChange = (url: string) => {
+    // Only update if the URL has actually changed
+    if (url !== imageUrlRef.current) {
+      imageUrlRef.current = url;
+      form.setValue("imageUrl", url);
+
+      if (url) {
+        setImageLoading(true);
+        // Create a new image object to test loading
+        const img = new Image();
+        img.onload = () => {
+          setImagePreview(url);
+          setImageLoading(false);
+        };
+        img.onerror = () => {
+          setImagePreview("");
+          setImageLoading(false);
+        };
+        img.src = url;
+      } else {
+        setImagePreview("");
+        setImageLoading(false);
+      }
     }
   };
 
@@ -129,20 +147,57 @@ export default function CreatePost() {
               )}
             />
 
+            {/* Image URL Field */}
             <FormField
               control={form.control}
               name="imageUrl"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Featured Image URL</FormLabel>
+                  <FormLabel>Image URL</FormLabel>
                   <FormControl>
                     <Input
-                      type="url"
-                      placeholder="https://example.com/image.jpg"
-                      {...field}
+                      placeholder="Enter image URL"
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        handleImageUrlChange(e.target.value);
+                      }}
+                      onBlur={() => {
+                        // Only try to load the image on blur to prevent constant reloading
+                        if (field.value) {
+                          handleImageUrlChange(field.value);
+                        }
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
+
+                  {/* Image Preview */}
+                  {field.value && (
+                    <div className="mt-2 relative">
+                      {imageLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-background/50">
+                          <Loader2 className="h-8 w-8 animate-spin" />
+                        </div>
+                      )}
+                      {imagePreview ? (
+                        <img
+                          src={imagePreview || "/placeholder.svg"}
+                          alt="Event preview"
+                          className="max-h-[200px] rounded-md border object-cover"
+                          onError={() => {
+                            setImagePreview("");
+                          }}
+                        />
+                      ) : (
+                        <div className="h-[200px] w-full rounded-md border flex items-center justify-center bg-muted">
+                          <p className="text-muted-foreground">
+                            Image preview will appear here
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </FormItem>
               )}
             />
@@ -175,4 +230,4 @@ export default function CreatePost() {
       </div>
     </div>
   );
-}
+};

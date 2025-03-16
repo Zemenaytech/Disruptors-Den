@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { z } from "zod";
 
 // GET a single event by ID (including speakers)
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
+  const session = getCurrentUser();
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const id = params.id;
 
@@ -32,6 +38,15 @@ export async function GET(
   }
 }
 
+const formSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  date: z.string().min(1, "Date is required"), // Accepts string, will convert to Date
+  imageUrl: z.string().url("Please enter a valid URL"),
+  time: z.string().min(1, "Hour is required"),
+  location: z.string().min(1, "Location is required"),
+  speakers: z.array(z.object({ name: z.string().min(1) })).optional(),
+});
+
 // PUT/UPDATE an event with speakers
 export async function PUT(
   request: Request,
@@ -48,7 +63,16 @@ export async function PUT(
       );
     }
 
-    const { title, date, time, location, imageUrl, speakers = [] } = body;
+    const validateData: any = formSchema.parse(body);
+
+    const {
+      title,
+      date,
+      time,
+      location,
+      imageUrl,
+      speakers = [],
+    } = validateData;
 
     // Update the event basic info
     await db.event.update({

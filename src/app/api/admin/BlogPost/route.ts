@@ -1,5 +1,15 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { z } from "zod";
+
+const formSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  summary: z.string().min(1, "Summary is required"),
+  author: z.string().min(1, "Author is required"),
+  content: z.string().min(1, "Content is required"),
+  imageUrl: z.string().url("Invalid image URL").optional(),
+});
 
 // GET all blog posts with pagination
 export async function GET(request: Request) {
@@ -8,7 +18,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const page = Number.parseInt(searchParams.get("page") || "1");
-    let limit = Number.parseInt(searchParams.get("limit") || "2");
+    let limit = Number.parseInt(searchParams.get("limit") || "10");
 
     if (isNaN(page)) {
       return NextResponse.json(
@@ -63,6 +73,11 @@ export async function GET(request: Request) {
 
 // POST a new blog post
 export async function POST(request: Request) {
+  const session = getCurrentUser();
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = await request.json().catch(() => null);
 
@@ -72,8 +87,9 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+    const validatedData: any = formSchema.parse(body);
 
-    const { title, summary, content, author, imageUrl } = body;
+    const { title, summary, content, author, imageUrl } = validatedData;
 
     // Ensure all required fields are provided
     if (!title || !content || !author || !imageUrl || !summary) {
@@ -87,13 +103,7 @@ export async function POST(request: Request) {
     }
 
     const newBlog = await db.blog.create({
-      data: {
-        title,
-        content,
-        summary,
-        author,
-        imageUrl,
-      },
+      data: validatedData,
     });
 
     return NextResponse.json(
