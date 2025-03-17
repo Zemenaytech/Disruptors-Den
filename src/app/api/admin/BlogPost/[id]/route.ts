@@ -12,8 +12,8 @@ const formSchema = z.object({
 });
 // GET a specific blog post by ID
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { [key: string]: string | string[] } }
+  request: Request,
+  { params }: { params: { id: string } }
 ) {
   try {
     const id = params.id as string;
