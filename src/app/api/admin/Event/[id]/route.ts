@@ -8,12 +8,13 @@ export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const session = getCurrentUser();
+  const session = await getCurrentUser();
   if (!session) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
     const id = params.id;
+    console.log("id", id);
 
     const event = await db.event.findUnique({
       where: { id },
@@ -21,7 +22,7 @@ export async function GET(
         speakers: true,
       },
     });
-
+    console.log(event);
     if (!event) {
       return NextResponse.json({ message: "Event not found" }, { status: 404 });
     }

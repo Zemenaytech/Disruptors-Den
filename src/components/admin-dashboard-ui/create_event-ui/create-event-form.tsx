@@ -8,7 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useDispatch } from "react-redux";
 import { ChevronLeft, Loader2, Trash2 } from "lucide-react";
-import { fetchEventById, addEvent, updateEvent } from "@/lib/eventSlice";
+import {
+  fetchEventById,
+  addEvent,
+  updateEvent,
+  EventState,
+} from "@/lib/eventSlice";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -38,6 +43,7 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 import Image from "next/image";
 import { AppDispatch } from "@/lib/store";
+import { Event } from "@prisma/client";
 
 // Form schema with validation
 const formSchema = z.object({
@@ -81,7 +87,8 @@ export default function EventForm({ eventId }: { eventId?: string }) {
       setIsLoading(true);
       dispatch(fetchEventById(eventId))
         .unwrap()
-        .then((event: any) => {
+        .then((event: Event) => {
+          console.log("event from ui", event.speakers);
           // Parse date and time
           const eventDate = new Date(event.date);
 
@@ -173,7 +180,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
       // Create a new array (spread operator)
       const updatedSpeakers = [...prevSpeakers];
 
-      // Update the specific speaker (shallow copy)
+      // Update the specific speaker (shallow copy):
       updatedSpeakers[index] = { ...updatedSpeakers[index], name: newName };
 
       return updatedSpeakers;

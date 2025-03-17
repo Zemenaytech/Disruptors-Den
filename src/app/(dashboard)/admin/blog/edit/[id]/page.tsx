@@ -26,6 +26,7 @@ import { fetchBlogById, updateBlog } from "@/lib/blogSlice";
 import RichTextEditor from "@/app/(dashboard)/admin/blog/create/rich-text-editor";
 import { AppDispatch } from "@/lib/store";
 import Image from "next/image";
+import { Blog } from "@prisma/client";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -48,9 +49,8 @@ export default function EditPost() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Get blog state from Redux
-  const { blog, status, error } = useSelector(
-    (state: { blog: { blog: any; status: string; error: string } }) =>
-      state.blog
+  const { blog, status } = useSelector(
+    (state: { blog: { blog: Blog; status: string } }) => state.blog
   );
 
   // Initialize form

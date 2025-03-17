@@ -32,37 +32,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [openBlog, setOpenBlog] = React.useState(false);
   const [openEvent, setOpenEvent] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState("dashboard");
-  const pathname = usePathname() || "";
+  const pathname = usePathname() || ""; // ✅ Hook called at the top level
 
-  const isEdit = (type: string) => {
-    // Split the pathname into segments
+  const isEdit = (type: string, pathname: string) => {
     const segments = pathname.split("/").filter(Boolean);
-
-    // Check if it's in the /admin/{type}/{id} format
-    const isDetailPage =
+    return (
       segments.length === 4 &&
       segments[0] === "admin" &&
-      [type].includes(segments[1]);
-
-    return isDetailPage;
+      [type].includes(segments[1])
+    );
   };
-  // Close all menu groups when sidebar state changes or when switching between mobile/desktop
+
   React.useEffect(() => {
     setOpenBlog(false);
     setOpenEvent(false);
   }, [state, isMobile]);
 
-  // Function to handle icon click in collapsed mode
   const handleIconClick = (item: string) => {
     if (state === "collapsed") {
-      // Uncollapse the sidebar
       toggleSidebar();
     }
-
-    // Set the active item
     setActiveItem(item);
-
-    // Open the corresponding menu group
     if (item === "blog") {
       setOpenBlog(true);
     } else if (item === "event") {
@@ -70,15 +60,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     }
   };
 
-  // Function to handle sidebar collapse
   const handleSidebarCollapse = () => {
-    // Close all menu groups when sidebar is collapsed
     if (state === "expanded") {
       setOpenBlog(false);
       setOpenEvent(false);
     } else {
-      if (activeItem == "blog") setOpenBlog(true);
-      if (activeItem == "event") setOpenBlog(true);
+      if (activeItem === "blog") setOpenBlog(true);
+      if (activeItem === "event") setOpenEvent(true);
     }
     toggleSidebar();
   };
@@ -87,7 +75,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="relative">
         {state === "collapsed" ? (
-          // When collapsed, button above dashboard
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
@@ -101,7 +88,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenu>
         ) : null}
 
-        {/* Dashboard button */}
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
@@ -124,7 +110,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
 
-        {/* When expanded, button at right end */}
         {state === "expanded" ? (
           <button
             onClick={handleSidebarCollapse}
@@ -139,7 +124,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {/* Blog Group */}
             <SidebarMenuItem>
               <SidebarMenuButton
                 onClick={() => {
@@ -181,7 +165,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                {isEdit("blog") && (
+                {isEdit("blog", pathname) && (
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       asChild
@@ -240,7 +224,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                {isEdit("event") && (
+                {isEdit("event", pathname) && (
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       asChild

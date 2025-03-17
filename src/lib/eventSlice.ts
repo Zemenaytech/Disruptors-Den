@@ -6,7 +6,7 @@ interface Speaker {
   name: string;
 }
 
-interface Event {
+export interface Event {
   id: string;
   title: string;
   date: string;
@@ -18,7 +18,7 @@ interface Event {
   updatedAt: string;
 }
 
-interface EventState {
+export interface EventState {
   events: Event[];
   event: Event | null;
   totalPages: number;
