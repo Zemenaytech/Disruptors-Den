@@ -16,7 +16,7 @@ export async function GET(
   { params }: { params: { [key: string]: string | string[] } }
 ) {
   try {
-    const id = params.id;
+    const id = params.id as string;
 
     // Fetch the current blog
     const blog = await db.blog.findUnique({
