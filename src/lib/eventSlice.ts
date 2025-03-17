@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
 // Define interfaces for Event and Speaker
 interface Speaker {
@@ -150,10 +150,13 @@ const eventSlice = createSlice({
       .addCase(fetchEventById.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchEventById.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.event = action.payload || null;
-      })
+      .addCase(
+        fetchEventById.fulfilled,
+        (state, action: PayloadAction<Event>) => {
+          state.status = "succeeded";
+          state.event = action.payload || null;
+        }
+      )
       .addCase(fetchEventById.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch event details";

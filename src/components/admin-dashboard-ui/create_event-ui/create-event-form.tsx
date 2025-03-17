@@ -83,7 +83,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
       dispatch(fetchEventById(eventId))
         .unwrap()
         .then((event: Event) => {
-          console.log("event from ui", event.speakers);
+          console.log("event from ui", event);
           // Parse date and time
           const eventDate = new Date(event.date);
 

@@ -22,6 +22,13 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Speaker {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String   @unique
+  eventIds String[] @db.ObjectId
+  events   Event[]  @relation("EventToSpeaker", fields: [eventIds], references: [id])
+}
+
 model Event {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   title      String
@@ -33,13 +40,6 @@ model Event {
   speakers   Speaker[] @relation("EventToSpeaker", fields: [speakerIds], references: [id])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-}
-
-model Speaker {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  name     String   @unique
-  eventIds String[] @db.ObjectId
-  events   Event[]  @relation("EventToSpeaker", fields: [eventIds], references: [id])
 }
 
 model Faq {
