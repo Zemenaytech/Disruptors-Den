@@ -21,7 +21,6 @@ import { ArrowRight, Users, GraduationCap, Award } from "lucide-react";
 export default function AboutPage() {
   // Refs for scroll navigation
   const introRef = useRef<HTMLElement>(null);
-  const programsRef = useRef<HTMLElement>(null);
   const impactRef = useRef<HTMLElement>(null);
   const teamRef = useRef<HTMLElement>(null);
   const collaborationRef = useRef<HTMLElement>(null);

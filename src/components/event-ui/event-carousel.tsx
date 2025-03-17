@@ -10,6 +10,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  type CarouselApi,
 } from "@/components/ui/carousel";
 import { Card } from "@/components/ui/card";
 import {
@@ -140,7 +141,7 @@ interface EventCarouselProps {
 }
 
 export function EventCarousel({ events }: EventCarouselProps) {
-  const [api, setApi] = useState<any>();
+  const [api, setApi] = useState<CarouselApi | null>(null);
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
