@@ -52,7 +52,9 @@ const formSchema = z.object({
   minute: z.string().min(1, "Minute is required"),
   ampm: z.string().min(1, "AM/PM is required"),
 });
-
+interface EventInterface extends Event {
+  speakers: { name: string; id: string }[];
+}
 export default function EventForm({ eventId }: { eventId?: string }) {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
@@ -82,7 +84,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
       setIsLoading(true);
       dispatch(fetchEventById(eventId))
         .unwrap()
-        .then((event: Event) => {
+        .then((event: EventInterface) => {
           console.log("event from ui", event);
           // Parse date and time
           const eventDate = new Date(event.date);
