@@ -14,9 +14,9 @@ const formSchema = z.object({
 // Corrected Signature for GET
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = context.params.id; // Accessing the parameter correctly
+  const { id } = await params; // Accessing the parameter correctly
   // Your logic...
 
   try {
