@@ -6,14 +6,14 @@ import { z } from "zod";
 // GET a single event by ID (including speakers)
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params; // Accessing the parameter correctly
   const session = await getCurrentUser();
   if (!session) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
-    const id = params.id;
     console.log("id", id);
 
     const event = await db.event.findUnique({
@@ -51,10 +51,10 @@ const formSchema = z.object({
 // PUT/UPDATE an event with speakers
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params; // Accessing the parameter correctly
   try {
-    const id = params.id;
     const body = await request.json().catch(() => null);
 
     if (!body) {
@@ -124,11 +124,10 @@ export async function PUT(
 // DELETE an event
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params; // Accessing the parameter correctly
   try {
-    const id = params.id;
-
     // Check if event exists
     const existingEvent = await db.event.findUnique({
       where: { id },

@@ -87,15 +87,16 @@ export async function GET(
 // PUT update a specific blog post by ID
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params; // Accessing the parameter correctly
   const session = await getCurrentUser();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    if (!params.id) {
+    if (id) {
       return NextResponse.json(
         { message: "Blog ID is required" },
         { status: 400 }
@@ -124,7 +125,7 @@ export async function PUT(
     }
 
     const existingBlog = await db.blog.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingBlog) {
@@ -135,7 +136,7 @@ export async function PUT(
     }
 
     const updatedBlog = await db.blog.update({
-      where: { id: params.id },
+      where: { id },
       data: validatedData,
     });
 
@@ -153,11 +154,12 @@ export async function PUT(
 
 // DELETE a specific blog post by ID
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params; // Accessing the parameter correctly
   try {
-    if (!params.id) {
+    if (!id) {
       return NextResponse.json(
         { message: "Blog ID is required" },
         { status: 400 }
@@ -165,7 +167,7 @@ export async function DELETE(
     }
 
     const existingBlog = await db.blog.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!existingBlog) {
@@ -176,7 +178,7 @@ export async function DELETE(
     }
 
     const deletedBlog = await db.blog.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json(
