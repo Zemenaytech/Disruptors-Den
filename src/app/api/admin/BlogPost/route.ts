@@ -89,7 +89,7 @@ export async function POST(request: Request) {
     }
     const validatedData = formSchema.parse(body);
 
-    const { title, summary, content, author, imageUrl } = validatedData;
+    const { title, summary, content, author, imageUrl = "" } = validatedData;
 
     // Ensure all required fields are provided
     if (!title || !content || !author || !imageUrl || !summary) {
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
     }
 
     const newBlog = await db.blog.create({
-      data: validatedData,
+      data: { ...validatedData, imageUrl },
     });
 
     return NextResponse.json(
