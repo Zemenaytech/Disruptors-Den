@@ -82,7 +82,7 @@ export default function EditPost() {
         author: blog.author,
         content: blog.content,
         imageUrl: blog.imageUrl || "",
-        updatedAt: blog.updatedAt,
+        updatedAt: blog.updatedAt.toISOString(),
       });
 
       if (blog.imageUrl) {
@@ -97,13 +97,13 @@ export default function EditPost() {
         updateBlog({
           ...values,
           id: postId,
-          createdAt: blog.createdAt,
+          createdAt: blog.createdAt.toISOString(),
           imageUrl: values.imageUrl || "",
         })
       ).unwrap();
       toast.success("Blog post updated successfully!");
       router.push("/admin/blog");
-    } catch (error) {
+    } catch {
       toast.error("Failed to update blog post. Please try again.");
     }
   };

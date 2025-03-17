@@ -8,12 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useDispatch } from "react-redux";
 import { ChevronLeft, Loader2, Trash2 } from "lucide-react";
-import {
-  fetchEventById,
-  addEvent,
-  updateEvent,
-  EventState,
-} from "@/lib/eventSlice";
+import { fetchEventById, addEvent, updateEvent } from "@/lib/eventSlice";
 
 import { Button } from "@/components/ui/button";
 import {

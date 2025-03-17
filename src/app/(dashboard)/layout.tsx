@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/admin-dashboard-ui/app-sidebar";
 import { PanelLeft } from "lucide-react";
-const { setOpenMobile } = useSidebar();
 // Mobile sidebar button component
 function MobileSidebarButton() {
+  const { setOpenMobile } = useSidebar();
   return (
     <button
       className="flex h-10 w-10 items-center justify-center bg-white text-black"
