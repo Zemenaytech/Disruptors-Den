@@ -151,7 +151,7 @@ export default function EditPost() {
           <h1 className="text-2xl font-bold text-red-600">
             Error Loading Blog
           </h1>
-          <p className="mt-2">{error || "Failed to load blog post"}</p>
+          <p className="mt-2">Failed to load blog post</p>
           <Button asChild className="mt-4">
             <Link href="/admin">Back to Dashboard</Link>
           </Button>
