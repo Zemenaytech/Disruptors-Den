@@ -13,7 +13,7 @@ const formSchema = z.object({
 // GET a specific blog post by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { [key: string]: string | string[] } }
 ) {
   try {
     const id = params.id;
