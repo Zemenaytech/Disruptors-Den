@@ -89,7 +89,7 @@ export async function PUT(
 ) {
   const session = getCurrentUser();
   if (!session) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
