@@ -151,7 +151,7 @@ export async function PUT(
 
 // DELETE a specific blog post by ID
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
