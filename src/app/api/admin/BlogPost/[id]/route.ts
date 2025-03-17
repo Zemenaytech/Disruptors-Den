@@ -11,13 +11,15 @@ const formSchema = z.object({
   imageUrl: z.string().url("Invalid image URL").optional(),
 });
 // GET a specific blog post by ID
+// Corrected Signature for GET
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
-  try {
-    const id = params.id as string;
+  const id = context.params.id; // Accessing the parameter correctly
+  // Your logic...
 
+  try {
     // Fetch the current blog
     const blog = await db.blog.findUnique({
       where: { id },
@@ -87,7 +89,7 @@ export async function PUT(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const session = getCurrentUser();
+  const session = await getCurrentUser();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
