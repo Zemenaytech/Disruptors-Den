@@ -76,13 +76,14 @@ export default function EditPost() {
   // Populate form when blog data is available
   useEffect(() => {
     if (blog && status === "succeeded") {
+      console.log("typeof updatedAt:", typeof blog.updatedAt);
       form.reset({
         title: blog.title,
         summary: blog.summary,
         author: blog.author,
         content: blog.content,
         imageUrl: blog.imageUrl || "",
-        updatedAt: blog.updatedAt.toISOString(),
+        updatedAt: blog.updatedAt,
       });
 
       if (blog.imageUrl) {

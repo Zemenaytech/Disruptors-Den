@@ -33,15 +33,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [openEvent, setOpenEvent] = React.useState(false);
   const [activeItem, setActiveItem] = React.useState("dashboard");
   const pathname = usePathname() || ""; // ✅ Hook called at the top level
-
-  const isEdit = (type: string, pathname: string) => {
+  const isEdit = React.useMemo(() => {
     const segments = pathname.split("/").filter(Boolean);
-    return (
+    return (type: any) =>
       segments.length === 4 &&
       segments[0] === "admin" &&
-      [type].includes(segments[1])
-    );
-  };
+      [type].includes(segments[1]);
+  }, [pathname]);
 
   React.useEffect(() => {
     setOpenBlog(false);
@@ -165,14 +163,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                {isEdit("blog", pathname) && (
+                {isEdit("event") && (
                   <SidebarMenuItem>
-                    <SidebarMenuButton
-                      asChild
-                      className={`h-7 text-sm ${activeItem === "blog-edit" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
-                      onClick={() => setActiveItem("blog-edit")}
-                    >
-                      <Link href="/admin/blog/edit">
+                    <SidebarMenuButton asChild>
+                      <Link href="/admin/event/edit">
                         <FilePen className="mr-2 h-3 w-3" />
                         Edit
                       </Link>
@@ -224,7 +218,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                {isEdit("event", pathname) && (
+                {isEdit("event") && (
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       asChild
