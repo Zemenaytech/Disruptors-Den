@@ -15,6 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const path = "/" + pathname.split("/").filter(Boolean)[0];
 
   useEffect(() => {
     // Map the pathname to a title
@@ -29,7 +30,7 @@ export default function RootLayout({
     };
 
     // Update the title dynamically
-    document.title = "TDD | " + pageTitles[pathname] || "TDD";
+    document.title = "TDD | " + pageTitles[path] || "TDD";
   }, [pathname]);
   return (
     <html lang="en" suppressHydrationWarning>
