@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useDispatch } from "react-redux";
-import { ChevronLeft, Loader2, Trash2 } from "lucide-react";
+import { CalendarIcon, ChevronLeft, Loader2, Trash2 } from "lucide-react";
 import { fetchEventById, addEvent, updateEvent } from "@/lib/eventSlice";
 
 import { Button } from "@/components/ui/button";
@@ -303,7 +303,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
                         <Button
                           variant="outline"
                           className={cn(
-                            "w-full pl-3 text-left font-normal",
+                            "w-[240px] pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -312,30 +312,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
                           ) : (
                             <span>Select a date</span>
                           )}
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="ml-auto h-4 w-4 opacity-50"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <rect
-                              width="18"
-                              height="18"
-                              x="3"
-                              y="4"
-                              rx="2"
-                              ry="2"
-                            />
-                            <line x1="16" x2="16" y1="2" y2="6" />
-                            <line x1="8" x2="8" y1="2" y2="6" />
-                            <line x1="3" x2="21" y1="10" y2="10" />
-                          </svg>
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
