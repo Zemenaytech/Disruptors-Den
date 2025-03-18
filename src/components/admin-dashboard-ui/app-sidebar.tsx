@@ -154,7 +154,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    className={`h-7 text-sm ${activeItem === "blog-create" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
+                    className={`h-7 text-sm ${activeItem === "blog-create" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium text-black" : ""}`}
                     onClick={() => setActiveItem("blog-create")}
                   >
                     <a href="/admin/blog/create">

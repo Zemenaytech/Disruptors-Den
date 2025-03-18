@@ -109,6 +109,7 @@ const blogSlice = createSlice({
     builder
       .addCase(fetchBlogs.pending, (state) => {
         state.status = "loading";
+        console.log("status:", state.status);
       })
       .addCase(fetchBlogs.fulfilled, (state, action) => {
         console.log("Fulfilled Action:", action.payload);

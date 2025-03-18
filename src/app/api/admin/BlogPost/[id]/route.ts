@@ -158,6 +158,12 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params; // Accessing the parameter correctly
+
+  const session = await getCurrentUser();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     if (!id) {
       return NextResponse.json(
