@@ -130,11 +130,12 @@ function NavLink({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const isDynamicRoute = pathname.includes(`${href}/`);
   return (
     <Link
       href={href}
       className={
-        pathname === href
+        pathname === href || isDynamicRoute
           ? "text-[#f5aa14] font-sans font-semibold transition-colors"
           : "text-gray-800 hover:text-[#f5aa14] font-sans font-semibold transition-colors px-3 py-2 text-sm"
       }
