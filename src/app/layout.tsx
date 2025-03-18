@@ -1,8 +1,10 @@
+"use client";
+
 import type React from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Head from "next/head";
-// import { Metadata } from "next";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,11 +14,25 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    // Map the pathname to a title
+    const pageTitles: Record<string, string> = {
+      "/": "Home",
+      "/about": "About",
+      "/event": "Event",
+      "/blog": "Blog",
+      "/programs": "Programs",
+      "/login": "Login",
+      "/logout": "Logout",
+    };
+
+    // Update the title dynamically
+    document.title = "TDD | " + pageTitles[pathname] || "TDD";
+  }, [pathname]);
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head>
-        <title>TDD</title>
-      </Head>
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         {children}
       </body>
