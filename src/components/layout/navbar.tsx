@@ -1,88 +1,72 @@
 "use client"
 
-import type React from "react"
-
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useTheme } from "next-themes"
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { theme, resolvedTheme } = useTheme()
+  const currentTheme = theme || resolvedTheme
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TDD%20Black-l7CxZ58JjjcLsdShVzzWBmRlmlfiY1.png"
-                alt="The Disruptors Den"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
-                priority
-              />
+    <div className="relative w-full min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('/Addis-Ababa.jpeg')" }}>
+      <nav
+        className="w-full navbar-text font-roboto"
+        style={{
+          position: "relative",
+          zIndex: 2,
+          width: "100%",
+          boxSizing: "border-box",
+          paddingTop: "0.3vw",
+          paddingBottom: "0.3vw",
+          pointerEvents: "auto",
+          transition: "background-color 0.3s ease-in-out"
+        }}
+      >
+        <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-12 flex justify-between items-center">
+          <div className="flex-shrink-0" style={{ marginLeft: "-10vw" }}> 
+            <Link href="/" className="block">
+              {currentTheme && (
+                <Image
+                  src={
+                    currentTheme === "dark"
+                      ? "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TDD%20White-Y1zLvYCjgZArslwudo5YS0bQlvmQhV.png"
+                      : "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TDD%20Black-l7CxZ58JjjcLsdShVzzWBmRlmlfiY1.png"
+                  }
+                  alt="The Disruptors Den"
+                  width={160}
+                  height={50}
+                  className="h-auto w-auto"
+                  priority
+                />
+              )}
             </Link>
           </div>
-
-          <div className="hidden md:flex items-center space-x-8">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/events">Event</NavLink>
-            <NavLink href="/programs">Programs</NavLink>
-            <NavLink href="/blog">Blog</NavLink>
-            <NavLink href="/about">About Us</NavLink>
-          </div>
-
-          <div className="hidden md:flex items-center">
-            <Button className="bg-[#f5aa14] hover:bg-[#f5aa14]/90 text-[#00144b] font-medium px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105">
-              Join
-            </Button>
-          </div>
-
-          <div className="md:hidden flex items-center">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-800 focus:outline-none">
-              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {isMenuOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <MobileNavLink href="/">Home</MobileNavLink>
-            <MobileNavLink href="/events">Event</MobileNavLink>
-            <MobileNavLink href="/programs">Programs</MobileNavLink>
-            <MobileNavLink href="/blog">Blog</MobileNavLink>
-            <MobileNavLink href="/about">About Us</MobileNavLink>
-          </div>
-          <div className="px-4 py-3">
-            <Button className="w-full bg-[#f5aa14] hover:bg-[#f5aa14]/90 text-[#00144b] font-medium px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105">
-              Join
-            </Button>
+          <div className="header-nav-list hidden lg:flex lg:items-center lg:space-x-5 text-[18px] ml-auto">
+            <Link href="/" className="text-gray-800 dark:text-white/90 hover:text-[#f5aa14] transition-colors px-2 py-2 font-medium">
+              Home
+            </Link>
+            <Link href="/events" className="text-gray-800 dark:text-white/90 hover:text-[#f5aa14] transition-colors px-2 py-2 font-medium">
+              Event
+            </Link>
+            <Link href="/blog" className="text-gray-800 dark:text-white/90 hover:text-[#f5aa14] transition-colors px-2 py-2 font-medium">
+              Blog
+            </Link>
+            <Link href="/about" className="text-gray-800 dark:text-white/90 hover:text-[#f5aa14] transition-colors px-2 py-2 font-medium">
+              About Us
+            </Link>
+            <div className="ml-auto" style={{ marginRight: "-10vw" }}>
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                <Button className="bg-[#f5aa14] hover:bg-[#f5aa14]/90 text-[#00144b] font-medium text-lg px-24 py-6 rounded-full">
+                  Join
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
-      )}
-    </nav>
+      </nav>
+    </div>
   )
 }
-
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link href={href} className="text-gray-800 hover:text-[#f5aa14] transition-colors px-3 py-2 text-sm font-medium">
-      {children}
-    </Link>
-  )
-}
-
-function MobileNavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link href={href} className="text-gray-800 hover:text-[#f5aa14] block px-3 py-2 rounded-md text-base font-medium">
-      {children}
-    </Link>
-  )
-}
-
