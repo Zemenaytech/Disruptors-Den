@@ -2,9 +2,11 @@ import type React from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export async function generateMetadata({ params }: { params: {} });
 export default function RootLayout({
   children,
 }: {

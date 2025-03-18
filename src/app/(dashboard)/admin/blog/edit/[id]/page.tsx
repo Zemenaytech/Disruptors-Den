@@ -83,7 +83,7 @@ export default function EditPost() {
         author: blog.author,
         content: blog.content,
         imageUrl: blog.imageUrl || "",
-        updatedAt: blog.updatedAt,
+        updatedAt: String(blog.updatedAt),
       });
 
       if (blog.imageUrl) {
