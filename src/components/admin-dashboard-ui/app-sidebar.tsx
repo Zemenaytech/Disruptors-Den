@@ -35,7 +35,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname() || ""; // ✅ Hook called at the top level
   const isEdit = React.useMemo(() => {
     const segments = pathname.split("/").filter(Boolean);
-    return (type: any) =>
+    return (type: string) =>
       segments.length === 4 &&
       segments[0] === "admin" &&
       [type].includes(segments[1]);
