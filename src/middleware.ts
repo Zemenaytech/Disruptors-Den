@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
   console.log("Cookies:", request.cookies.getAll());
 
   if (pathname.startsWith("/admin") || pathname.startsWith("/signUp")) {
-    session = await getToken({
+    const session = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
     });

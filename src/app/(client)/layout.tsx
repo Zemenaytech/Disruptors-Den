@@ -8,18 +8,16 @@ import { usePathname } from "next/navigation";
 
 const ClientLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
-  const path = "/" + pathname.split("/")[0];
+  const path = "/" + pathname.split("/")[1];
 
   useEffect(() => {
     // Map the pathname to a title
     const pageTitles: Record<string, string> = {
       "/": "Home",
       "/about": "About",
-      "/event": "Event",
+      "/events": "Event",
       "/blog": "Blog",
       "/programs": "Programs",
-      "/login": "Login",
-      "/logout": "Logout",
     };
 
     // Update the title dynamically
