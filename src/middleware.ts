@@ -4,11 +4,12 @@ import { getToken } from "next-auth/jwt";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/admin")) {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/signUp")) {
     const session = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
     });
+    console.log(session);
 
     if (!session) {
       const url = new URL("/signIn", request.url);
@@ -22,5 +23,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/signUp"],
 };

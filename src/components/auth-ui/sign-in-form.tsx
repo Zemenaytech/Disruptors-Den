@@ -42,6 +42,9 @@ type SignInFormValues = z.infer<typeof signInSchema>;
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const urlParams = new URLSearchParams(window.location.search);
+  const callbackUrl =
+    urlParams.get("callbackUrl") || `${window.location.origin}/admin`;
 
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -58,8 +61,7 @@ export default function SignInForm() {
       const result = await signIn("credentials", {
         email: data.email,
         password: data.password,
-        redirect: true,
-        callbackUrl: "/admin",
+        callbackUrl,
       });
 
       if (result?.error) {
