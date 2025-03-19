@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -42,9 +42,14 @@ type SignInFormValues = z.infer<typeof signInSchema>;
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const urlParams = new URLSearchParams(window.location.search);
-  const callbackUrl =
-    urlParams.get("callbackUrl") || `${window.location.origin}/admin`;
+  const callbackUrl = useRef<string>("");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    callbackUrl.current =
+      urlParams.get("callbackUrl") || `${window.location.origin}/admin`;
+    console.log(callbackUrl.current);
+  }, []);
 
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -61,7 +66,7 @@ export default function SignInForm() {
       const result = await signIn("credentials", {
         email: data.email,
         password: data.password,
-        callbackUrl,
+        callbackUrl: callbackUrl.current,
       });
 
       if (result?.error) {
