@@ -24,7 +24,7 @@ import {
 import { ChevronLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { addBlog } from "@/lib/blogSlice";
-import RichTextEditor from "@/app/(dashboard)/admin/blog/create/rich-text-editor";
+import RichTextEditor from "@/app/(dashboard)/tadmind/blog/create/rich-text-editor";
 import Image from "next/image";
 
 export default function CreateBlogPage() {

@@ -47,14 +47,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   }, [state, isMobile]);
 
   const handleIconClick = (item: string) => {
+    setActiveItem(item);
     if (state === "collapsed") {
       toggleSidebar();
-    }
-    setActiveItem(item);
-    if (item === "blog") {
-      setOpenBlog(true);
-    } else if (item === "event") {
-      setOpenEvent(true);
+      if (item === "blog") {
+        setOpenBlog(true);
+      } else if (item === "event") {
+        setOpenEvent(true);
+      }
     }
   };
 

@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   console.log("Middleware triggered for path:", pathname);
   console.log("Cookies:", request.cookies.getAll());
 
-  if (pathname.startsWith("/admin") || pathname.startsWith("/signUp")) {
+  if (pathname.startsWith("/tadmind") || pathname.startsWith("/signUp")) {
     const session = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
@@ -25,5 +25,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/signUp"],
+  matcher: ["/tadmind/:path*", "/signUp"],
 };
