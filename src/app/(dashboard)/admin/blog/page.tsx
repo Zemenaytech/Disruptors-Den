@@ -123,7 +123,7 @@ export default function BlogsPage() {
                   </TableCell>
                   <TableCell>{blog.author}</TableCell>
                   <TableCell>
-                    {format(new Date(blog.updatedAt), "MMM dd, yyyy")}
+                    {format(new Date(blog.updatedAt || 0), "MMM dd, yyyy")}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">

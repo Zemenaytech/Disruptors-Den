@@ -72,7 +72,14 @@ export const addBlog = createAsyncThunk(
 
 export const updateBlog = createAsyncThunk(
   "blog/updateBlog",
-  async (blog: Blog) => {
+  async (blog: {
+    id: string;
+    title: string;
+    content: string;
+    summary: string; // Added summary field
+    author: string;
+    imageUrl: string;
+  }) => {
     const response = await fetch(`/api/admin/BlogPost/${blog.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

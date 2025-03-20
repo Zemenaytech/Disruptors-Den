@@ -88,6 +88,7 @@ export default function EditPost() {
 
       if (blog.imageUrl) {
         setImagePreview(blog.imageUrl);
+        imageUrlRef.current = blog.imageUrl;
       }
     }
   }, [blog, form, status]);
@@ -98,7 +99,6 @@ export default function EditPost() {
         updateBlog({
           ...values,
           id: postId,
-          createdAt: blog.createdAt.toISOString(),
           imageUrl: values.imageUrl || "",
         })
       ).unwrap();
@@ -118,7 +118,7 @@ export default function EditPost() {
       if (url) {
         setImageLoading(true);
         // Create a new image object to test loading
-        const img = new HTMLImageElement();
+        const img = new window.Image();
         img.onload = () => {
           setImagePreview(url);
           setImageLoading(false);
@@ -256,6 +256,8 @@ export default function EditPost() {
                       {imagePreview ? (
                         <Image
                           src={imagePreview || "/placeholder.svg"}
+                          height={200}
+                          width={300}
                           alt="Event preview"
                           className="max-h-[200px] rounded-md border object-cover"
                           onError={() => {

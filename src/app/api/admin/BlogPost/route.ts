@@ -3,14 +3,6 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { z } from "zod";
 
-const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  summary: z.string().min(1, "Summary is required"),
-  author: z.string().min(1, "Author is required"),
-  content: z.string().min(1, "Content is required"),
-  imageUrl: z.string().url("Invalid image URL").optional(),
-});
-
 // GET all blog posts with pagination
 export async function GET(request: Request) {
   console.log("Incoming GET request:", request.url);
@@ -70,6 +62,14 @@ export async function GET(request: Request) {
     );
   }
 }
+
+const formSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  summary: z.string().min(1, "Summary is required"),
+  author: z.string().min(1, "Author is required"),
+  content: z.string().min(1, "Content is required"),
+  imageUrl: z.string().url("Invalid image URL").optional(),
+});
 
 // POST a new blog post
 export async function POST(request: Request) {

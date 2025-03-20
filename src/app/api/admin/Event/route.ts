@@ -20,7 +20,7 @@ export async function GET(request: Request) {
       skip,
       take: limit,
       orderBy: {
-        date: "desc",
+        updatedAt: "desc",
       },
       include: {
         speakers: true,

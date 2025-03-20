@@ -3,13 +3,6 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { z } from "zod";
 
-const formSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  summary: z.string().min(1, "Summary is required"),
-  author: z.string().min(1, "Author is required"),
-  content: z.string().min(1, "Content is required"),
-  imageUrl: z.string().url("Invalid image URL").optional(),
-});
 // GET a specific blog post by ID
 // Corrected Signature for GET
 export async function GET(
@@ -84,6 +77,14 @@ export async function GET(
   }
 }
 
+const formSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  summary: z.string().min(1, "Summary is required"),
+  author: z.string().min(1, "Author is required"),
+  content: z.string().min(1, "Content is required"),
+  imageUrl: z.string().url("Invalid image URL").optional(),
+});
+
 // PUT update a specific blog post by ID
 export async function PUT(
   req: Request,
@@ -96,7 +97,7 @@ export async function PUT(
   }
 
   try {
-    if (id) {
+    if (!id) {
       return NextResponse.json(
         { message: "Blog ID is required" },
         { status: 400 }
@@ -113,7 +114,7 @@ export async function PUT(
 
     const validatedData = formSchema.parse(body);
 
-    const { title, content, author, imageUrl } = validatedData;
+    const { title, content, author, imageUrl, summary } = validatedData;
 
     if (!title || !content || !author || !imageUrl) {
       return NextResponse.json(
@@ -137,7 +138,13 @@ export async function PUT(
 
     const updatedBlog = await db.blog.update({
       where: { id },
-      data: validatedData,
+      data: {
+        title,
+        author,
+        summary,
+        content,
+        imageUrl,
+      },
     });
 
     return NextResponse.json(updatedBlog, { status: 200 });
