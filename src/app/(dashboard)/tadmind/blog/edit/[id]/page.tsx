@@ -103,7 +103,7 @@ export default function EditPost() {
         })
       ).unwrap();
       toast.success("Blog post updated successfully!");
-      router.push("/admin/blog");
+      router.push("/tadmind/blog");
     } catch {
       toast.error("Failed to update blog post. Please try again.");
     }
@@ -154,7 +154,7 @@ export default function EditPost() {
           </h1>
           <p className="mt-2">Failed to load blog post</p>
           <Button asChild className="mt-4">
-            <Link href="/admin">Back to Dashboard</Link>
+            <Link href="/tadmind">Back to Dashboard</Link>
           </Button>
         </div>
       </div>
@@ -164,7 +164,7 @@ export default function EditPost() {
   return (
     <div className="container mx-auto px-4 py-8">
       <Button variant="ghost" asChild className="mb-8">
-        <Link href="/admin" className="flex items-center gap-2">
+        <Link href="/tadmind" className="flex items-center gap-2">
           <ChevronLeft className="h-4 w-4" />
           Back to dashboard
         </Link>
@@ -296,7 +296,7 @@ export default function EditPost() {
 
             <div className="flex justify-end gap-4">
               <Button type="button" variant="outline" asChild>
-                <Link href="/admin/blog">Cancel</Link>
+                <Link href="/tadmind/blog">Cancel</Link>
               </Button>
               <Button type="submit">Update Post</Button>
             </div>

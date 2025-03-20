@@ -228,7 +228,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
       }
 
       // Redirect to events list
-      router.push("/admin/event");
+      router.push("/tadmind/event");
     } catch (error) {
       console.error("Failed to save event:", error);
       toast.error("Failed to save event. Please try again.");
@@ -262,7 +262,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
   return (
     <div className="container mx-auto px-4 py-8">
       <Button variant="ghost" asChild className="mb-8">
-        <Link href="/admin/event" className="flex items-center gap-2">
+        <Link href="/tadmind/event" className="flex items-center gap-2">
           <ChevronLeft className="h-4 w-4" />
           Back to events
         </Link>
@@ -546,7 +546,7 @@ export default function EventForm({ eventId }: { eventId?: string }) {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => router.push("/admin/event")}
+                onClick={() => router.push("/tadmind/event")}
               >
                 Cancel
               </Button>

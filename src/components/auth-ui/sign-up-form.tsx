@@ -66,7 +66,7 @@ export default function SignUpForm() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/admin/signUp", {
+      const response = await fetch("/api/tadmind/signUp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export default function SignUpForm() {
       }
 
       toast.success("Account created successfully!");
-      router.push("/admin");
+      router.push("/tadmind");
     } catch (error) {
       console.error("Sign up error:", error);
       toast.error(

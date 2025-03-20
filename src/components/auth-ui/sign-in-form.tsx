@@ -47,7 +47,7 @@ export default function SignInForm() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     callbackUrl.current =
-      urlParams.get("callbackUrl") || `${window.location.origin}/admin`;
+      urlParams.get("callbackUrl") || `${window.location.origin}/tadmind`;
     console.log(callbackUrl.current);
   }, []);
 
@@ -73,7 +73,7 @@ export default function SignInForm() {
         toast.error("Invalid credentials. Please try again.");
       } else {
         toast.success("Signed in successfully!");
-        router.push("/admin");
+        router.push("/tadmind");
       }
     } catch {
       toast.error("Something went wrong. Please try again.");

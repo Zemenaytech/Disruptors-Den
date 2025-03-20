@@ -67,7 +67,7 @@ export default function AdminDashboard() {
         <div className="flex gap-2">
           <Button asChild size="sm" className="md:size-auto">
             <Link
-              href="/admin/blog/create"
+              href="/tadmind/blog/create"
               className="flex items-center gap-1 md:gap-2"
             >
               <Plus className="h-3 w-3 md:h-4 md:w-4" />
@@ -76,7 +76,7 @@ export default function AdminDashboard() {
           </Button>
           <Button asChild size="sm" className="md:size-auto">
             <Link
-              href="/admin/event/create"
+              href="/tadmind/event/create"
               className="flex items-center gap-1 md:gap-2"
             >
               <Plus className="h-3 w-3 md:h-4 md:w-4" />
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
 
         <TabsContent value="overview">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Link href="/admin/blog">
+            <Link href="/tadmind/blog">
               <Card className="transition-all hover:shadow-md">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="text-sm font-medium">
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
               </Card>
             </Link>
 
-            <Link href="/admin/event">
+            <Link href="/tadmind/event">
               <Card className="transition-all hover:shadow-md">
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="text-sm font-medium">

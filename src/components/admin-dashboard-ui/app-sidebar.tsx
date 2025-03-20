@@ -37,7 +37,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     const segments = pathname.split("/").filter(Boolean);
     return (type: string) =>
       segments.length === 4 &&
-      segments[0] === "admin" &&
+      segments[0] === "tadmind" &&
       [type].includes(segments[1]);
   }, [pathname]);
 
@@ -93,7 +93,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               onClick={() => setActiveItem("dashboard")}
             >
-              <Link href="/admin">
+              <Link href="/tadmind">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <BookOpen className="size-4" />
                 </div>
@@ -148,7 +148,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     className={`h-7 text-sm ${activeItem === "blogs" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
                     onClick={() => setActiveItem("blogs")}
                   >
-                    <a href="/admin/blog">Blogs</a>
+                    <a href="/tadmind/blog">Blogs</a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
@@ -157,7 +157,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     className={`h-7 text-sm ${activeItem === "blog-create" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium text-black" : ""}`}
                     onClick={() => setActiveItem("blog-create")}
                   >
-                    <a href="/admin/blog/create">
+                    <a href="/tadmind/blog/create">
                       <PlusCircle className="mr-2 h-3 w-3" />
                       Create
                     </a>
@@ -166,7 +166,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 {isEdit("event") && (
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link href="/admin/event/edit">
+                      <Link href="/tadmind/event/edit">
                         <FilePen className="mr-2 h-3 w-3" />
                         Edit
                       </Link>
@@ -203,7 +203,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     className={`h-7 text-sm ${activeItem === "events" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
                     onClick={() => setActiveItem("events")}
                   >
-                    <a href="/admin/event">Events</a>
+                    <a href="/tadmind/event">Events</a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
@@ -212,7 +212,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     className={`h-7 text-sm ${activeItem === "event-create" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
                     onClick={() => setActiveItem("event-create")}
                   >
-                    <a href="/admin/event/create">
+                    <a href="/tadmind/event/create">
                       <PlusCircle className="mr-2 h-3 w-3" />
                       Create
                     </a>
@@ -225,7 +225,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       className={`h-7 text-sm ${activeItem === "event-edit" ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium" : ""}`}
                       onClick={() => setActiveItem("event-edit")}
                     >
-                      <Link href="/admin/event/edit">
+                      <Link href="/tadmind/event/edit">
                         <FilePen className="mr-2 h-3 w-3" />
                         Edit
                       </Link>

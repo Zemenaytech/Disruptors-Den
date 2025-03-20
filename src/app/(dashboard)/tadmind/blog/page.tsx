@@ -71,7 +71,7 @@ export default function BlogsPage() {
           <p className="text-muted-foreground">Manage your blog posts here</p>
         </div>
         <Button asChild>
-          <Link href="/admin/blog/create">
+          <Link href="/tadmind/blog/create">
             <Plus className="mr-2 h-4 w-4" />
             Create Blog
           </Link>
@@ -128,7 +128,7 @@ export default function BlogsPage() {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Button variant="ghost" size="icon" asChild>
-                        <Link href={`/admin/blog/edit/${blog.id}`}>
+                        <Link href={`/tadmind/blog/edit/${blog.id}`}>
                           <Edit className="h-4 w-4" />
                           <span className="sr-only">Edit</span>
                         </Link>

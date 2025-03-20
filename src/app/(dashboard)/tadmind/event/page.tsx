@@ -79,7 +79,7 @@ export default function EventsPage() {
           <p className="text-muted-foreground">Manage your events here</p>
         </div>
         <Button asChild>
-          <Link href="/admin/event/create">
+          <Link href="/tadmind/event/create">
             <Plus className="mr-2 h-4 w-4" />
             Create Event
           </Link>
@@ -133,7 +133,7 @@ export default function EventsPage() {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <Button variant="ghost" size="icon" asChild>
-                        <Link href={`/admin/event/edit/${event.id}`}>
+                        <Link href={`/tadmind/event/edit/${event.id}`}>
                           <Edit className="h-4 w-4" />
                           <span className="sr-only">Edit</span>
                         </Link>

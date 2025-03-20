@@ -57,7 +57,7 @@ export default function CreateBlogPage() {
     try {
       await dispatch(addBlog(values)).unwrap();
       toast.success("Blog post created successfully!");
-      router.push("/admin/blog");
+      router.push("/tadmind/blog");
     } catch {
       toast.error("Failed to create blog post. Please try again.");
     }
@@ -92,7 +92,7 @@ export default function CreateBlogPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <Button variant="ghost" asChild className="mb-8">
-        <Link href="/admin" className="flex items-center gap-2">
+        <Link href="/tadmind" className="flex items-center gap-2">
           <ChevronLeft className="h-4 w-4" />
           Back to dashboard
         </Link>
@@ -222,7 +222,7 @@ export default function CreateBlogPage() {
 
             <div className="flex justify-end gap-4">
               <Button type="button" variant="outline" asChild>
-                <Link href="/admin/blog">Cancel</Link>
+                <Link href="/tadmind/blog">Cancel</Link>
               </Button>
               <Button type="submit">Publish Post</Button>
             </div>
