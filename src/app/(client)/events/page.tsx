@@ -58,7 +58,7 @@ export default function EventsPage() {
             </div>
           ) : status === "failed" ? (
             <div className="text-center py-10">
-              <p className="text-red-500">Error loading events: {error}</p>
+              <p className="text-red-500">{error}</p>
               <button
                 onClick={() => dispatch(fetchEvents(currentPage))}
                 className="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
