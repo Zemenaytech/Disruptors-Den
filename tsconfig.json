@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react" ,
+    "jsx": "react",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -14,9 +14,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./src",  // ✅ Added baseUrl for absolute imports
+    "baseUrl": "./src", // ✅ Added baseUrl for absolute imports
     "paths": {
-      "@/*": ["*"]  // ✅ Fixed path to match baseUrl
+      "@/*": ["*"] // ✅ Fixed path to match baseUrl
     },
     "plugins": [
       {
@@ -24,6 +24,13 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/components/admin-dashboard-ui/create_blog-ui",
+    "src/components/admin-dashboard-ui/create_event-ui"
+  ],
   "exclude": ["node_modules"]
 }
